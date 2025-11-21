@@ -1,0 +1,13 @@
+.footer-small {
+  height: 1in;         /* about 96px per CSS inch */
+  max-height: 1in;
+  overflow: hidden;    /* hide extra if something forces larger */
+  font-size: 0.85rem;  /* scale font so text fits */
+}
+.footer-small .container {
+  height: 100%;
+}
+.footer-small .footer-brand, 
+.footer-small .footer-links {
+  align-self: center;
+}

@@ -1,0 +1,81 @@
+/* role-menu.component.css */
+
+/* Top navigation container */
+.top-nav {
+  margin-left: auto;
+}
+
+/* Menu list: horizontal on large screens */
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 24px; /* spacing between items */
+}
+
+/* Each menu item */
+.menu-list li {
+  position: relative; /* for dropdown children if any */
+}
+
+/* Link styling */
+.menu-list li a {
+  text-decoration: none;
+  color: #fff; /* adjust to your theme color */
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Hover / active styling */
+.menu-list li a:hover,
+.menu-list li a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Dropdown children list if any */
+.menu-list li ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  z-index: 200;
+}
+
+/* Show dropdown on parent hover */
+.menu-list li:hover > ul {
+  display: block;
+}
+
+/* Style for items inside dropdown */
+.menu-list li ul li a {
+  color: #333;
+  background: none; /* no background by default */
+  padding: 8px 16px;
+  white-space: nowrap; /* prevent wrapping inside dropdown */
+}
+
+.menu-list li ul li a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive adjustments: stacking menu vertically on mobile */
+@media (max-width: 768px) {
+  .menu-list {
+    flex-direction: column;
+    gap: 0;
+  }
+  .menu-list li a {
+    width: 100%;
+    padding: 12px;
+    border-top: 1px solid #ccc;
+  }
+}

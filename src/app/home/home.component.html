@@ -1,0 +1,26 @@
+<div class="layout">
+  <header class="topbar">
+    <div class="brand">
+      <div class="univ-name">Home Dayalbagh Educational Institute</div>
+      <div class="univ-sub">PhD Test Registration Portal</div>
+    </div>
+    <div class="user-actions">
+      <button class="icon-btn" aria-label="Notifications">🔔</button>
+      <!--<button class="btn-logout" (click)="logout()">Logout</button>-->
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <nav class="sidebar-menu">
+      <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="active">
+        <span class="menu-icon">{{ item.icon }}</span>
+        <span class="menu-label">{{ item.label }}</span>
+      </a>
+      <!-- optionally nested children -->
+    </nav>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,70 @@
+<section class="dashboard-shell">
+  <header class="dash-header">
+    <div class="greeting">
+      <h2>Welcome, <span class="user-name">{{ (currentUser$ | async)?.name || 'Scholar' }}</span></h2>
+      <p class="muted">Dayalbagh Educational Institute — PhD Registration Portal</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn btn-outline" (click)="refreshStats()">Refresh</button>
+      <a routerLink="/profile" class="btn btn-primary">My Profile</a>
+    </div>
+  </header>
+
+  <section class="stats-grid">
+    <article class="card stat-card">
+      <div class="card-title">Total Scholars</div>
+      <div class="card-value">{{ totalScholars }}</div>
+      <div class="card-sub">Active scholars registered</div>
+    </article>
+
+    <article class="card stat-card">
+      <div class="card-title">Pending Applications</div>
+      <div class="card-value">{{ applicationsPending }}</div>
+      <div class="card-sub">Require review</div>
+    </article>
+
+    <article class="card stat-card">
+      <div class="card-title">Supervisors</div>
+      <div class="card-value">{{ supervisors }}</div>
+      <div class="card-sub">Approved supervisors</div>
+    </article>
+
+    <article class="card stat-card">
+      <div class="card-title">Publications (YTD)</div>
+      <div class="card-value">{{ publicationsThisYear }}</div>
+      <div class="card-sub">Indexed journals / conference</div>
+    </article>
+  </section>
+
+  <section class="main-grid">
+    <div class="left-col">
+      <div class="panel">
+        <h3>Recent Activity</h3>
+        <ul class="activity-list">
+          <li *ngFor="let item of recentActivity">
+            <div class="activity-text">{{ item.text }}</div>
+            <div class="activity-time">{{ item.time }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="right-col">
+      <div class="panel">
+        <h4>Quick Links</h4>
+        <nav class="quick-links">
+          <a routerLink="/applications">View Applications</a>
+          <a routerLink="/students">Student Management</a>
+          <a routerLink="/reports">Reports</a>
+          <a routerLink="/help">Help & Support</a>
+        </nav>
+      </div>
+
+      <div class="panel small">
+        <h4>Notifications</h4>
+        <p class="muted">No unread notifications</p>
+      </div>
+    </aside>
+  </section>
+</section>

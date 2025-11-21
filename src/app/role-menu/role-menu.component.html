@@ -1,0 +1,16 @@
+<nav class="top-nav" aria-label="Main menu">
+<ul class="menu-list">
+  <ng-container *ngFor="let item of menuItems">
+    <li>
+      <a *ngIf="item.path" [routerLink]="item.path" routerLinkActive="active">{{ item.label }}</a>
+      <span *ngIf="!item.path">{{ item.label }}</span>
+
+      <ul *ngIf="item.children">
+        <li *ngFor="let child of item.children">
+          <a [routerLink]="child.path" routerLinkActive="active">{{ child.label }}</a>
+        </li>
+      </ul>
+    </li>
+  </ng-container>
+</ul>
+</nav>

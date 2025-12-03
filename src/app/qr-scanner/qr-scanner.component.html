@@ -1,0 +1,38 @@
+<div class="qr-scanner-card">
+  <h3>QR Scanner (Client Test)</h3>
+
+  <div class="controls mb-2">
+    <button class="btn btn-sm btn-primary me-2"
+            (click)="startScanner()" 
+            [disabled]="isScanning">
+      Start
+    </button>
+
+    <button class="btn btn-sm btn-secondary me-2"
+            (click)="stopScanner()" 
+            [disabled]="!isScanning">
+      Stop
+    </button>
+
+    <label *ngIf="cameras.length" class="ms-2">
+      Camera:
+      <select [value]="selectedCameraId" (change)="changeCamera($event)">
+        <option *ngFor="let cam of cameras" [value]="cam.id">
+          {{ cam.label }}
+        </option>
+      </select>
+    </label>
+  </div>
+
+  <div id="reader"
+       style="max-width:380px; margin:auto; border:1px solid #ddd; padding:8px; border-radius:6px;">
+  </div>
+
+  <div *ngIf="scanResult" class="alert alert-success mt-3">
+    <strong>Scanned Result:</strong> {{ scanResult }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+    <strong>Error:</strong> {{ errorMessage }}
+  </div>
+</div>

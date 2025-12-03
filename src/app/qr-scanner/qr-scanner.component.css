@@ -1,0 +1,10 @@
+.qr-scanner-card {
+  text-align: center;
+  margin: 16px auto;
+  max-width: 720px;
+}
+
+.controls select {
+  padding: 4px;
+  margin-left: 6px;
+}

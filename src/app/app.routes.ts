@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UnknownUrlGuard } from './guards/unknown-url.guard';
+import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 
 
 export const routes: Routes = [
@@ -27,6 +28,9 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'dashboard', component: DashboardComponent },
      // { path: '', redirectTo: 'home', pathMatch: 'full' }
+
+     // ⭐ ADD THIS ROUTE FOR QR SCANNER TESTING
+    { path: 'qr-test', component: QrScannerComponent },
     ]
   },
   { path: '**',

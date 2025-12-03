@@ -1,4 +1,3 @@
-// src/app/menu.config.ts
 import { MenuItem } from './models/menu.model';
 
 export const MENU_ITEMS: MenuItem[] = [
@@ -7,9 +6,14 @@ export const MENU_ITEMS: MenuItem[] = [
     label: 'Dashboard',
     path: '/dashboard',
     roles: ['ADMIN', 'FACULTY', 'SCHOLAR'],
-    children: [{id:11,label: 'Dashboard1',
-    path: '/dashboard',
-    roles: ['ADMIN', 'FACULTY', 'SCHOLAR']}]
+    children: [
+      {
+        id:11,
+        label: 'Dashboard1',
+        path: '/dashboard',
+        roles: ['ADMIN', 'FACULTY', 'SCHOLAR']
+      }
+    ]
   },
   {
     id:2,
@@ -33,13 +37,23 @@ export const MENU_ITEMS: MenuItem[] = [
     id:5,
     label: 'Reports',
     children: [
-      { id:51,label: 'Monthly', path: '/reports/monthly', roles: ['ADMIN'] },
-      { id:52,label: 'Supervisor', path: '/reports/supervisor', roles: ['FACULTY'] }
+      { id:51, label: 'Monthly', path: '/reports/monthly', roles: ['ADMIN'] },
+      { id:52, label: 'Supervisor', path: '/reports/supervisor', roles: ['FACULTY'] }
     ]
   },
-  {id:6,
+
+  {
+    id:6,
     label: 'Help',
     path: '/help'
-    // visible to all (no roles provided)
+    // visible to all
+  },
+
+  // ⭐ NEW QR Scanner Menu Item
+  {
+    id:7,
+    label: 'QR Scanner',
+    path: '/qr-test',     // must match route you added earlier
+    roles: ['ADMIN', 'FACULTY', 'SCHOLAR']
   }
 ];

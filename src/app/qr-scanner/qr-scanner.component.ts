@@ -19,27 +19,57 @@ export class QrScannerComponent implements OnInit, OnDestroy {
   scanResult: string | null = null;
   errorMessage: string | null = null;
 
-  ngOnInit() {
-    this.html5QrCode = new Html5Qrcode("reader");
-    this.loadCameras();
-  }
+ // ngOnInit() {
+  //  this.html5QrCode = new Html5Qrcode("reader");
+   // this.loadCameras();
+ // }
+ ngOnInit() {
+  this.html5QrCode = new Html5Qrcode("reader");
+  this.loadCameras().then(() => {
+    if (this.selectedCameraId) {
+      this.startScanner();
+    }
+  });
+}
 
   ngOnDestroy() {
     this.stopScanner();
   }
 
-  async loadCameras() {
-    try {
-      const devices = await Html5Qrcode.getCameras();
-      this.cameras = devices;
+ // async loadCameras() {
+  //  try {
+   //   const devices = await Html5Qrcode.getCameras();
+   //   this.cameras = devices;
 
-      if (devices.length > 0) {
-        this.selectedCameraId = devices[0].id;
-      }
-    } catch (err) {
-      this.errorMessage = "Camera access denied or camera not available.";
+    //  if (devices.length > 0) {
+    //    this.selectedCameraId = devices[0].id;
+    //  }
+  //  } catch (err) {
+   //   this.errorMessage = "Camera access denied or camera not available.";
+   // }
+ // }
+
+ async loadCameras() {
+  try {
+    const devices = await Html5Qrcode.getCameras();
+    this.cameras = devices;
+
+    if (devices.length > 0) {
+      // Try to find an explicitly labeled back camera
+      const backCam = devices.find(cam =>
+        cam.label.toLowerCase().includes("back") ||
+        cam.label.toLowerCase().includes("rear") ||
+        cam.label.toLowerCase().includes("environment")
+      );
+
+      // If found, use it; otherwise choose the LAST camera (usually rear)
+      this.selectedCameraId = backCam ? backCam.id : devices[devices.length - 1].id;
     }
+  } catch (err) {
+    this.errorMessage = "Camera access denied or camera not available.";
   }
+}
+
 
   async startScanner() {
     if (!this.selectedCameraId) return;

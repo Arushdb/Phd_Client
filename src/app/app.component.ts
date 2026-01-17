@@ -1,12 +1,13 @@
 // src/app/app.component.ts
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router,RouterModule  } from '@angular/router';
-import { AuthService, User } from './services/auth.service';
+
 import { Observable, Subscription } from 'rxjs';
 import { RoleMenuComponent } from './role-menu/role-menu.component';
 import { MenuItem } from './models/menu.model';
 import { MenuService } from './services/menu.service';
 import { CommonModule } from '@angular/common';
+import { AuthService, User } from './services/auth.service';
 
 // app.component.ts
 @Component({
@@ -26,7 +27,7 @@ export class AppComponent {
 
   constructor(private authService: AuthService,private menuService: MenuService
      ,private router: Router) {
-
+    console.log("Test message");
     this.currentUser$ = this.authService.currentUser$;
   }
   ngOnInit(): void {

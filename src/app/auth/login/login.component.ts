@@ -2,9 +2,11 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService, User } from '../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../services/api.service';
+import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,24 +20,42 @@ export class LoginComponent implements OnInit {
   loading = false;
   error: string | null = null;
   loginForm!:FormGroup ;
+  reason: string | null = null;
 
   
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private apiservice: ApiService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
       
   }
 
 
   ngOnInit(): void {
-     this.auth.logout();  // clear any existing session
+     
     this.loginForm = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required]
   });
+  //  this.route.queryParams.subscribe(params => {
+  //     this.reason = params['reason'];
+
+  //     // Example handling
+  //     if (this.reason === 'token-expired') {
+  //       console.log('Session expired. Please login again.');
+  //     }
+
+  //     if (this.reason === 'idle-timeout') {
+  //       console.log('Logged out due to inactivity.');
+  //     }
+  //   });
+
+    this.reason = this.route.snapshot.queryParamMap.get('reason');
+
   }
 
   login(): void {
@@ -49,23 +69,43 @@ export class LoginComponent implements OnInit {
 
     const { username, password } = this.loginForm.value;
 
-    // Replace this with real API call
-    // For demo: create a dummy user
-    const demoUser: User = {
-      id: 'u1',
-      name: username,
-      roles: ['SCHOLAR']  // example role
-    };
+    this.auth.login(username, password).subscribe({
+      next: (res) => { console.log(res); 
+        this.loading = false;
+        const user: User = {
+        id: res.id,
+        name: res.username,
+        roles: res.roles
+      };
 
-    try {
-      this.auth.loginAs(demoUser);
-      // Navigate to a route where menu bar appears but no automatic dashboard
-      //this.router.navigate(['/']);  
+      const token = res.accessToken;
+
+      // persist
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      localStorage.setItem('access_token', token);
+
+      // update state
+      this.auth['currentUserSubject'].next(user);
+
+      // schedule expiry logout
+  //     const expMs = this.auth.getTokenExpiration(token);
+  //     const msUntilExpiry = expMs - Date.now();
+  //     if (msUntilExpiry <= 0) {
+  // // token already expired
+  //     this.auth.logout('token-expired');
+  //   } else {
+  //     this.auth.scheduleAutoLogout(msUntilExpiry);
+  //   }
+     
+
       this.router.navigate(['/home']);
-    } catch (err: any) {
-      this.error = err?.message || 'Login failed';
-    } finally {
-      this.loading = false;
+    },
+    error: (err) => {
+      this.error = err?.message || 'Login failed';    
+        this.loading = false;
+      console.error('Login failed', err);
     }
+  });
+   
   }
 }

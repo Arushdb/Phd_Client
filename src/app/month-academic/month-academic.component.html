@@ -1,0 +1,32 @@
+<div class="container mt-4 p-4 border rounded shadow-sm" style="max-width: 450px;">
+  <h4 class="mb-4 text-primary">Academic Year & Month Selection</h4>
+
+  <!-- Academic Year -->
+  <div class="mb-3">
+    <label class="form-label">Academic Year</label>
+    <select class="form-select" [(ngModel)]="selectedYear">
+      <option value="">Select Academic Year</option>
+      <option *ngFor="let y of academicYears" [value]="y.value">
+        {{ y.label }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Month -->
+  <div class="mb-3">
+    <label class="form-label">Month</label>
+    <select class="form-select" [(ngModel)]="selectedMonth">
+      <option value="">Select Month</option>
+      <option *ngFor="let m of months" [value]="m.value">
+        {{ m.name }}
+      </option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary w-100" (click)="submit()">Submit</button>
+
+  <div class="mt-3">
+    <p><strong>Selected Year:</strong> {{ selectedYear }}</p>
+    <p><strong>Selected Month:</strong> {{ selectedMonth }}</p>
+  </div>
+</div>

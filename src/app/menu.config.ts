@@ -7,9 +7,14 @@ export const MENU_ITEMS: MenuItem[] = [
     label: 'Dashboard',
     path: '/dashboard',
     roles: ['ADMIN', 'FACULTY', 'SCHOLAR'],
-    children: [{id:11,label: 'Dashboard1',
-    path: '/dashboard',
-    roles: ['ADMIN', 'FACULTY', 'SCHOLAR']}]
+    children: [
+    {id:11,label: 'Dashboard Admin',
+    path: '/dashboardadmin',
+    roles: ['ADMIN']},
+    {id:12,label: 'Dashboard Scholar',
+    path: '/dashboardscholar',
+    roles: ['SCHOLAR']}
+  ]
   },
   {
     id:2,
@@ -29,15 +34,27 @@ export const MENU_ITEMS: MenuItem[] = [
     path: '/students',
     roles: ['ADMIN']
   },
-  {
+   {
     id:5,
+    label: 'Import Scholar',
+    path: '/yearmonth',
+    roles: ['ADMIN']
+  },
+  {
+    id:6,
+    label: 'Scholar Registration',
+    path: '/ScholarRegistration',
+    roles: ['SCHOLAR']
+  },
+  {
+    id:7,
     label: 'Reports',
     children: [
       { id:51,label: 'Monthly', path: '/reports/monthly', roles: ['ADMIN'] },
       { id:52,label: 'Supervisor', path: '/reports/supervisor', roles: ['FACULTY'] }
     ]
   },
-  {id:6,
+  {id:8,
     label: 'Help',
     path: '/help'
     // visible to all (no roles provided)

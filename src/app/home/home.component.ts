@@ -9,11 +9,13 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule],
   template: `
     <div class="home-welcome">
-      <h2>Welcome to the portal</h2>
-      <p>Please select a menu item above to proceed.</p>
+      <h2>Welcome {{loggedInUserName}}  </h2>
+      <p>Please select a menu item  on left to proceed.</p>
     </div>
     <router-outlet></router-outlet>
   `,
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {}
+export class HomeComponent {
+  loggedInUserName: string | null = localStorage.getItem('username') ; 
+}

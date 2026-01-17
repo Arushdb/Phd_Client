@@ -1,0 +1,44 @@
+<div class="container mt-4">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Scholar Semester Registration</h5>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Registration Tab -->
+      <button class="btn btn-outline-primary mb-3"
+              (click)="openRegistrationTab()">
+        Registration
+      </button>
+
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage()" class="alert alert-danger">
+        {{ errorMessage() }}
+      </div>
+
+      <!-- Registration Form -->
+      <form *ngIf="activeSemester()"
+            [formGroup]="registrationForm"
+            (ngSubmit)="registerSemester()">
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Active Semester</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="semester"
+                 readonly>
+        </div>
+
+        <button type="submit"
+                class="btn btn-success">
+          Register Semester
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>

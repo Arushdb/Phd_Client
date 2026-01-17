@@ -1,16 +1,20 @@
 // src/app/services/api.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+
+import { ActiveSemester, ApiResponse } from '../models/api-response';
+import { int } from '@zxing/library/esm/customTypings';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  
 
   // Adjust this base URL to match your backend
-  private readonly base = 'http://localhost:8080/api';
+  private readonly base = 'http://localhost:8080/cmsexam/api';
 
   constructor(private http: HttpClient) { }
 
@@ -18,8 +22,10 @@ export class ApiService {
   // Authentication
   // ------------------
   login(username: string, password: string): Observable<any> {
-    const url = `${this.base}/auth/login`;
-    return this.http.post<any>(url, { username, password });
+    const url = `${this.base}/auth/signin`;
+    return this.http.post<any>(url, { username, password }, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    ,withCredentials: true });
   }
 
   // ------------------
@@ -30,7 +36,10 @@ export class ApiService {
   }
 
   createScholar(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.base}/scholars`, payload);
+//     const headers = new HttpHeaders({
+//   'Authorization': 'Bearer ' + localStorage.getItem("token")
+// });
+    return this.http.post<any>(`${this.base}/scholars/generate`, payload);
   }
 
   registerFromAdmission(admissionId: number, univCode = 'ABC', programCode = 'PhD'): Observable<any> {
@@ -109,4 +118,42 @@ export class ApiService {
     return this.http.put<any>(`${this.base}/topics/${topicId}`, payload);
   }
 
+  //  getActiveSemester(): Observable<ApiResponse> {
+  //   return this.http.get<ApiResponse>(
+  //     `${this.base}/active-semester`
+  //   );
+  // }
+
+  getActiveSemester(): Observable<ApiResponse<ActiveSemester>> {
+  return this.http.get<ApiResponse<ActiveSemester>>(
+    `${this.base}/register/active-semester`
+  ).pipe(catchError((error:HttpErrorResponse) => {
+
+    console.error('Error in getActiveSemester:', error.message);
+    return throwError(()=>error);
+  }));
+  }
+RegisterSemester(regform: any): Observable<any> {
+console.log('RegisterSemester called with form value:', regform.value);
+   const params = new HttpParams()
+   .set('scholarid', regform.value.scholarid.toString())
+   .set('semesterId', regform.value.semesterId.toString());
+   console.log('RegisterSemester Params:', params.toString());
+  return this.http.get<ApiResponse<any>>(
+    `${this.base}/register/register-semester`,{ params }
+  ).pipe(catchError((error:HttpErrorResponse) => {
+
+    console.error('Error in Registration:', error.message);
+    return throwError(()=>error);
+  }));
+  }
+
 }
+
+
+
+// getPreviousSemesterStatus(): Observable<ApiResponse<ActiveSemester[]>> {
+//     return this.http.get<any>(`${this.base}/register/previous-semester-status`);
+//   }
+
+

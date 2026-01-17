@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UnknownUrlGuard } from './guards/unknown-url.guard';
+import { MonthAcademicComponent } from './month-academic/month-academic.component';
+import { ScholarRegistrationComponent } from './scholar-registration/scholar-registration.component';
 
 
 export const routes: Routes = [
@@ -25,7 +27,10 @@ export const routes: Routes = [
      canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboardadmin', component: DashboardComponent },
+      { path: 'dashboardscholar', component: DashboardComponent },
+      { path: 'yearmonth', component: MonthAcademicComponent },
+      { path: 'ScholarRegistration', component: ScholarRegistrationComponent },
      // { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

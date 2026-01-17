@@ -2,16 +2,18 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../services/auth.service';
+
 import { Router } from '@angular/router';
 import { RoleMenuComponent } from '../role-menu/role-menu.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
   imports: [CommonModule, RouterModule, RoleMenuComponent],
   template: `
-    <header class="topbar" role="banner">
+  <ng-template>  
+  <header class="topbar" role="banner">
       <div class="topbar-inner">
         <div class="brand">
           <div class="univ-name">Main Layout Dayalbagh Educational Institute</div>
@@ -23,7 +25,7 @@ import { RoleMenuComponent } from '../role-menu/role-menu.component';
         </div>
       </div>
     </header>
-
+</ng-template>
     <main class="app-content">
       <router-outlet></router-outlet>
     </main>

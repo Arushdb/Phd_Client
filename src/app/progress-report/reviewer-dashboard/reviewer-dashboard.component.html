@@ -1,0 +1,63 @@
+<div class="container mt-4">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Reviewer Dashboard</h5>
+    </div>
+
+    <div class="card-body">
+
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Scholar</th>
+            <th>Enrollment No</th>
+            <th>Program</th>
+            <th>Session</th>
+            <th>Status</th>
+            <th width="120">Action</th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="assignedReports.length > 0; else noData">
+          <tr *ngFor="let r of assignedReports; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ r.scholarName }}</td>
+            <td>{{ r.enrollmentNo }}</td>
+            <td>{{ r.program }}</td>
+            <td>{{ r.session }}</td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'bg-warning': r.status === 'UNDER REVIEW',
+                  'bg-danger': r.status === 'REVISION REQUIRED',
+                  'bg-success': r.status === 'APPROVED'
+                }">
+                {{ r.status }}
+              </span>
+            </td>
+            <td class="text-center">
+              <button
+                class="btn btn-sm btn-outline-primary"
+                (click)="review(r.reportId)">
+                Review
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <ng-template #noData>
+        <div class="alert alert-info mb-0">
+          No progress reports assigned to you.
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,60 @@
+<div class="mt-4">
+
+  <h5 class="mb-3">Reviewer Remarks & Discussion</h5>
+
+  <div *ngIf="threads.length === 0" class="alert alert-secondary">
+    No remarks added yet.
+  </div>
+
+  <!-- ===== THREAD LOOP ===== -->
+  <div *ngFor="let t of threads" class="card mb-3 shadow-sm">
+
+    <!-- Parent remark -->
+    <div class="card-header bg-light">
+      <strong>{{ t.authorRole }}</strong>
+      <span class="text-muted"> · {{ t.date }}</span>
+
+      <span *ngIf="t.documentName" class="badge bg-info ms-2">
+        {{ t.documentName }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <p class="mb-2">{{ t.text }}</p>
+
+      <!-- Replies -->
+      <div
+        *ngFor="let r of t.replies"
+        class="border-start ps-3 mt-2 text-muted">
+
+        <strong>{{ r.authorRole }}</strong>
+        <span> · {{ r.date }}</span>
+
+        <p class="mb-1">{{ r.text }}</p>
+      </div>
+
+      <!-- Reply box -->
+      <form
+        *ngIf="currentRole"
+        [formGroup]="getReplyForm(t.id)"
+        class="mt-3">
+
+        <textarea
+          rows="2"
+          class="form-control mb-2"
+          placeholder="Write a reply..."
+          formControlName="replyText">
+        </textarea>
+
+        <button
+          class="btn btn-sm btn-outline-primary"
+          type="button"
+          (click)="submitReply(t.id)">
+          Reply
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+</div>

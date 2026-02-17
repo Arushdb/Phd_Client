@@ -1,0 +1,76 @@
+<div class="container mt-4">
+
+  <!-- Scholar Info -->
+  <div class="card mb-3 shadow-sm">
+   
+    <div class="card-header bg-dark text-white">
+      Scholar Information
+    </div>
+    <div class="card-body">
+      <div><strong>Name:</strong> {{ scholar?.firstName }}</div>
+      <div><strong>Enrollment No:</strong> {{ scholar?.enrollmentNo }}</div>
+      <div><strong>Program:</strong> {{ scholar?.programname }}</div>
+    </div>
+  </div>
+
+  <!-- Current Progress Report -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      Current Semester Progress
+    </div>
+
+    <div class="card-body">
+
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <strong>Semester:</strong><br>
+          {{ currentProgress.semester }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Status:</strong><br>
+          <span
+            class="badge"
+            [ngClass]="{
+              'bg-info': currentProgress.status === 'DRAFT',
+              'bg-warning': currentProgress.status === 'UNDER_REVIEW',
+              'bg-danger': currentProgress.status === 'REVISION_REQUIRED',
+              'bg-success': currentProgress.status === 'APPROVED'
+            }">
+            {{ currentProgress.status }}
+          </span>
+        </div>
+
+        <div class="col-md-4">
+          <strong>Submitted On:</strong><br>
+          {{ currentProgress.submittedOn }}
+        </div>
+      </div>
+
+      <!-- Next Actions (if revision) -->
+      <div *ngIf="currentProgress.status === 'REVISION_REQUIRED'"
+           class="alert alert-warning">
+        <strong>Next Action:</strong> {{ currentProgress.nextActions }}
+      </div>
+
+      <!-- Action Button -->
+      <button
+        class="btn btn-success"
+        *ngIf="currentProgress.status !== 'APPROVED' && currentProgress.status !== 'UNDER_REVIEW'"
+        (click)="enterOrEditProgress()">
+        {{ currentProgress.status === 'REVISION_REQUIRED'
+            ? 'Edit & Resubmit Progress'
+            : 'Enter Progress Report' }}
+      </button>
+
+      <!-- Locked Info -->
+      <div *ngIf="currentProgress.status === 'APPROVED'"
+           class="alert alert-success mt-3">
+        Progress report has been approved. No further action required.
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

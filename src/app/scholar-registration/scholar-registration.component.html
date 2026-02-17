@@ -14,8 +14,12 @@
       </button>
 
       <!-- Error Alert -->
-      <div *ngIf="errorMessage()" class="alert alert-danger">
+      <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
         {{ errorMessage() }}
+      </div>
+       <!-- Success Info -->
+      <div *ngIf="successMessage()" class="alert alert-success" role="alert">
+        {{ successMessage() }}
       </div>
 
       <!-- Registration Form -->
@@ -32,6 +36,7 @@
         </div>
 
         <button type="submit"
+        [disabled]="registrationForm.invalid"
                 class="btn btn-success">
           Register Semester
         </button>

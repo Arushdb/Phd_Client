@@ -19,6 +19,11 @@
   You were logged out due to inactivity.
 </div>
   <div class="login-box">
+    
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
+        {{ errorMessage() }}
+      </div>
   <h2>Login</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="login()">

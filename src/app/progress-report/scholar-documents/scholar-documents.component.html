@@ -1,0 +1,80 @@
+<div class="card mt-3 shadow-sm">
+
+  <div class="card-header bg-secondary text-white">
+    Progress Report Documents
+  </div>
+
+  <div class="card-body">
+
+    <!-- ================= Upload Section ================= -->
+    <div *ngIf="editable" class="row g-2 align-items-end mb-3">
+
+      <div class="col-md-4">
+        <label class="form-label">Document Type</label>
+        <select class="form-select" [(ngModel)]="selectedType">
+          <option [ngValue]="null">-- Select --</option>
+          <option *ngFor="let t of documentTypes" [ngValue]="t.id">
+            {{ t.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Select File</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFileChange($event)">
+      </div>
+
+      <div class="col-md-4">
+        <button
+          class="btn btn-primary mt-4"
+          (click)="upload()">
+          Upload
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ================= Document List ================= -->
+    <table class="table table-bordered table-sm">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Document Name</th>
+          <th>Type</th>
+          <th>Uploaded On</th>
+          <th width="120">Action</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="documents.length > 0; else noDocs">
+        <tr *ngFor="let d of documents; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ d.name }}</td>
+          <td>{{ d.document_type }}</td>
+          <td>{{ d.uploaded_at }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-primary"
+              (click)="download(d.document_id)">
+              Download
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noDocs>
+      <div class="text-muted">No documents uploaded yet.</div>
+    </ng-template>
+
+    <!-- ================= Lock Notice ================= -->
+    <div *ngIf="!editable" class="alert alert-info mt-3">
+      Documents are read-only as the progress report is approved.
+    </div>
+
+  </div>
+</div>
+

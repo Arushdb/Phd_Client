@@ -52,13 +52,13 @@ constructor(private apiservice:ApiService,
     debugger
 this.apiservice.createScholar(dto).subscribe({
       next: (res) => {
-        this.messageService.success(res.message);
+        this.messageService.showSuccess(res.message);
        setTimeout(() => {
   this.router.navigate(['/home']);   // or your target route
 }, 2000); 
        
   },error: (err) => {
-    this.messageService.error(err.error.message);
+    this.messageService.showError(err.error.message);
         console.error('Error from backend:', err);
       }
 });

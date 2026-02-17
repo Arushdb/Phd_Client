@@ -1,0 +1,54 @@
+<div class="card mb-3 shadow-sm">
+
+  <div class="card-header bg-warning">
+    <strong>Add Reviewer Remark</strong>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="remarkForm">
+
+      <!-- Attach to Document -->
+      <div class="mb-3">
+        <label class="form-label">Attach To</label>
+        <select class="form-select" formControlName="documentId">
+          <option [ngValue]="null">Whole Progress Report</option>
+          <option *ngFor="let d of documents" [ngValue]="d.id">
+            {{ d.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Visibility -->
+      <div class="form-check mb-3">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="isPrivate">
+        <label class="form-check-label">
+          Private (Visible to committee only)
+        </label>
+      </div>
+
+      <!-- Remark Text -->
+      <div class="mb-3">
+        <label class="form-label">Remark</label>
+        <textarea
+          rows="3"
+          class="form-control"
+          formControlName="remarkText"
+          placeholder="Enter your remark here">
+        </textarea>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        [disabled]="remarkForm.invalid"
+        (click)="submitRemark()">
+        Add Remark
+      </button>
+
+    </form>
+  </div>
+</div>
+

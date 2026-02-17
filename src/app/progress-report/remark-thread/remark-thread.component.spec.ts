@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistrationComponent } from './registration.component';
+import { RemarkThreadComponent } from './remark-thread.component';
 
-describe('RegistrationComponent', () => {
-  let component: RegistrationComponent;
-  let fixture: ComponentFixture<RegistrationComponent>;
+describe('RemarkThreadComponent', () => {
+  let component: RemarkThreadComponent;
+  let fixture: ComponentFixture<RemarkThreadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegistrationComponent]
+      imports: [RemarkThreadComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RegistrationComponent);
+    fixture = TestBed.createComponent(RemarkThreadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

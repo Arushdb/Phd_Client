@@ -8,7 +8,7 @@ export class MessageService {
 
   constructor(private snackBar: MatSnackBar) {}
 
-  success(message: string) {
+  showSuccess(message: string) {
     this.snackBar.open(message, 'OK', {
       duration: 3000,
       panelClass: ['my-snackbar'],
@@ -17,7 +17,7 @@ export class MessageService {
     });
   }
 
-  error(message: string) {
+  showError(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 5000,
       panelClass: ['snackbar-error']

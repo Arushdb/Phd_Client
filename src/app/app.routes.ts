@@ -10,6 +10,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { UnknownUrlGuard } from './guards/unknown-url.guard';
 import { MonthAcademicComponent } from './month-academic/month-academic.component';
 import { ScholarRegistrationComponent } from './scholar-registration/scholar-registration.component';
+import { ReviewProgressReportComponent } from './progress-report/review-progress-report/review-progress-report.component';
+import { ReviewerDashboardComponent } from './progress-report/reviewer-dashboard/reviewer-dashboard.component';
 
 
 export const routes: Routes = [
@@ -31,7 +33,26 @@ export const routes: Routes = [
       { path: 'dashboardscholar', component: DashboardComponent },
       { path: 'yearmonth', component: MonthAcademicComponent },
       { path: 'ScholarRegistration', component: ScholarRegistrationComponent },
-     // { path: '', redirectTo: 'home', pathMatch: 'full' }
+     
+     
+      { path: 'progress-report/review', component: ReviewProgressReportComponent },
+      { path: 'dashboardreviewer', component: ReviewerDashboardComponent },
+
+{
+  path: 'scholar/dashboard',
+  loadComponent: () =>
+    import('./scholar/scholar-dashboard/scholar-dashboard.component')
+      .then(m => m.ScholarDashboardComponent)
+},
+{
+  path: 'scholar/progress-entry/:semester',
+  loadComponent: () =>
+    import('./progress-report/scholar-progress-entry/scholar-progress-entry.component')
+      .then(m => m.ScholarProgressEntryComponent)
+}
+
+
+      // { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },
   { path: '**',

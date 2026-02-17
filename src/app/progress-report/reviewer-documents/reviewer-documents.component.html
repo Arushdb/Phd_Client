@@ -1,0 +1,45 @@
+<div class="card mb-3 shadow-sm">
+
+  <div class="card-header bg-secondary text-white">
+    Documents Uploaded by Scholar
+  </div>
+
+  <div class="card-body">
+
+    <table class="table table-bordered table-sm">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Document Name</th>
+          <th>Type</th>
+          <th>Uploaded On</th>
+          <th width="120">Action</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="documents.length > 0; else noDocs">
+        <tr *ngFor="let d of documents; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ d.name }}</td>
+          <td>{{ d.document_type }}</td>
+          <td>{{ d.uploaded_at }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-primary"
+              (click)="download(d.document_id)">
+              Download
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noDocs>
+      <div class="text-muted">
+        No documents uploaded by scholar.
+      </div>
+    </ng-template>
+
+  </div>
+</div>
+

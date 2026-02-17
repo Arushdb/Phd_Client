@@ -1,0 +1,163 @@
+<div class="container mt-4">
+
+  <!-- ================= SCHOLAR DETAILS ================= -->
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-dark text-white">
+      Scholar & Progress Report Details
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Name:</strong><br>
+          {{ scholar.name }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Enrollment No:</strong><br>
+          {{ scholar.enrollmentNo }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Program:</strong><br>
+          {{ scholar.program }}
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Progress Report #:</strong> {{ report.number }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Session:</strong> {{ report.session }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Status:</strong>
+          <span class="badge bg-warning">
+            {{ report.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ATTENDANCE SUMMARY ================= -->
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-info text-white">
+      Attendance Summary (Read-Only)
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Total Working Days:</strong>
+          {{ attendance.totalDays }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Days Present:</strong>
+          {{ attendance.presentDays }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Attendance %:</strong>
+          <span
+            class="badge"
+            [ngClass]="{
+              'bg-success': eligible,
+              'bg-danger': !eligible
+            }">
+            {{ attendance.percentage }} %
+          </span>
+        </div>
+      </div>
+
+      <hr>
+
+      <div>
+        <strong>Supervisor Remarks:</strong><br>
+        <em>{{ attendance.remarks || '—' }}</em>
+      </div>
+
+      <hr>
+
+      <div>
+        <strong>Eligibility:</strong>
+        <span *ngIf="eligible" class="text-success">
+          ✔ Eligible for Review
+        </span>
+        <span *ngIf="!eligible" class="text-danger">
+          ❌ Attendance Below Minimum Requirement
+        </span>
+      </div>
+    </div>
+  </div>
+<!-- ================= Documents Section ================= -->
+<app-reviewer-documents
+  [reportId]="report.id">
+</app-reviewer-documents>
+<!-- After Attendance & before Save Decision -->
+<!-- Reviewer adds a new remark -->
+<app-reviewer-remarks
+  [reportId]="report.id"
+  [reviewerRole]="'SUPERVISOR'"
+  [documents]="documents">
+</app-reviewer-remarks>
+
+<!-- Threaded discussion -->
+<app-remark-thread
+  [threads]="remarkThreads"
+  [currentRole]="'SUPERVISOR'">
+</app-remark-thread>
+
+
+
+  <!-- ================= REVIEW FORM ================= -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      Reviewer Decision
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="reviewForm">
+
+        <div class="mb-3">
+          <label class="form-label">Decision</label>
+          <select class="form-select" formControlName="decision">
+            <option value="">-- Select --</option>
+            <option value="APPROVED">Approved</option>
+            <option value="REVISION">Revision Required</option>
+            <option value="REJECTED">Rejected</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Overall Remarks</label>
+          <textarea
+            class="form-control"
+            rows="4"
+            formControlName="remarks">
+          </textarea>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="reviewForm.invalid || !eligible"
+          (click)="save()">
+          Save Review
+        </button>
+
+        <div *ngIf="!eligible" class="text-danger mt-2">
+          Approval disabled due to low attendance.
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>

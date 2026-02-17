@@ -1,0 +1,119 @@
+<div class="container mt-4">
+
+
+    <!-- ================= Semester Information ================= -->
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-info text-white">
+      Semester Information
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Semester:</strong><br>
+          {{ semesterInfo.semesterName }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Period:</strong><br>
+          {{ semesterInfo.periodStart | date:'dd-MM-yyyy' }} to {{ semesterInfo.periodEnd | date:'dd-MM-yyyy' }}
+        </div>
+        <div class="col-md-4">
+          <strong>semesterRegistrationId:</strong><br>
+          {{ semesterInfo.semesterRegistrationId }}
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+  <div class="card shadow-sm">
+
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Progress Report – Scholar Entry</h5>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="progressForm">
+
+        <!-- Research Work -->
+        <div class="mb-3">
+          <label class="form-label">Research Work Done *</label>
+          <textarea
+            rows="3"
+            class="form-control"
+            formControlName="researchWork"
+            placeholder="Describe work done during this semester">
+          </textarea>
+        </div>
+
+        <!-- Conference -->
+        <div class="mb-3">
+          <label class="form-label">Conference (if any)</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="conference">
+        </div>
+
+        <!-- Research Paper -->
+        <div class="mb-3">
+          <label class="form-label">Research Paper</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="researchPaper">
+        </div>
+
+        <!-- Tours -->
+        <div class="mb-3">
+          <label class="form-label">Tours / Field Visits</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="tours">
+        </div>
+
+        
+
+
+        <!-- Summary -->
+        <div class="mb-3">
+          <label class="form-label">Overall Summary</label>
+          <textarea
+            rows="2"
+            class="form-control"
+            formControlName="summary">
+          </textarea>
+        </div>
+<!-- Buttons -->
+        <div class="d-flex gap-2 mt-3">
+<!-- Save Draft Button -->
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="saveDraft()"
+    [disabled]="progressStatus === 'SUBMITTED' || progressStatus === 'APPROVED'">
+    Save Draft
+  </button>
+
+        <!-- Submit -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="progressForm.invalid || progressStatus === 'SUBMITTED' || progressStatus === 'APPROVED'"
+          (click)="submit()">
+          Submit Progress Report
+        </button>
+      </div>
+        <app-scholar-documents
+  [reportId]="42"
+  [scholarId]="1001"
+  [editable]="progressStatus !== 'APPROVED'">
+</app-scholar-documents>
+
+      </form>
+    </div>
+  </div>
+</div>
+

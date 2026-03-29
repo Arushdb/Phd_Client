@@ -11,6 +11,7 @@ import { ActiveSemester, ApiResponse } from '../models/api-response';
 import { environment } from '../../environments/environment';
 import { ProgressReportRequest } from '../models/progress-report-request';
 import { ProgressReport } from '../models/progressreport';
+import { DocumentModel } from '../models/document-model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,8 @@ export class ScholarService {
   constructor(private http: HttpClient) {}
 
   getScholarProfile(): Observable<ApiResponse<any>> {
-    //const params = new HttpParams().set('userid', userid.toString());
+    //const params = new HttpParams().set('userid', userid.toString())
+    debugger;
 
     return this.http
       .get<ApiResponse<any>>(`${this.base}/scholar/profile`, {
@@ -75,4 +77,21 @@ export class ScholarService {
       `${this.base}/progress/all`,
     );
   }
+
+  /* ================= Get reviewer reports ================= */
+  getReviewerReports(): Observable<ApiResponse<ProgressReport[]>> {
+    return this.http.get<ApiResponse<ProgressReport[]>>(
+      `${this.base}/progress/reviewer`,
+    );
+  }
+
+  getScholarRemarks(contextId: number): Observable<ApiResponse<any>> {
+    console.log('Fetching scholar remarks for contextId:', contextId);
+    return this.http.get<ApiResponse<any[]>>(
+      `${this.base}/remarks/scholar/${contextId}`,
+    );
+  }
+
+
+
 }

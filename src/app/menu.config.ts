@@ -6,17 +6,17 @@ export const MENU_ITEMS: MenuItem[] = [
     id:1,
     label: 'Dashboard',
     path: '/dashboard',
-    roles: ['ADMIN', 'FACULTY', 'SCHOLAR'],
+    roles: ['ADMIN', 'ROLE_SCHOLAR','ROLE_SUPERVISOR'],
     children: [
     {id:11,label: 'Dashboard Admin',
     path: '/dashboardadmin',
     roles: ['ADMIN']},
     {id:12,label: 'Dashboard Scholar',
     path: '/scholar/dashboard',
-    roles: ['SCHOLAR']},
+    roles: ['ROLE_SCHOLAR']},
     {id:13,label: 'Dashboard Reviewer',
     path: '/dashboardreviewer',
-    roles: ['SUPERVISOR']}
+    roles: ['ROLE_SUPERVISOR']}
   ]
   },
   {
@@ -29,7 +29,7 @@ export const MENU_ITEMS: MenuItem[] = [
     id:3,
     label: 'My Profile',
     path: '/profile',
-    roles: ['SCHOLAR', 'FACULTY', 'ADMIN']
+    roles: ['ROLE_SCHOLAR', 'FACULTY', 'ADMIN']
   },
   {
     id:4,
@@ -47,19 +47,19 @@ export const MENU_ITEMS: MenuItem[] = [
     id:6,
     label: 'Scholar Registration',
     path: '/ScholarRegistration',
-    roles: ['SCHOLAR']
+    roles: ['ROLE_SCHOLAR']
   },
   {
     id:7,
     label: 'Progress Report',
     path: '/progress-report/submit',
-    roles: ['SCHOLAR']
+    roles: ['ROLE_SCHOLAR']
   },
   {
     id:8,
     label: 'Review Progress Report',
     path: '/progress-report/review',
-    roles: ['ADMIN', 'FACULTY']
+    roles: ['ADMIN',  'ROLE_SUPERVISOR']
   },
 
   {

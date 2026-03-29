@@ -10,17 +10,17 @@
       <div class="row">
         <div class="col-md-4">
           <strong>Name:</strong><br>
-          {{ scholar.name }}
+          {{ fullName }} 
         </div>
 
         <div class="col-md-4">
           <strong>Enrollment No:</strong><br>
-          {{ scholar.enrollmentNo }}
+          {{ enrolmentno }} 
         </div>
 
         <div class="col-md-4">
           <strong>Program:</strong><br>
-          {{ scholar.program }}
+           {{ programname }} 
         </div>
       </div>
 
@@ -28,17 +28,18 @@
 
       <div class="row">
         <div class="col-md-4">
-          <strong>Progress Report #:</strong> {{ report.number }}
+          <strong>Progress Report #:</strong> {{ report.id }}
         </div>
 
         <div class="col-md-4">
-          <strong>Session:</strong> {{ report.session }}
+          <strong>Session:</strong> 
         </div>
 
         <div class="col-md-4">
           <strong>Status:</strong>
           <span class="badge bg-warning">
-            {{ report.status }}
+            {{ report.progressStatus}}
+ 
           </span>
         </div>
       </div>
@@ -55,12 +56,12 @@
       <div class="row">
         <div class="col-md-4">
           <strong>Total Working Days:</strong>
-          {{ attendance.totalDays }}
+         <!-- {{ attendance.totalDays }} -->
         </div>
 
         <div class="col-md-4">
           <strong>Days Present:</strong>
-          {{ attendance.presentDays }}
+          <!-- {{ attendance.presentDays }} -->
         </div>
 
         <div class="col-md-4">
@@ -71,7 +72,7 @@
               'bg-success': eligible,
               'bg-danger': !eligible
             }">
-            {{ attendance.percentage }} %
+            {{ attendance }} %
           </span>
         </div>
       </div>
@@ -80,7 +81,7 @@
 
       <div>
         <strong>Supervisor Remarks:</strong><br>
-        <em>{{ attendance.remarks || '—' }}</em>
+      <!--  <em>{{ attendance.remarks || '—' }}</em>-->
       </div>
 
       <hr>
@@ -98,20 +99,21 @@
   </div>
 <!-- ================= Documents Section ================= -->
 <app-reviewer-documents
-  [reportId]="report.id">
+  [reportId]="reportId" *ngIf="reportId && scholarId"   [scholarId]="scholarId">
 </app-reviewer-documents>
 <!-- After Attendance & before Save Decision -->
 <!-- Reviewer adds a new remark -->
-<app-reviewer-remarks
-  [reportId]="report.id"
+<app-reviewer-remarks *ngIf="reportId"
+  [reportId]="reportId"
   [reviewerRole]="'SUPERVISOR'"
   [documents]="documents">
 </app-reviewer-remarks>
 
 <!-- Threaded discussion -->
-<app-remark-thread
-  [threads]="remarkThreads"
-  [currentRole]="'SUPERVISOR'">
+<app-remark-thread  *ngIf="reportId"
+ [reportId]="reportId"
+  
+  [currentRole]=currentRole>
 </app-remark-thread>
 
 

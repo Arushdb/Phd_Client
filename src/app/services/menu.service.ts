@@ -9,6 +9,8 @@ import { MenuItem } from '../models/menu.model';
 export class MenuService {
 
   getMenuForRoles(userRoles: string[]): MenuItem[] {
+    console.log('Filtering menu for roles', userRoles);
+    debugger;
     const filterItems = (items: MenuItem[]): MenuItem[] => {
       return items
         .map(item => {
@@ -29,7 +31,7 @@ export class MenuService {
         })
         .filter(i => i !== null) as MenuItem[];
     };
-
+console.log("MENU_ITEMS",MENU_ITEMS);
     return filterItems(MENU_ITEMS);
   }
 }

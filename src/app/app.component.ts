@@ -28,13 +28,16 @@ export class AppComponent {
   constructor(private authService: AuthService,private menuService: MenuService
      ,private router: Router) {
     console.log("Test message");
+    debugger;
     this.currentUser$ = this.authService.currentUser$;
   }
   ngOnInit(): void {
     this.userSub = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
+      console.log('Current user in AppComponent', user);
       if (user) {
         this.menuItems = this.menuService.getMenuForRoles(user.roles);
+        console.log('Menu items for user roles', user.roles, this.menuItems);
       } else {
         this.menuItems = [];
       }

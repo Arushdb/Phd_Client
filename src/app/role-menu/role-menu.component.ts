@@ -27,6 +27,7 @@ export class RoleMenuComponent implements OnInit {
     this.auth.currentUser$.subscribe((user: User | null) => {
       if (user) {
         this.menuItems = this.menuService.getMenuForRoles(user.roles);
+        console.log('Menu items for user roles', user.roles, this.menuItems);
       } else {
         this.menuItems = [];
       }

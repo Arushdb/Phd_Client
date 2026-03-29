@@ -26,6 +26,17 @@
           <strong>Semester:</strong><br>
           {{ currentProgress.semester }}
         </div>
+        <div class="col-md-4">
+  <strong>Submission Deadline:</strong><br>
+  {{ currentProgress.submissionDeadline | date:'dd MMM yyyy' }}
+</div>
+<div *ngIf="currentProgress.extensionDeadline"
+     class="alert alert-warning">
+
+  Late submission allowed until
+  {{ currentProgress.extensionDeadline | date:'dd MMM yyyy' }}
+
+</div>
 
         <div class="col-md-4">
           <strong>Status:</strong><br>
@@ -33,7 +44,7 @@
             class="badge"
             [ngClass]="{
               'bg-info': currentProgress.status === 'DRAFT',
-              'bg-warning': currentProgress.status === 'UNDER_REVIEW',
+              'bg-warning': currentProgress.status === 'SUBMITTED',
               'bg-danger': currentProgress.status === 'REVISION_REQUIRED',
               'bg-success': currentProgress.status === 'APPROVED'
             }">
@@ -56,7 +67,9 @@
       <!-- Action Button -->
       <button
         class="btn btn-success"
-        *ngIf="currentProgress.status !== 'APPROVED' && currentProgress.status !== 'UNDER_REVIEW'"
+        [disabled]="!currentProgress.submissionAllowed"
+        *ngIf="currentProgress.status !== 'APPROVED' && currentProgress.status !== 'UNDER_REVIEW'
+            && currentProgress.status !== 'SUBMITTED'"
         (click)="enterOrEditProgress()">
         {{ currentProgress.status === 'REVISION_REQUIRED'
             ? 'Edit & Resubmit Progress'

@@ -1,6 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';   
+import { ScholarService } from '../../services/scholar.service';
+import { MessageService } from '../../services/message.service';
+import { DocumentModel, DocumentTypes } from '../../models/document-model';
+import { DocumentService } from '../../services/document.service';
 
 @Component({
   selector: 'app-scholar-documents',
@@ -8,44 +12,47 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './scholar-documents.component.html'
 })
-export class ScholarDocumentsComponent {
+export class ScholarDocumentsComponent implements OnInit {
 
   /** progress_report.id */
-  @Input() reportId!: number;
+  @Input() reportId!: number | null;
 
-  /** scholar_id (from login context) */
-  @Input() scholarId!: number;
-
+  
   /** false when progress_status = APPROVED */
   @Input() editable = true;
 
   /** mock document_type_master */
-  documentTypes = [
-    { id: 1, label: 'Progress Report PDF' },
-    { id: 2, label: 'Research Paper' },
-    { id: 3, label: 'Methodology' },
-    { id: 4, label: 'Conference Certificate' }
+  documentTypes : DocumentTypes[] = [
+    // { id: 1, label: 'Progress Report PDF' },
+    // { id: 2, label: 'Research Paper' },
+    // { id: 3, label: 'Methodology' },
+    // { id: 4, label: 'Conference Certificate' }
   ];
 
   selectedFile: File | null = null;
   selectedType: number | null = null;
 
   /** Replace with API response */
-  documents = [
-    {
-      document_id: 118,
-      name: 'Methodology.pdf',
-      document_type: 'Methodology',
-      uploaded_at: '2026-01-05'
-    },
-    {
-      document_id: 119,
-      name: 'ConferenceCertificate.pdf',
-      document_type: 'Conference Certificate',
-      uploaded_at: '2026-01-07'
-    }
+  documents:DocumentModel[] = [
+    
   ];
 
+  constructor(
+    private documentservice: DocumentService,private messageService: MessageService
+  ) { }
+
+  ngOnInit(): void {
+    console.log('ScholarDocumentsComponent initialized with reportId:', this.reportId);
+    this.getDocumenttypes();
+    this.loadDocuments();
+     
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+  if (changes['reportId']) {
+    console.log("Received reportId:", this.reportId);
+  }
+}
   onFileChange(event: any): void {
     this.selectedFile = event.target.files[0];
   }
@@ -56,24 +63,99 @@ export class ScholarDocumentsComponent {
       return;
     }
 
+     if (!this.reportId) {
+    alert('Please save progress report before uploading documents.');
+    return;
+  }
     const formData = new FormData();
     formData.append('file', this.selectedFile);
-    formData.append('scholar_id', this.scholarId.toString());
-    formData.append('related_table', 'progress_report');
-    formData.append('related_id', this.reportId.toString());
-    formData.append('document_type_id', this.selectedType.toString());
-
+    //formData.append('relatedId', this.reportId.toString() );
+    formData.append('documentTypeId', this.selectedType.toString());
+       
+           const reportId =  this.reportId.toString() ;
     console.log('Uploading document', formData);
 
-    // TODO:
+
+    this.documentservice.uploadProgressDocument(formData,reportId).subscribe({
+      next: (res) => {
+        this.messageService.showSuccess(res.message); 
+        console.log('Document upload response:', res); 
+        
+         if (res.success) {
+        alert("Document uploaded successfully");
+
+        // 🔹 Refresh table
+        this.loadDocuments();
+      }
+            
+      },
+      error: (err) => {
+        this.messageService.showError(err.error?.message || 'Document upload failed');
+      }
+    });
+
+    //    TODO:
     // POST /api/documents/upload (multipart/form-data)
     // → INSERT INTO documents
   }
 
   download(docId: number): void {
     console.log('Downloading document', docId);
+       if (!docId) {
+    return;   // stop if null
+  }
+  this.documentservice.downloadDocument(docId).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');    
+        a.href = url;
+        a.download = `document_${docId}.pdf`; // You can set a better filename based on your data
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        this.messageService.showError(err.error?.message || 'Document download failed');
+      }
+    });     
 
+    
     // TODO:
     // GET /api/documents/{docId}/download
   }
+  
+
+loadDocuments() {
+    if (!this.reportId) {
+    return;   // stop if null
+  }
+  this.documentservice.getProgressDocuments(this.reportId)
+    .subscribe({
+      next: (res:any) => {
+        if (res.success) {
+          this.documents = res.data;
+          console.log('Loaded documents:', this.documents,res.data);
+        }
+      },
+      error: (err:any) => {
+        this.messageService.showError(err.error?.message || 'Failed to load documents');
+      }
+    });
+}
+
+getDocumenttypes() {
+  this.documentservice.getDocumentTypes()
+    .subscribe({
+      next: (res:any) => {
+        console.log('Document types response:', res);
+        if (res.success) {
+          this.documentTypes = res.data;
+        }
+      },
+      error: (err:any) => {
+        this.messageService.showError(err.error?.message || 'Failed to load document types');
+      }
+    });
+}   
 }

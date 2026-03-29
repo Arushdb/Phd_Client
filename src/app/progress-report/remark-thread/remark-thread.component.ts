@@ -1,47 +1,86 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { RemarkService } from '../../services/remark.service';
+import { Remark } from '../../models/Remark';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 
 @Component({
   selector: 'app-remark-thread',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './remark-thread.component.html'
+   standalone: true,
+  templateUrl: './remark-thread.component.html',
+    imports: [CommonModule, ReactiveFormsModule,FormsModule]
 })
-export class RemarkThreadComponent {
+export class RemarkThreadComponent implements OnInit {
 
-  /** Parent remark + replies */
-  @Input() threads: any[] = [];
+  @Input() reportId!: number;
+  @Input() currentRole: string = '';
 
-  /** Current user role: SUPERVISOR | SCHOLAR | HOD | DEAN */
-  @Input() currentRole!: string;
+  threads: any[] = [];
+  replyForms: { [key: number]: string } = {};
+  newRemarkText: string = '';
 
-  replyForms: { [key: number]: FormGroup } = {};
+  constructor(private remarkService: RemarkService) {}
 
-  constructor(private fb: FormBuilder) {}
-
-  getReplyForm(parentId: number): FormGroup {
-    if (!this.replyForms[parentId]) {
-      this.replyForms[parentId] = this.fb.group({
-        replyText: ['']
-      });
-    }
-    return this.replyForms[parentId];
+  ngOnInit(): void {
+    this.loadThreads();
   }
 
-  submitReply(parentId: number): void {
-    const form = this.getReplyForm(parentId);
-    if (!form.value.replyText) return;
+  // ===============================
+  // Load threads
+  // ===============================
+  loadThreads() {
+    this.remarkService.getRemarks(this.reportId).subscribe({
+      next: (res: Remark[]) => {
+        this.threads = this.remarkService.buildRemarkTree(res);
+        console.log('Loaded threads:', this.threads);
+      },
+      error: (err) => {
+        console.error('Error loading remarks:', err);
+      }
+    });
+  }
+
+ 
+
+  // ===============================
+  // Start new thread
+  // ===============================
+  startNewThread() {
+
+    if (!this.newRemarkText.trim()) return;
 
     const payload = {
-      parentRemarkId: parentId,
-      remarkText: form.value.replyText,
-      role: this.currentRole
+      reviewContext: 'PROGRESS_REPORT',
+      contextId: this.reportId,
+      remarkText: this.newRemarkText,
+      parentRemarkId: null
     };
 
-    console.log('Reply Submitted:', payload);
-    form.reset();
-
-    // TODO: call API → reviewer_remarks (parent_remark_id)
+    this.remarkService.addRemark(payload).subscribe(() => {
+      this.newRemarkText = '';
+      this.loadThreads();
+    });
   }
+
+  // ===============================
+  // Reply to thread
+  // ===============================
+  reply(parentId: number) {
+
+    const text = this.replyForms[parentId];
+    if (!text?.trim()) return;
+
+    const payload = {
+      reviewContext: 'PROGRESS_REPORT',
+      contextId: this.reportId,
+      remarkText: text,
+      parentRemarkId: parentId
+    };
+
+    this.remarkService.addRemark(payload).subscribe(() => {
+      this.replyForms[parentId] = '';
+      this.loadThreads();
+    });
+  }
+
 }

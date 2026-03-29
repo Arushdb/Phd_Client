@@ -4,7 +4,6 @@ export interface ProgressReport {
   scholarId: number;
   semesterRegistrationId: number;
   lastSemesterRegistrationId?: number;
-
   attendence?: number;
 
   researchWork?: string;

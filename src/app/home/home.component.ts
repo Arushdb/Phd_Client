@@ -7,15 +7,18 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   //templateUrl: './home.component.html',
   imports: [RouterModule],
+ // templateUrl: './home.component.html',
   template: `
-    <div class="home-welcome">
-      <h2>Welcome {{loggedInUserName}}  </h2>
-      <p>Please select a menu item  on left to proceed.</p>
-    </div>
-    <router-outlet></router-outlet>
+   <div class="home-welcome">
+     <h2>Welcome {{loggedInUserName}}  </h2>
+     <p>Please select a menu item  on left to proceed.TESTING
+     </p>
+   </div>
+   
   `,
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  loggedInUserName: string | null = localStorage.getItem('username') ; 
+  currentuser=localStorage.getItem('currentUser');
+  loggedInUserName: string | null = this.currentuser ? JSON.parse(this.currentuser)["name"] : null;
 }

@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { ScholarService } from '../../services/scholar.service';
 import { Scholar } from '../../models/scholar';
 import { MessageService } from '../../services/message.service';
+import { ProgressModel } from '../../models/ProgressModel';
 
 @Component({
   selector: 'app-scholar-dashboard',
@@ -18,18 +19,32 @@ export class ScholarDashboardComponent implements OnInit {
   // 🔹 Mock data (replace with API response)
   scholar:Scholar | null = null;
 
-  currentProgress = {
-    reportId: 42,
-    semester: 'July–Dec 2025',
-    status: 'REVISION_REQUIRED',  // UNDER_REVIEW | APPROVED
-    nextActions: 'Clarify methodology and resubmit',
-    submittedOn: '05 Jan 2026',
-    startdate: '2025-07-01',
-    enddate: '2025-12-31',
-    semesterid: 202501
+  // currentProgress = {
+  //   reportId: 42,
+  //   semester: 'July–Dec 2025',
+  //   status: 'REVISION_REQUIRED',  // UNDER_REVIEW | APPROVED
+  //   nextActions: 'Clarify methodology and resubmit',
+  //   submittedOn: '05 Jan 2026',
+  //   startdate: '2025-07-01',
+  //   enddate: '2025-12-31',
+  //   semesterid: 202501
     
-  };
+  // };
   
+
+  currentProgress: ProgressModel = {
+  reportId: 0,
+  status: '',
+  nextActions: '',
+  submittedOn: '',
+  semester: '',
+  startdate: '',
+  enddate: '',
+  semesterid: 0,
+  submissionDeadline: '',
+  submissionAllowed: false,
+  extensionDeadline: ''
+};
 
   constructor(private router: Router,
    
@@ -57,6 +72,9 @@ export class ScholarDashboardComponent implements OnInit {
         this.currentProgress.startdate = res.data.startdate;
         this.currentProgress.enddate = res.data.enddate;
         this.currentProgress.semesterid = res.data.semesterRegistrationId;
+        this.currentProgress.submissionDeadline=res.data.deadline;
+        this.currentProgress.submissionAllowed=res.data.submissionAllowed;  
+        this.currentProgress.extensionDeadline=res.data.extensionDeadline;
 
         console.log('Scholar profile loaded:', this.scholar);
         this.messageservice.showSuccess('Scholar profile loaded successfully');
@@ -74,7 +92,7 @@ export class ScholarDashboardComponent implements OnInit {
 
   enterOrEditProgress(): void {
 
-    
+    console.log("Current Progress",this.currentProgress);
     if (!this.currentProgress.reportId) {
       
       this.router.navigate(['/scholar/progress-entry', this.currentProgress.semester], 

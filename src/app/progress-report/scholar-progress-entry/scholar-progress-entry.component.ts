@@ -11,18 +11,20 @@ import { ActivatedRoute } from '@angular/router';
 import { Scholar } from '../../models/scholar';
 import { ScholarService } from '../../services/scholar.service';
 import { MessageService } from '../../services/message.service';
+import { RemarkService } from '../../services/remark.service';
+import { RemarkThreadComponent } from '../remark-thread/remark-thread.component';
 
 @Component({
   selector: 'app-scholar-progress-entry',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule , ScholarDocumentsComponent],
+  imports: [CommonModule, ReactiveFormsModule , ScholarDocumentsComponent,RemarkThreadComponent],
   templateUrl: './scholar-progress-entry.component.html'
 })
 export class ScholarProgressEntryComponent {
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
   progressForm: FormGroup;
-  progressStatus: string = 'DRAFT';
+  progressStatus: string = '';
    // 🔹 Semester info (from API / route resolver)
   semesterInfo = {
     semesterName: 'July–December 2025',
@@ -31,9 +33,13 @@ export class ScholarProgressEntryComponent {
     periodEnd: '2025-12-31'
   };
   scholar:Scholar | null = null;
+  reportId!: number 
+  remarkThreads: any[] = [];
+  currentRole: string = 'SCHOLAR'; // This can be dynamically set based on the logged-in user's role
 
   constructor(private fb: FormBuilder,private route: ActivatedRoute,
-    private scholarservice: ScholarService,private messageService: MessageService
+    private scholarservice: ScholarService,private messageService: MessageService,
+    private remarkService: RemarkService
   ) {
     this.progressForm = this.fb.group({
       researchWork: ['', [Validators.required, Validators.maxLength(350)]],
@@ -57,12 +63,18 @@ export class ScholarProgressEntryComponent {
       console.log('Progress report response:', res);
       if (res.data) {
         this.progressForm.patchValue(res.data);
+        this.reportId = res.data.id;
+        console.log('Report ID set to:', this.reportId);
         this.progressStatus = res.data.progressStatus;
+        this.getScholarRemarks();
+      } else {
+        console.warn('No progress report data found for semesterRegistrationId:', this.semesterInfo.semesterRegistrationId);
       }
-  },error: (err) => {
+  }, error: (err:any) => {
     this.messageService.showError('Error fetching progress report');
-  }    
-  });   
+    console.error('Error fetching progress report:', err);
+  } 
+  });  
 }  
 
   submit(): void {
@@ -108,4 +120,20 @@ const payload = {
 
 }
 
+getScholarRemarks() {
+  if (!this.reportId) {
+    console.error('Report ID is null. Cannot fetch remarks.');
+    return;
+  }   
+  this.scholarservice.getScholarRemarks(this.reportId).subscribe({
+    next: (res:any) => {
+      console.log('Scholar remarks response:', res);  
+      this.remarkThreads = this.remarkService.buildRemarkTree(res);  
+  },error: (err:any) => {
+    this.messageService.showError('Error fetching scholar remarks');
+  }    
+  }); 
+
+
+}
 }

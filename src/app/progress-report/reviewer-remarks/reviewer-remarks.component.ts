@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
+import { RemarkService } from '../../services/remark.service';
 
 @Component({
   selector: 'app-reviewer-remarks',
@@ -22,7 +23,7 @@ export class ReviewerRemarksComponent {
 
   remarkForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private remarkService: RemarkService) {
     this.remarkForm = this.fb.group({
       documentId: [null],                // optional
       isPrivate: [false],
@@ -35,19 +36,27 @@ export class ReviewerRemarksComponent {
     if (this.remarkForm.invalid) return;
 
     const payload = {
-      review_context: 'PROGRESS_REPORT',
-      context_id: this.reportId,
-      reviewer_role: this.reviewerRole,
-      document_id: this.remarkForm.value.documentId,
-      is_private: this.remarkForm.value.isPrivate,
-      remark_text: this.remarkForm.value.remarkText,
-      parent_remark_id: null              // 👈 IMPORTANT
+      //reportId: this.reportId,
+      reviewContext: 'PROGRESS_REPORT',
+      contextId: this.reportId,
+      reviewerRole: this.reviewerRole,
+      documentId: this.remarkForm.value.documentId,
+      isPrivate: this.remarkForm.value.isPrivate,
+      remarkText: this.remarkForm.value.remarkText,
+      parentRemarkId: null              // 👈 IMPORTANT
     };
 
     console.log('New Remark:', payload);
 
     // TODO: API → reviewer_remarks (insert parent remark)
+    this.remarkService.addRemark(payload).subscribe({
+      next: (res) => {
+        console.log('Remark added successfully:', res);
+      }
+    }); 
 
     this.remarkForm.reset({ isPrivate: false });
   }
+
+  
 }

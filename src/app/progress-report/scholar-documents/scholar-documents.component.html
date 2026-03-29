@@ -14,7 +14,7 @@
         <select class="form-select" [(ngModel)]="selectedType">
           <option [ngValue]="null">-- Select --</option>
           <option *ngFor="let t of documentTypes" [ngValue]="t.id">
-            {{ t.label }}
+            {{ t.name }}
           </option>
         </select>
       </div>
@@ -24,12 +24,14 @@
         <input
           type="file"
           class="form-control"
+          [disabled]="!editable"
           (change)="onFileChange($event)">
       </div>
 
       <div class="col-md-4">
         <button
           class="btn btn-primary mt-4"
+          [disabled]="!editable"
           (click)="upload()">
           Upload
         </button>
@@ -53,12 +55,13 @@
         <tr *ngFor="let d of documents; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ d.name }}</td>
-          <td>{{ d.document_type }}</td>
-          <td>{{ d.uploaded_at }}</td>
+          <td>{{ d.documentTypeName }}</td>
+          <td>{{ d.uploadedAt }}</td>
           <td>
             <button
               class="btn btn-sm btn-outline-primary"
-              (click)="download(d.document_id)">
+              (click)="download(d.documentId)">
+
               Download
             </button>
           </td>
@@ -72,7 +75,7 @@
 
     <!-- ================= Lock Notice ================= -->
     <div *ngIf="!editable" class="alert alert-info mt-3">
-      Documents are read-only as the progress report is approved.
+      Documents are read-only as the progress report is either approved or submitted.
     </div>
 
   </div>

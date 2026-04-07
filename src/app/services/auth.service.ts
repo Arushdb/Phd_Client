@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription, fromEvent, merge, timer } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-export type Role = 'ADMIN' | 'FACULTY' | 'ROLE_SCHOLAR'|'ROLE_SUPERVISOR'|'CO-SUPERVISOR'|'DEAN'|'HOD';
+export type Role = 'ROLE_ADMIN'  | 'ROLE_SCHOLAR'|'ROLE_SUPERVISOR'|'ROLE_CO-SUPERVISOR'|'ROLE_DEAN'|'ROLE_HOD'|'ROLE_FACULTY';
 
 export interface User {
   id: string;

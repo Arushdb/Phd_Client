@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { ReviewerDashboardModel } from '../models/reviewer-dashboard.model';
@@ -10,6 +10,9 @@ import { ApiResponse } from '../models/api-response';
   providedIn: 'root'
 })
 export class ReviewerService {
+
+
+ 
 
   
   private baseUrl = environment.apiBaseUrl+'/reviewer';
@@ -69,6 +72,39 @@ export class ReviewerService {
       {}
     );
   }
+
+
+  //  submitReview(payload: { reportId: any; decision: any; remarks: any; }) {
+
+  //   const params = new HttpParams()
+  //     .set('reportId', payload.reportId.toString())
+  //     .set('decision', payload.decision)
+  //     .set('remarks', payload.remarks);
+  //   return this.http.post(
+  //     `${this.baseUrl}/review`,null,{params}
+      
+  //   );  
+  // }
+
+submitAttendance(payload: { scholarSemesterId: any; semesterName: any;
+   totalsessions: any; attendedsessions: any; attendancePercentage: any; 
+   attendanceremarks: any;scholarid: any }) {
+
+    console.log('Submitting attendance with payload:', payload);
+    const params = new HttpParams()
+      .set('scholarSemesterId', payload.scholarSemesterId.toString())
+      .set('semesterName', payload.semesterName)
+      .set('totalsessions', payload.totalsessions.toString())
+      .set('attendedsessions', payload.attendedsessions.toString())
+      .set('attendancePercentage', payload.attendancePercentage)
+      .set('attendanceremarks', payload.attendanceremarks)
+      .set('scholarid', payload.scholarid.toString());
+    return this.http.post(
+      `${this.baseUrl}/attendance`,null,{params}
+      
+    );  
+  }
+
 
 
   

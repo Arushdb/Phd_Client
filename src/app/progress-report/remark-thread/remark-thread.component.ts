@@ -3,6 +3,7 @@ import { RemarkService } from '../../services/remark.service';
 import { Remark } from '../../models/Remark';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import { RemarkRefreshService } from '../../services/remark-refresh.service';
 
 @Component({
   selector: 'app-remark-thread',
@@ -19,10 +20,15 @@ export class RemarkThreadComponent implements OnInit {
   replyForms: { [key: number]: string } = {};
   newRemarkText: string = '';
 
-  constructor(private remarkService: RemarkService) {}
+  constructor(private remarkService: RemarkService,
+    private refreshService: RemarkRefreshService
+  ) {}
 
   ngOnInit(): void {
     this.loadThreads();
+     this.refreshService.refresh$.subscribe(() => {
+    this.loadThreads();   // 🔥 auto refresh
+  });
   }
 
   // ===============================

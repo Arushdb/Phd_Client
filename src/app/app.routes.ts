@@ -12,6 +12,8 @@ import { MonthAcademicComponent } from './month-academic/month-academic.componen
 import { ScholarRegistrationComponent } from './scholar-registration/scholar-registration.component';
 import { ReviewProgressReportComponent } from './progress-report/review-progress-report/review-progress-report.component';
 import { ReviewerDashboardComponent } from './progress-report/reviewer-dashboard/reviewer-dashboard.component';
+import { AttendanceComponent } from './progress-report/attendance/attendance.component';
+import { SupervisorGuard } from './guards/supervisor.guard';
 
 
 export const routes: Routes = [
@@ -30,16 +32,26 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'dashboardadmin', component: DashboardComponent },
-      { path: 'dashboardscholar', component: DashboardComponent },
+     // { path: 'scholar-dashboard', component: DashboardComponent },
       { path: 'yearmonth', component: MonthAcademicComponent },
       { path: 'ScholarRegistration', component: ScholarRegistrationComponent },
      
      
       { path: 'progress-report/review', component: ReviewProgressReportComponent },
-      { path: 'dashboardreviewer', component: ReviewerDashboardComponent },
+       {path: 'attendance', component: AttendanceComponent,
+       canActivate: [SupervisorGuard]},
+     
+     
+      // { path: 'reviewer-dashboard', component: ReviewerDashboardComponent },
+       {
+  path: 'reviewer-dashboard',
+  loadComponent: () =>
+    import('./progress-report/reviewer-dashboard/reviewer-dashboard.component')
+      .then(m => m.ReviewerDashboardComponent)
+},
 
 {
-  path: 'scholar/dashboard',
+  path: 'scholar-dashboard',
   loadComponent: () =>
     import('./scholar/scholar-dashboard/scholar-dashboard.component')
       .then(m => m.ScholarDashboardComponent)

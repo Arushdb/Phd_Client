@@ -30,12 +30,12 @@
             <td>{{ r.session }}</td>
             <td>
               <span
-                class="badge"
+                class="badge  px-2 py-1"
                 [ngClass]="{
-                  'bg-warning': r.status === 'UNDER REVIEW',
-                  'bg-danger': r.status === 'REVISION REQUIRED',
-                  'bg-success': r.status === 'APPROVED',
-                  'bg-info': r.status === 'SUBMITTED'
+                  'bg-warning text-dark': r.status.toUpperCase() === 'UNDER_REVIEW',
+                  'bg-danger text-white': r.status.toUpperCase() === 'REVISION_REQUIRED',
+                  'bg-success text-white': r.status.toUpperCase() === 'APPROVED',
+                  'bg-info text-white': r.status.toUpperCase() === 'SUBMITTED'
                 }">
                 {{ r.status }}
               </span>
@@ -48,6 +48,13 @@
                 (click)="review(r.reportId)">
                 Review
               </button>
+               <!-- ✅ NEW: Mark Attendance (Only for Supervisor) -->
+  <button
+    *ngIf="isSupervisor && r.status.toUpperCase() !== 'APPROVED'"
+    class="btn btn-sm btn-outline-success"
+    (click)="markAttendance(r)">
+    Attendance
+  </button>
             </td>
           </tr>
         </tbody>

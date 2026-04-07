@@ -7,6 +7,7 @@ import {
   Validators
 } from '@angular/forms';
 import { RemarkService } from '../../services/remark.service';
+import { RemarkRefreshService } from '../../services/remark-refresh.service';
 
 @Component({
   selector: 'app-reviewer-remarks',
@@ -23,7 +24,9 @@ export class ReviewerRemarksComponent {
 
   remarkForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private remarkService: RemarkService) {
+  constructor(private fb: FormBuilder, 
+    private remarkService: RemarkService,
+   private refreshService: RemarkRefreshService) {
     this.remarkForm = this.fb.group({
       documentId: [null],                // optional
       isPrivate: [false],
@@ -52,6 +55,7 @@ export class ReviewerRemarksComponent {
     this.remarkService.addRemark(payload).subscribe({
       next: (res) => {
         console.log('Remark added successfully:', res);
+        this.refreshService.triggerRefresh(); 
       }
     }); 
 

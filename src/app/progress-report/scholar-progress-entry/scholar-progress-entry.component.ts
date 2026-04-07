@@ -94,8 +94,12 @@ this.scholarservice.submitReport(payload).subscribe({
     this.progressStatus = 'SUBMITTED';        
 
     console.log('Progress Report Submitted:', payload);
+    console.log('API Response:', res);
 
     // TODO: API call → INSERT INTO progress_report
+  },error: (err) => {
+    this.messageService.showError('Error submitting progress report: ' + (err.error.message || 'Error submitting progress report'));
+    console.error('Error submitting progress report:', err);  
   }
 })
   }

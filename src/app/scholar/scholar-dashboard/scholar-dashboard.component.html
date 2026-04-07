@@ -68,8 +68,8 @@
       <button
         class="btn btn-success"
         [disabled]="!currentProgress.submissionAllowed"
-        *ngIf="currentProgress.status !== 'APPROVED' && currentProgress.status !== 'UNDER_REVIEW'
-            && currentProgress.status !== 'SUBMITTED'"
+        *ngIf="currentProgress.status !== 'APPROVED' && currentProgress.status !== 'UNDER_REVIEW'"
+            
         (click)="enterOrEditProgress()">
         {{ currentProgress.status === 'REVISION_REQUIRED'
             ? 'Edit & Resubmit Progress'

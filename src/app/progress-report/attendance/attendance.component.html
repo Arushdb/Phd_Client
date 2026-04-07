@@ -1,0 +1,67 @@
+<div class="container mt-4">
+
+  <div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Scholar Attendance Entry</h5>
+    </div>
+
+    <div class="card-body">
+
+      <form [formGroup]="attendanceForm" (ngSubmit)="onSubmit()">
+
+        <!-- Scholar Semester 
+        <div class="mb-3">
+          <label>Scholar Semester</label>
+          <select class="form-control" formControlName="scholarSemesterId">
+            <option value="">-- Select --</option>
+            <option *ngFor="let ss of scholarSemesters" [value]="ss.id">
+              {{ ss.scholarName }} - {{ ss.semesterName }}
+            </option>
+          </select>
+        </div>
+      -->
+        <!-- Semester Name -->
+        <div class="mb-3">
+          <label>Semester Name</label>
+          <input type="text" class="form-control" formControlName="semesterName" readonly>
+        </div>
+
+
+        <!-- Total Sessions -->
+        <div class="mb-3">
+          <label>Total Sessions</label>
+          <input type="number" class="form-control" formControlName="totalsessions">
+        </div>
+
+        <!-- Attended Sessions -->
+        <div class="mb-3">
+          <label>Attended Sessions</label>
+          <input type="number" class="form-control" formControlName="attendedsessions">
+        </div>
+
+        <!-- Percentage -->
+        <div class="mb-3">
+          <label>Attendance (%)</label>
+          <input type="text" class="form-control"
+                 formControlName="attendancePercentage" readonly>
+        </div>
+
+        <!-- Remarks -->
+        <div class="mb-3">
+          <label>Attendance Remarks</label>
+          <textarea class="form-control" formControlName="attendanceremarks"></textarea>
+        </div>
+
+        
+
+        <button class="btn btn-success" type="submit">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>

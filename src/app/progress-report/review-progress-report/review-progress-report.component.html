@@ -1,5 +1,4 @@
 <div class="container mt-4">
-
   <!-- ================= SCHOLAR DETAILS ================= -->
   <div class="card mb-3 shadow-sm">
     <div class="card-header bg-dark text-white">
@@ -9,22 +8,22 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-4">
-          <strong>Name:</strong><br>
-          {{ fullName }} 
+          <strong>Name:</strong><br />
+          {{ fullName }}
         </div>
 
         <div class="col-md-4">
-          <strong>Enrollment No:</strong><br>
-          {{ enrolmentno }} 
+          <strong>Enrollment No:</strong><br />
+          {{ enrolmentno }}
         </div>
 
         <div class="col-md-4">
-          <strong>Program:</strong><br>
-           {{ programname }} 
+          <strong>Program:</strong><br />
+          {{ programname }}
         </div>
       </div>
 
-      <hr>
+      <hr />
 
       <div class="row">
         <div class="col-md-4">
@@ -32,14 +31,13 @@
         </div>
 
         <div class="col-md-4">
-          <strong>Session:</strong> 
+          <strong>Session:</strong>
         </div>
 
         <div class="col-md-4">
           <strong>Status:</strong>
           <span class="badge bg-warning">
-            {{ report.progressStatus}}
- 
+            {{ report.progressStatus }}
           </span>
         </div>
       </div>
@@ -56,7 +54,7 @@
       <div class="row">
         <div class="col-md-4">
           <strong>Total Working Days:</strong>
-         <!-- {{ attendance.totalDays }} -->
+          <!-- {{ attendance.totalDays }} -->
         </div>
 
         <div class="col-md-4">
@@ -70,21 +68,22 @@
             class="badge"
             [ngClass]="{
               'bg-success': eligible,
-              'bg-danger': !eligible
-            }">
+              'bg-danger': !eligible,
+            }"
+          >
             {{ attendance }} %
           </span>
         </div>
       </div>
 
-      <hr>
+      <hr />
 
       <div>
-        <strong>Supervisor Remarks:</strong><br>
-      <!--  <em>{{ attendance.remarks || '—' }}</em>-->
+        <strong>Supervisor Remarks:</strong><br />
+          <em>{{ attendanceremarks || '—' }}</em>
       </div>
 
-      <hr>
+      <hr />
 
       <div>
         <strong>Eligibility:</strong>
@@ -97,69 +96,74 @@
       </div>
     </div>
   </div>
-<!-- ================= Documents Section ================= -->
-<app-reviewer-documents
-  [reportId]="reportId" *ngIf="reportId && scholarId"   [scholarId]="scholarId">
-</app-reviewer-documents>
-<!-- After Attendance & before Save Decision -->
-<!-- Reviewer adds a new remark -->
-<app-reviewer-remarks *ngIf="reportId"
-  [reportId]="reportId"
-  [reviewerRole]="'SUPERVISOR'"
-  [documents]="documents">
-</app-reviewer-remarks>
+  <!-- ================= Documents Section ================= -->
+  <app-reviewer-documents
+    [reportId]="reportId"
+    *ngIf="reportId && scholarId"
+    [scholarId]="scholarId"
+  >
+  </app-reviewer-documents>
+  <!-- After Attendance & before Save Decision -->
+  <!-- Reviewer adds a new remark -->
+  <app-reviewer-remarks
+    *ngIf="reportId && progressStatus !== 'APPROVED'"
+    [reportId]="reportId"
+    [reviewerRole]="'SUPERVISOR'"
+    [documents]="documents"
+  >
+  </app-reviewer-remarks>
 
-<!-- Threaded discussion -->
-<app-remark-thread  *ngIf="reportId"
- [reportId]="reportId"
-  
-  [currentRole]=currentRole>
-</app-remark-thread>
-
-
+  <!-- Threaded discussion -->
+  <app-remark-thread
+    *ngIf="reportId && progressStatus !== 'APPROVED'"
+    [reportId]="reportId"
+    [currentRole]="currentRole"
+  >
+  </app-remark-thread>
 
   <!-- ================= REVIEW FORM ================= -->
   <div class="card shadow-sm">
-    <div class="card-header bg-secondary text-white">
-      Reviewer Decision
-    </div>
+    <div class="card-header bg-secondary text-white">Reviewer Decision</div>
 
     <div class="card-body">
       <form [formGroup]="reviewForm">
-
         <div class="mb-3">
           <label class="form-label">Decision</label>
           <select class="form-select" formControlName="decision">
             <option value="">-- Select --</option>
             <option value="APPROVED">Approved</option>
-            <option value="REVISION">Revision Required</option>
+            <option value="REVISION_REQUIRED">Revision Required</option>
             <option value="REJECTED">Rejected</option>
           </select>
         </div>
 
         <div class="mb-3">
           <label class="form-label">Overall Remarks</label>
-          <textarea
-            class="form-control"
-            rows="4"
-            formControlName="remarks">
+          <textarea class="form-control" rows="4" formControlName="remarks">
           </textarea>
         </div>
 
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="reviewForm.invalid || !eligible"
-          (click)="save()">
+          [disabled]="
+            reviewForm.invalid || !eligible || progressStatus === 'APPROVED'
+          "
+          (click)="save()"
+        >
           Save Review
         </button>
 
         <div *ngIf="!eligible" class="text-danger mt-2">
           Approval disabled due to low attendance.
         </div>
-
+        <div
+          *ngIf="progressStatus === 'APPROVED'"
+          class="alert alert-success mt-2"
+        >
+          This report has already been approved. Editing is disabled.
+        </div>
       </form>
     </div>
   </div>
-
 </div>

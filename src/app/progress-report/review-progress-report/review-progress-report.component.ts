@@ -14,6 +14,7 @@ import { routes } from '../../app.routes';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewerService } from '../../services/reviewer.service';
 import { RemarkService } from '../../services/remark.service';
+import { ReportService } from '../../services/report.service';
 @Component({
   selector: 'app-review-progress-report',
   standalone: true,
@@ -43,13 +44,18 @@ export class ReviewProgressReportComponent {
   scholarId: any;
   currentRole: string = 'SUPERVISOR'; // TODO: get from auth service
   reviewerremarks: any[] = [];
+  progressStatus: any;
+  nextActions: any;
+  overallRemarks: any;
+  attendanceremarks: any;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     readonly router: Router,
     private reviewerService: ReviewerService,
-    private remarkService: RemarkService
+    private reportService: ReportService
+    
   ) {
     this.reviewForm = this.fb.group({
       decision: ['', Validators.required],
@@ -64,10 +70,22 @@ export class ReviewProgressReportComponent {
 
   /* ===== Save Review ===== */
   save(): void {
-    if (!this.eligible) {
-      alert('Attendance below minimum eligibility. Review cannot be approved.');
-      return;
-    }
+   if (!this.eligible && this.reviewForm.value.decision === 'APPROVED') {
+  alert('Attendance below minimum eligibility. Approval not allowed.');
+  return;
+}
+
+const decision = this.reviewForm.value.decision;
+console.log('Selected decision:', decision);
+
+if (!decision) {
+  alert('Please select a decision');
+  return;
+}
+if (decision === 'DRAFT') {
+  alert('Please select a decision');
+  return;
+}
 
     if (this.reviewForm.invalid) {
       return;
@@ -80,8 +98,22 @@ export class ReviewProgressReportComponent {
     };
 
     console.log('Review Saved:', payload);
+    // this.reviewerService.submitReview(payload).subscribe({
+    //   next: () => {
+    //     alert('Review submitted successfully!');
+    //     console.log('Review submitted successfully!');
+    //     this.loadData();    
+    //   },
+    // });
 
     // TODO: call API → progress_report_reviews
+    this.reportService.submitReview(payload).subscribe({
+      next: () => {
+        alert('Review submitted successfully!');
+        console.log('Review submitted successfully!');
+        this.loadData();    
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -105,11 +137,25 @@ export class ReviewProgressReportComponent {
 
         this.report = res.report;
         this.scholarId = res.report.scholarId;
+        this.progressStatus = res.report.progressStatus;
+        this.reviewForm.patchValue({
+          decision: this.progressStatus === 'PENDING' ? '' : this.progressStatus,
+          remarks: res.previousRemarks || ''
+          });
+          
+        
+        this.nextActions = res.report.nextActions;
+     
 
         this.attendance = res.attendancePercentage;
+        this.attendanceremarks=res.attendanceremarks;
         this.programname = res.programname;
         this.fullName = res.fullName;
         this.enrolmentno = res.enrolmentno;
+
+        if (this.progressStatus === 'APPROVED') {
+        this.reviewForm.disable();
+        }
         // console.log('Scholar ID from report:', this.scholarId);
         // console.log('Report:', this.report);
         // console.log('programName:', this.programname);

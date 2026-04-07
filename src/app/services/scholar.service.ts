@@ -93,5 +93,11 @@ export class ScholarService {
   }
 
 
+   loadScholarSemesters(scholarSemesterId: number): Observable<ApiResponse<any>> {
+    console.log('Fetching scholar semesters for scholarSemesterId:', scholarSemesterId);
+    return this.http.get<ApiResponse<any[]>>(
+      `${this.base}/scholar-semester/${scholarSemesterId}`,
+    );
+  }
 
 }

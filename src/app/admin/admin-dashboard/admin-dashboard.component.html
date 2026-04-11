@@ -1,0 +1,95 @@
+<p>admin-dashboard works!</p>
+<div class="d-flex">
+
+  <!-- Sidebar -->
+  <div class="sidebar bg-dark text-white">
+
+    <h4 class="text-center mt-3">Admin Panel</h4>
+
+    <ul class="nav flex-column mt-4">
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/dashboard">Dashboard</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/users">User Management</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/scholars">Scholars</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/assign-supervisor">Assign Supervisor</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/assign-reviewer">Assign Reviewer</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/assign-hod">Assign HOD</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/assign-dean">Assign Dean</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/admin/reports">Reports</a>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <!-- Main Content -->
+  <div class="content flex-grow-1 p-4">
+
+    <!-- Top Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3>Admin Dashboard</h3>
+      <button class="btn btn-danger">Logout</button>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="row">
+
+      <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3 shadow">
+          <div class="card-body">
+            <h5>Total Users</h5>
+            <h2>{{ totalUsers }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card text-white bg-success mb-3 shadow">
+          <div class="card-body">
+            <h5>Total Scholars</h5>
+            <h2>{{ totalScholars }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3 shadow">
+          <div class="card-body">
+            <h5>Pending Reports</h5>
+            <h2>{{ pendingReports }}</h2>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Routed Pages -->
+    <div class="card p-3 shadow-sm">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
+</div>

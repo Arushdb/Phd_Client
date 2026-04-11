@@ -1,0 +1,136 @@
+<div class="container mt-4">
+
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">
+      Assign {{type | uppercase}}
+    </h3>
+  </div>
+
+  <!-- CARD -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <div class="row">
+
+        <!-- SCHOLAR (Supervisor/Reviewer only) -->
+        <div class="col-md-6 mb-3"
+             *ngIf="type === 'supervisor' || type === 'reviewer'">
+
+          <label class="form-label">Select Scholar</label>
+
+          <select class="form-control"
+                  [(ngModel)]="data.scholarId">
+
+            <option value="">-- Select Scholar --</option>
+
+            <option *ngFor="let s of scholars"
+                    [value]="s.scholarId">
+              {{s.fullName}}
+            </option>
+
+          </select>
+        </div>
+
+        <!-- USER -->
+        <div class="col-md-6 mb-3">
+
+          <label class="form-label">
+            Select {{type | uppercase}}
+          </label>
+
+          <!-- Supervisor -->
+          <select class="form-control"
+                  *ngIf="type === 'supervisor'"
+                  [(ngModel)]="data.supervisorId">
+
+            <option value="">-- Select Supervisor --</option>
+
+            <option *ngFor="let u of users"
+                    [value]="u.id">
+              {{u.name}}
+            </option>
+
+          </select>
+
+          <!-- Reviewer -->
+          <select class="form-control"
+                  *ngIf="type === 'reviewer'"
+                  [(ngModel)]="data.reviewerId">
+
+            <option value="">-- Select Reviewer --</option>
+
+            <option *ngFor="let u of users"
+                    [value]="u.id">
+              {{u.name}}
+            </option>
+
+          </select>
+
+          <!-- HOD / DEAN -->
+          <select class="form-control"
+                  *ngIf="type === 'hod' || type === 'dean'"
+                  [(ngModel)]="data.userId">
+
+            <option value="">-- Select User --</option>
+
+            <option *ngFor="let u of users"
+                    [value]="u.id">
+              {{u.name}}
+            </option>
+
+          </select>
+
+        </div>
+
+        <!-- DEPARTMENT (HOD) -->
+        <div class="col-md-6 mb-3" *ngIf="type === 'hod'">
+
+          <label class="form-label">Department</label>
+
+          <select class="form-control"
+                  [(ngModel)]="data.departmentId">
+
+            <option value="">-- Select Department --</option>
+
+            <option *ngFor="let d of departments"
+                    [value]="d.id">
+              {{d.name}}
+            </option>
+
+          </select>
+
+        </div>
+
+        <!-- FACULTY (DEAN) -->
+        <div class="col-md-6 mb-3" *ngIf="type === 'dean'">
+
+          <label class="form-label">Faculty</label>
+
+          <select class="form-control"
+                  [(ngModel)]="data.facultyId">
+
+            <option value="">-- Select Faculty --</option>
+
+            <option *ngFor="let f of faculties"
+                    [value]="f.id">
+              {{f.name}}
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- ACTION BUTTON -->
+      <div class="text-end mt-3">
+        <button class="btn btn-primary px-4" (click)="assign()">
+          Assign
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

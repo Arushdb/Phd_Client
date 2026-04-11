@@ -148,6 +148,7 @@
           class="btn btn-primary"
           [disabled]="
             reviewForm.invalid || !eligible || progressStatus === 'APPROVED'
+            || progressStatus === 'REVISION_REQUIRED'
           "
           (click)="save()"
         >
@@ -162,6 +163,13 @@
           class="alert alert-success mt-2"
         >
           This report has already been approved. Editing is disabled.
+        </div>
+
+          <div
+          *ngIf="progressStatus === 'REVISION_REQUIRED'"
+          class="alert alert-warning mt-2"
+        >
+          This report requires revision. Scholar can edit.
         </div>
       </form>
     </div>

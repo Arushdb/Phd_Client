@@ -37,7 +37,7 @@ export class ReportService {
       .set('reportId', payload.reportId.toString())
       .set('decision', payload.decision)
       .set('remarks', payload.remarks);
-    return this.http.post(
+    return this.http.post<ApiResponse<any>>(
       `${this.baseUrl}/review`,null,{params}
       
     );  

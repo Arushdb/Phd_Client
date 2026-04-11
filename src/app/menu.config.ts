@@ -23,15 +23,33 @@ export const MENU_ITEMS: MenuItem[] = [
     id:1,
     label: 'Dashboard Scholar',
     path: '/scholar-dashboard',
-    roles: ['ROLE_SCHOLAR','ROLE_ADMIN']
+    roles: ['ROLE_SCHOLAR']
+  },
+  {
+    id:2,
+    label: 'Dashboard Supervisor',
+    path: '/reviewer-dashboard',
+    roles: ['ROLE_SUPERVISOR']
+  },
+   {
+    id:3,
+    label: 'Dashboard Reviwer',
+    path: '/reviewer-dashboard',
+    roles: ['ROLE_REVIEWER']
   },
 
-
-{
-    id:2,
-    label: 'Dashboard Reviewer',
+   {
+    id:4,
+    label: 'Dashboard HOD',
     path: '/reviewer-dashboard',
-    roles: ['ROLE_SUPERVISOR','ROLE_DEAN','ROLE_CO-SUPERVISOR','ROLE_HOD','ROLE_ADMIN' ]
+    roles: ['ROLE_HOD']
+  },
+
+  {
+    id:5,
+    label: 'Dashboard DEAN',
+    path: '/reviewer-dashboard',
+    roles: ['ROLE_DEAN']
   },
 
 
@@ -47,36 +65,42 @@ export const MENU_ITEMS: MenuItem[] = [
   //   path: '/profile',
   //   roles: ['ROLE_SCHOLAR', 'ROLE_ADMIN']
   // },
-  {
-    id:4,
-    label: 'Student Management',
-    path: '/students',
-    roles: ['ROLE_ADMIN']
-  },
+  // {
+  //   id:4,
+  //   label: 'Student Management',
+  //   path: '/students',
+  //   roles: ['ROLE_ADMIN']
+  // },
    {
-    id:5,
+    id:6,
     label: 'Import Scholar',
     path: '/yearmonth',
     roles: ['ROLE_ADMIN']
   },
   {
-    id:6,
+    id:7,
     label: 'Scholar Registration',
     path: '/ScholarRegistration',
     roles: ['ROLE_SCHOLAR','ROLE_ADMIN']
   },
-  // {
-  //   id:7,
-  //   label: 'Progress Report',
-  //   path: '/progress-report/submit',
-  //   roles: ['ROLE_SCHOLAR','ROLE_ADMIN']
-  // },
-  // {
-  //   id:8,
-  //   label: 'Review Progress Report',
-  //   path: '/progress-report/review',
-  //   roles: ['ROLE_ADMIN',  'ROLE_SUPERVISOR']
-  // },
+   {
+    id:8,
+    label: 'Admin Dashboard',
+    path: '/admin-dashboard',
+    roles: ['ROLE_ADMIN']
+  },
+    {
+    id:9,
+    label: 'Assignments',
+    path: '/admin-assignments',
+    roles: ['ROLE_ADMIN']
+  },
+    {
+    id:9,
+    label: 'User Management',
+    path: '/admin-users',
+    roles: ['ROLE_ADMIN']
+  },
 
   {
     id:50,

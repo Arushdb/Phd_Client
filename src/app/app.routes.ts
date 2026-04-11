@@ -14,6 +14,9 @@ import { ReviewProgressReportComponent } from './progress-report/review-progress
 import { ReviewerDashboardComponent } from './progress-report/reviewer-dashboard/reviewer-dashboard.component';
 import { AttendanceComponent } from './progress-report/attendance/attendance.component';
 import { SupervisorGuard } from './guards/supervisor.guard';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AssignmentComponent } from './admin/assignment/assignment.component';
+import { UserComponent } from './admin/user/user.component';
 
 
 export const routes: Routes = [
@@ -31,7 +34,10 @@ export const routes: Routes = [
      canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'dashboardadmin', component: DashboardComponent },
+      { path: 'admin-dashboard', component: DashboardComponent },
+     // { path: 'admin-dashboard', component: AdminDashboardComponent },
+      { path: 'admin-assignments', component: AssignmentComponent },
+      { path: 'admin-users', component: UserComponent },
      // { path: 'scholar-dashboard', component: DashboardComponent },
       { path: 'yearmonth', component: MonthAcademicComponent },
       { path: 'ScholarRegistration', component: ScholarRegistrationComponent },
@@ -62,7 +68,14 @@ export const routes: Routes = [
     import('./progress-report/scholar-progress-entry/scholar-progress-entry.component')
       .then(m => m.ScholarProgressEntryComponent)
 }
-
+,
+// { path: 'admin/users', component: UserComponent },
+//   { path: 'admin/scholars', component: ScholarComponent },
+//   { path: 'admin/assign-supervisor', component: AssignSupervisorComponent },
+//   { path: 'admin/assign-reviewer', component: AssignReviewerComponent },
+//   { path: 'admin/assign-hod', component: AssignHodComponent },
+//   { path: 'admin/assign-dean', component: AssignDeanComponent },
+//   { path: 'admin/reports', component: ReportComponent }
 
       // { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]

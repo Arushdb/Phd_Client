@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { MessageService } from '../services/message.service';
 import { Router } from '@angular/router';
+import { ScholarService } from '../services/scholar.service';
 
 @Component({
   selector: 'app-month-academic',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class MonthAcademicComponent {
 // Months (UI name + backend number)
-constructor(private apiservice:ApiService,
+constructor(private apiservice:ApiService,private scholarService:ScholarService,  
   private router:Router,private messageService:MessageService) {}
 
   months = [
@@ -36,7 +37,7 @@ constructor(private apiservice:ApiService,
   academicYears = [
     { label: '2023-24', value: 2023 },
     { label: '2024-25', value: 2024 },
-    { label: '2025-26', value: 2025 },
+    { label: '2025-26', value: '2025-26' },
     { label: '2026-27', value: 2026 },
     { label: '2027-28', value: 2027 }
   ];
@@ -50,7 +51,7 @@ constructor(private apiservice:ApiService,
     };
     console.log('DTO to backend:', dto);
     debugger
-this.apiservice.createScholar(dto).subscribe({
+this.scholarService.createScholar(dto).subscribe({
       next: (res) => {
         this.messageService.showSuccess(res.message);
        setTimeout(() => {

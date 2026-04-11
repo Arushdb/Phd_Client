@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewerService } from '../../services/reviewer.service';
 import { RemarkService } from '../../services/remark.service';
 import { ReportService } from '../../services/report.service';
+import { MessageService } from '../../services/message.service';
 @Component({
   selector: 'app-review-progress-report',
   standalone: true,
@@ -54,7 +55,8 @@ export class ReviewProgressReportComponent {
     private route: ActivatedRoute,
     readonly router: Router,
     private reviewerService: ReviewerService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private messageService: MessageService
     
   ) {
     this.reviewForm = this.fb.group({
@@ -109,9 +111,12 @@ if (decision === 'DRAFT') {
     // TODO: call API → progress_report_reviews
     this.reportService.submitReview(payload).subscribe({
       next: () => {
-        alert('Review submitted successfully!');
-        console.log('Review submitted successfully!');
-        this.loadData();    
+        //alert('Review submitted successfully!');
+        this.messageService.showSuccess('Review submitted successfully!');
+        //console.log('Review submitted successfully!');
+        //this.loadData(); 
+       // this.router.navigate(['/reviewer-dashboard']); // Navigate back to dashboard after submission   
+      this.router.navigateByUrl('/reviewer-dashboard');
       },
     });
   }
@@ -136,7 +141,8 @@ if (decision === 'DRAFT') {
         console.log('API Response:', res);
 
         this.report = res.report;
-        this.scholarId = res.report.scholarId;
+        //this.scholarId = res.report.scholarId;
+        this.scholarId = res.report.scholarSemester.scholarId;
         this.progressStatus = res.report.progressStatus;
         this.reviewForm.patchValue({
           decision: this.progressStatus === 'PENDING' ? '' : this.progressStatus,

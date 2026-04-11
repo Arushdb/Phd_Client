@@ -48,12 +48,14 @@ export class ApiService {
     return this.http.get<any[]>(`${this.base}/scholars`);
   }
 
-  createScholar(payload: any): Observable<any> {
-    //     const headers = new HttpHeaders({
-    //   'Authorization': 'Bearer ' + localStorage.getItem("token")
-    // });
-    return this.http.post<any>(`${this.base}/scholars/generate`, payload);
-  }
+  // createScholar(payload: any): Observable<any> {
+  //       const headers = new HttpHeaders({
+  //     'Authorization': 'Bearer ' + localStorage.getItem("access_token")
+  //   });
+  //   console.log('headers in createScholar:', headers);
+  //   return this.http.post<any>
+  //   (`${this.base}/scholars/generate`, payload, { headers });
+  // }
 
   registerFromAdmission(
     admissionId: number,

@@ -1,0 +1,19 @@
+<div class="card p-3">
+
+  <h4>Scholars</h4>
+
+  <table class="table table-bordered">
+    <tr>
+      <th>Name</th>
+      <th>Enrollment</th>
+      <th>Program</th>
+    </tr>
+
+    <tr *ngFor="let s of scholars">
+      <td>{{s.fullName}}</td>
+      <td>{{s.enrolmentno}}</td>
+      <td>{{s.programId}}</td>
+    </tr>
+  </table>
+
+</div>

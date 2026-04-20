@@ -36,7 +36,8 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'admin-dashboard', component: DashboardComponent },
      // { path: 'admin-dashboard', component: AdminDashboardComponent },
-      { path: 'admin-assignments', component: AssignmentComponent },
+     { path: 'admin/assign/:type', component: AssignmentComponent },
+      
       { path: 'admin-users', component: UserComponent },
      // { path: 'scholar-dashboard', component: DashboardComponent },
       { path: 'yearmonth', component: MonthAcademicComponent },

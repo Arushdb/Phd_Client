@@ -1,136 +1,171 @@
 <div class="container mt-4">
 
-  <!-- HEADER -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="mb-0">
-      Assign {{type | uppercase}}
-    </h3>
-  </div>
+  <!-- SEARCH -->
+  <input type="text"
+         class="form-control mb-2"
+         [placeholder]="getSearchPlaceholder()"
+         [(ngModel)]="searchText"
+         (keyup.enter)="search()" />
 
-  <!-- CARD -->
-  <div class="card shadow-sm">
+  <button class="btn btn-primary mr-2" (click)="search()">Search</button>
+  <button class="btn btn-outline-secondary" (click)="resetSearch()">Reset</button>
+
+  <!-- TABLE -->
+  <table class="table table-bordered mt-3">
+
+    <thead>
+      <tr>
+
+        <!-- SUPERVISOR -->
+        <ng-container *ngIf="type === 'supervisor'">
+          <th>Scholar</th>
+          <th>Supervisor</th>
+        </ng-container>
+
+        <!-- REVIEWER -->
+        <ng-container *ngIf="type === 'reviewer'">
+          <th>Program</th>
+          <th>Reviewer</th>
+        </ng-container>
+
+        <!-- HOD -->
+        <ng-container *ngIf="type === 'hod'">
+          <th>Department</th>
+          <th>HOD</th>
+        </ng-container>
+
+        <!-- DEAN -->
+        <ng-container *ngIf="type === 'dean'">
+          <th>Faculty</th>
+          <th>Dean</th>
+        </ng-container>
+
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let a of assignments">
+
+        <!-- SUPERVISOR -->
+        <ng-container *ngIf="type === 'supervisor'">
+          <td>{{ a.scholarName }} ({{ a.enrollmentNo }})</td>
+          <td>{{ a.supervisorName }}</td>
+        </ng-container>
+
+        <!-- REVIEWER -->
+        <ng-container *ngIf="type === 'reviewer'">
+          <td>{{ a.programname}}</td>
+          <td>{{ a.username }}</td>
+        </ng-container>
+
+        <!-- HOD -->
+        <ng-container *ngIf="type === 'hod'">
+          <td>{{ a.departname }}</td>
+          <td>{{ a.username }}</td>
+        </ng-container>
+
+        <!-- DEAN -->
+        <ng-container *ngIf="type === 'dean'">
+          <td>{{ a.facultyName }}</td>
+          <td>{{ a.username }}</td>
+        </ng-container>
+
+        <td>
+          <button class="btn btn-sm btn-danger"
+                  (click)="deleteAssignment(a)">
+            Delete
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- FORM -->
+  <div class="card mt-4">
     <div class="card-body">
+
+      <h4>Assign {{ type | uppercase }}</h4>
 
       <div class="row">
 
-        <!-- SCHOLAR (Supervisor/Reviewer only) -->
-        <div class="col-md-6 mb-3"
-             *ngIf="type === 'supervisor' || type === 'reviewer'">
-
-          <label class="form-label">Select Scholar</label>
-
-          <select class="form-control"
-                  [(ngModel)]="data.scholarId">
-
-            <option value="">-- Select Scholar --</option>
-
-            <option *ngFor="let s of scholars"
-                    [value]="s.scholarId">
-              {{s.fullName}}
+        <!-- SUPERVISOR -->
+        <div class="col-md-6 mb-3" *ngIf="type === 'supervisor'">
+          <label>Scholar</label>
+          <select class="form-control" [(ngModel)]="data.scholarId">
+            <option [ngValue]="">-- Select Scholar --</option>
+            <option *ngFor="let s of scholars" [ngValue]="s.scholarid">
+              {{ s.firstName }} ({{ "Enrolment No: "+s.enrolmentno }})
             </option>
+          </select>
+        </div>
 
+        <!-- REVIEWER -->
+        <div class="col-md-6 mb-3" *ngIf="type === 'reviewer'">
+          <label>Program</label>
+          <select class="form-control" [(ngModel)]="data.programId">
+            <option value="">-- Select Program --</option>
+            <option *ngFor="let p of programs" [ngValue]="p.programId">
+              {{ p.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- HOD -->
+        <div class="col-md-6 mb-3" *ngIf="type === 'hod'">
+          <label>Department</label>
+          <select class="form-control" [(ngModel)]="data.departmentId">
+            <option value="">-- Select Department --</option>
+            <option *ngFor="let d of departments" [ngValue]="d.id">
+              {{ d.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- DEAN -->
+        <div class="col-md-6 mb-3" *ngIf="type === 'dean'">
+          <label>Faculty</label>
+          <select class="form-control" [(ngModel)]="data.facultyId">
+            <option value="">-- Select Faculty --</option>
+            <option *ngFor="let f of faculties" [ngValue]="f.id">
+              {{ f.facultyName}}
+            </option>
           </select>
         </div>
 
         <!-- USER -->
         <div class="col-md-6 mb-3">
+          <label>{{ type | uppercase }}</label>
 
-          <label class="form-label">
-            Select {{type | uppercase}}
-          </label>
-
-          <!-- Supervisor -->
-          <select class="form-control"
-                  *ngIf="type === 'supervisor'"
-                  [(ngModel)]="data.supervisorId">
-
-            <option value="">-- Select Supervisor --</option>
-
-            <option *ngFor="let u of users"
-                    [value]="u.id">
-              {{u.name}}
+          <select class="form-control" [(ngModel)]="data.userId">
+            <option value="">-- Select {{ type | uppercase }} --</option>
+            <option *ngFor="let u of users" [ngValue]="u.id">
+              {{ u.name }} ({{ u.email }})
             </option>
-
           </select>
-
-          <!-- Reviewer -->
-          <select class="form-control"
-                  *ngIf="type === 'reviewer'"
-                  [(ngModel)]="data.reviewerId">
-
-            <option value="">-- Select Reviewer --</option>
-
-            <option *ngFor="let u of users"
-                    [value]="u.id">
-              {{u.name}}
-            </option>
-
-          </select>
-
-          <!-- HOD / DEAN -->
-          <select class="form-control"
-                  *ngIf="type === 'hod' || type === 'dean'"
-                  [(ngModel)]="data.userId">
-
-            <option value="">-- Select User --</option>
-
-            <option *ngFor="let u of users"
-                    [value]="u.id">
-              {{u.name}}
-            </option>
-
-          </select>
-
-        </div>
-
-        <!-- DEPARTMENT (HOD) -->
-        <div class="col-md-6 mb-3" *ngIf="type === 'hod'">
-
-          <label class="form-label">Department</label>
-
-          <select class="form-control"
-                  [(ngModel)]="data.departmentId">
-
-            <option value="">-- Select Department --</option>
-
-            <option *ngFor="let d of departments"
-                    [value]="d.id">
-              {{d.name}}
-            </option>
-
-          </select>
-
-        </div>
-
-        <!-- FACULTY (DEAN) -->
-        <div class="col-md-6 mb-3" *ngIf="type === 'dean'">
-
-          <label class="form-label">Faculty</label>
-
-          <select class="form-control"
-                  [(ngModel)]="data.facultyId">
-
-            <option value="">-- Select Faculty --</option>
-
-            <option *ngFor="let f of faculties"
-                    [value]="f.id">
-              {{f.name}}
-            </option>
-
-          </select>
-
         </div>
 
       </div>
 
-      <!-- ACTION BUTTON -->
-      <div class="text-end mt-3">
-        <button class="btn btn-primary px-4" (click)="assign()">
+      <!-- BUTTON -->
+      <div class="text-end">
+        <button class="btn btn-primary"
+                [disabled]="loading ||
+                            !data.userId ||
+                            (type === 'supervisor' && !data.scholarId) ||
+                            (type === 'reviewer' && !data.programId) ||
+                            (type === 'hod' && !data.departmentId) ||
+                            (type === 'dean' && !data.facultyId)"
+                (click)="assign()">
+
+          <span *ngIf="loading"
+                class="spinner-border spinner-border-sm"></span>
+
           Assign
         </button>
       </div>
 
     </div>
   </div>
-
 </div>

@@ -109,6 +109,7 @@ export class UserComponent implements OnInit {
       username: u.username,
       name: u.name,
       email: u.email,
+      phone: u.phone || '',
       roleIds: this.extractRoleIds(u.roles),
       enrollmentNo: u.enrollmentNo || ''
     };

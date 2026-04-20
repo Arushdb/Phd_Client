@@ -17,6 +17,7 @@ export class UserService {
   // ✅ CREATE USER
   // =========================
   createUser(data: any): Observable<any> {
+    console.log('Creating user with data:', data);
     return this.http.post(this.baseUrl, data);
   }
 
@@ -62,7 +63,7 @@ export class UserService {
   // 🔍 GET USERS BY ROLE (IMPORTANT)
   // =========================
   getByRole(roleName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/role/${roleName}`);
+    return this.http.get<any[]>(`${this.baseUrl}/rolename/${roleName}`);
   }
 
   // =========================

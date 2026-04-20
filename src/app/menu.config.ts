@@ -87,14 +87,23 @@ export const MENU_ITEMS: MenuItem[] = [
     id:8,
     label: 'Admin Dashboard',
     path: '/admin-dashboard',
-    roles: ['ROLE_ADMIN']
+    roles: ['ROLE_ADMIN'],
+    children: [
+     {id:81,label: 'Assign Supervisor',
+     path: '/admin/assign/supervisor',
+     roles: ['ROLE_ADMIN']},
+     {id:82,label: 'Assign Reviewer',
+     path: '/admin/assign/reviewer',
+     roles: ['ROLE_ADMIN']},
+     {id:83,label: 'Assign HOD',
+     path: '/admin/assign/hod',
+     roles: ['ROLE_ADMIN']},
+     {id:84,label: 'Assign Dean',
+     path: '/admin/assign/dean',
+     roles: ['ROLE_ADMIN']},
+    ]
   },
-    {
-    id:9,
-    label: 'Assignments',
-    path: '/admin-assignments',
-    roles: ['ROLE_ADMIN']
-  },
+  
     {
     id:9,
     label: 'User Management',

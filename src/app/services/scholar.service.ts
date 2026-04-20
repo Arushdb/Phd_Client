@@ -122,28 +122,29 @@ export class ScholarService {
   // ✅ GET ALL SCHOLARS
   // =========================
   getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
+    console.log('Fetching all scholars from', this.baseUrl);
+    return this.http.get<any[]>(`${this.baseUrl}/scholars`);
   }
 
   // =========================
   // ✅ GET SCHOLAR BY ID
   // =========================
   getById(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+    return this.http.get(`${this.baseUrl}/scholars/${id}`);
   }
 
   // =========================
   // ✅ UPDATE SCHOLAR
   // =========================
   updateScholar(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, data);
+    return this.http.put(`${this.baseUrl}/scholars/${id}`, data);
   }
 
   // =========================
   // ✅ DELETE SCHOLAR
   // =========================
   deleteScholar(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl}/scholars/${id}`);
   }
 
   // =========================
@@ -151,7 +152,7 @@ export class ScholarService {
   // =========================
   search(keyword: string): Observable<any[]> {
     const params = new HttpParams().set('q', keyword);
-    return this.http.get<any[]>(`${this.baseUrl}/search`, { params });
+    return this.http.get<any[]>(`${this.baseUrl}/scholars/search`, { params });
   }
 
   // =========================

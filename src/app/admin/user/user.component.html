@@ -93,8 +93,10 @@
 
         <div class="col-md-6">
           <label>Username</label>
-          <input class="form-control"
+          <input class="form-control" 
+          disabled="{{isEdit}}"
                  [(ngModel)]="user.username">
+
         </div>
 
         <div class="col-md-6" *ngIf="!isEdit">
@@ -114,6 +116,11 @@
           <label>Email</label>
           <input class="form-control"
                  [(ngModel)]="user.email">
+        </div>
+         <div class="col-md-6 mt-3">
+          <label>Phone No</label>
+          <input class="form-control"
+                 [(ngModel)]="user.phone">
         </div>
 
         <!-- ROLE SELECT -->

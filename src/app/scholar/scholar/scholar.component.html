@@ -1,0 +1,197 @@
+<h2>Scholar Management</h2>
+<div class="search-container">
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search Scholar</mat-label>
+    <input matInput
+           [(ngModel)]="keyword"
+          
+           placeholder="Name, Email, Registration...">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="search()">
+    Search
+  </button>
+
+  <button mat-button color="warn" (click)="clearSearch()">
+    Clear
+  </button>
+
+</div>
+<mat-tab-group [(selectedIndex)]="selectedTabIndex">
+<!-- LIST TAB -->
+  <mat-tab label="Scholar List">
+
+    <table class="table table-bordered mt-3" *ngIf="scholars?.length">
+
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Enrollment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let s of scholars">
+          <td>{{ s.fullName }}</td>
+          <td>{{ s.email }}</td>
+          <td>{{ s.enrolmentno}}</td>
+
+          <td>
+            <button class="btn btn-sm btn-primary"
+                    (click)="editScholar(s)">
+              Edit
+            </button>
+
+            <button class="btn btn-sm btn-danger"
+                    (click)="deleteScholar(s.id)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+<div class="pagination">
+
+  <button mat-button (click)="prev()" [disabled]="page === 0">
+    Previous
+  </button>
+
+  <span>Page {{ page + 1 }}</span>
+
+  <button mat-button 
+          (click)="next()" 
+          [disabled]="(page + 1) * size >= total">
+    Next
+  </button>
+
+</div>
+    <p *ngIf="!scholars?.length">No scholars found</p>
+
+  </mat-tab>
+
+
+  <!-- ========================= -->
+  <!-- 🟢 BASIC INFO TAB -->
+  <!-- ========================= -->
+  <mat-tab label="Basic Info">
+     <div class="tab-content">
+
+    <form (ngSubmit)="saveBasic()" class="form-container">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input matInput [(ngModel)]="form.fullName" name="fullName" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="form.email" name="email">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input matInput [(ngModel)]="form.phone" name="phone">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Father Name</mat-label>
+        <input matInput [(ngModel)]="form.fathername" name="fathername">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Address</mat-label>
+        <textarea matInput [(ngModel)]="form.address"
+                  name="address"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Admission Date</mat-label>
+        <input matInput type="date"
+               [(ngModel)]="form.admissionDate"
+               name="admissionDate">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput type="date"
+               [(ngModel)]="form.dateOfBirth"
+               name="dateOfBirth">
+      </mat-form-field>
+
+      <br>
+
+      <button mat-raised-button color="primary" type="submit">
+        Save Basic Info
+      </button>
+
+    </form>
+</div>
+  </mat-tab>
+
+  <!-- ========================= -->
+  <!-- 🔴 ACADEMIC INFO TAB -->
+  <!-- ========================= -->
+  <mat-tab label="Academic Info" 
+  *ngIf="canEditAcademic">
+     <div class="tab-content">
+
+    <form (ngSubmit)="saveAcademic()" class="form-container">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Research Topic (English)</mat-label>
+        <input matInput [(ngModel)]="form.researchtopiceng"
+               name="researchtopiceng">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Research Topic (Hindi)</mat-label>
+        <input matInput [(ngModel)]="form.researchtopichnd"
+               name="researchtopichnd">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name in Hindi</mat-label>
+        <input matInput [(ngModel)]="form.nameinhindi"
+               name="nameinhindi"   placeholder="हिंदी में नाम लिखें">
+      </mat-form-field>
+       <mat-form-field appearance="outline">
+        <mat-label>JRF Date</mat-label>
+        <input matInput type="date"
+               [(ngModel)]="form.dateJRF"
+               name="dateJRF">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" >
+        <mat-label>JRF Expiry</mat-label>
+        <input matInput type="date"
+               [(ngModel)]="form.dateJRFexp"
+               name="dateJRFexp">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Extension Date</mat-label>
+        <input matInput type="date"
+               [(ngModel)]="form.dateextension"
+               name="dateextension">
+      </mat-form-field>
+       <mat-form-field appearance="outline">
+        <mat-label>Registration Date</mat-label>
+        <input matInput type="date"
+               [(ngModel)]="form.registrationdate"
+               name="registrationdate">
+      </mat-form-field>
+
+      <br>
+
+      <button mat-raised-button color="accent" type="submit">
+        Save Academic Info
+      </button>
+
+    </form>
+</div>
+  </mat-tab>
+
+</mat-tab-group>

@@ -12,7 +12,29 @@ import { environment } from '../../environments/environment';
 import { ProgressReportRequest } from '../models/progress-report-request';
 import { ProgressReport } from '../models/progressreport';
 import { DocumentModel } from '../models/document-model';
+import { Scholar } from '../models/scholar';
 
+
+// export interface Scholar {
+//   scholarId?: number;
+//   fullName: string;
+//   email: string;
+//   registrationNo?: string;
+//   enrolmentno?: number;
+//   applicationNumber?: string;
+//   departmentId?: number;
+//   supervisorId?: number;
+//   admissionDate?: string;
+// }
+
+// ✅ Page response (Spring Boot Page<T>)
+export interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -190,5 +212,63 @@ export class ScholarService {
     return this.http.put(`${this.baseUrl}/${id}/status`, {
       statusId: statusId
     });
+  }
+
+    create(data: Scholar): Observable<Scholar> {
+    return this.http.post<Scholar>(this.baseUrl, data);
+  }
+
+  update(id: number, data: Scholar): Observable<Scholar> {
+    return this.http.put<Scholar>(`${this.baseUrl}/scholars/${id}`, data);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/scholars/${id}`);
+  }
+  updateAcademic(id: number, data: any) {
+  return this.http.put(`${this.baseUrl}/scholars/academics/${id}`, data);
+}
+
+
+   // =========================
+  // 🔍 SEARCH + PAGINATION
+  // =========================
+
+  search1(
+    keyword?: string,
+    departmentId?: number,
+    supervisorId?: number,
+    page: number = 0,
+    size: number = 10
+  ): Observable<PageResponse<Scholar>> {
+
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+
+    if (keyword) {
+      params = params.set('keyword', keyword);
+    }
+
+    if (departmentId) {
+      params = params.set('departmentId', departmentId);
+    }
+
+    if (supervisorId) {
+      params = params.set('supervisorId', supervisorId);
+    }
+
+    return this.http.get<PageResponse<Scholar>>(
+      `${this.baseUrl}/scholars/search`,
+      { params }
+    );
+  }
+
+  // =========================
+  // 📥 BULK UPLOAD (Excel)
+  // =========================
+
+  bulkUpload(data: Scholar[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/bulk`, data);
   }
 }

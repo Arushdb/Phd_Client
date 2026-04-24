@@ -90,9 +90,21 @@
 <ng-template #guestView>
   <header class="navbar navbar-dark bg-primary">
     <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1">Dayalbagh Educational Institute</span>
+      <span class="navbar-brand mb-0 h1">Dayalbagh Educational Institute (PhD Portal)</span>
+      <!--
       <a routerLink="/auth/login" class="btn btn-light">Login</a>
+        <a routerLink="/auth/forgot-password" class="forgot-link btn btn-light">
+  Forgot Password?
+</a>
+-->
+ <div class="d-flex gap-2">
+  <a routerLink="/auth/login" class="btn btn-light">Login</a>
+  <a routerLink="/auth/forgot-password" class="btn btn-warning">
+    Forgot Password?
+  </a>
+</div>
     </div>
+   
   </header>
   <main class="app-content  p-4">
     <router-outlet></router-outlet>

@@ -26,3 +26,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-radius: 0 !important; /* optional */
 }
 
+
+.mat-mdc-tab-group {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.mat-mdc-tab.mdc-tab--active {
+  background-color: #e3f2fd;
+}
+
+.mat-mdc-tab:hover {
+  background-color: #e8f0fe;
+}
+body {
+  font-family: 'Roboto', 'Noto Sans Devanagari', sans-serif;
+}
+

@@ -4,8 +4,9 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription, fromEvent, merge, timer } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
-export type Role = 'ROLE_ADMIN'  | 'ROLE_SCHOLAR'|'ROLE_SUPERVISOR'|'ROLE_REVIEWER'|'ROLE_DEAN'|'ROLE_HOD'|'ROLE_FACULTY';
+export type Role = 'ROLE_ADMIN'  | 'ROLE_SCHOLAR'|'ROLE_SUPERVISOR'|'ROLE_REVIEWER'|'ROLE_DEAN'|'ROLE_HOD'|'ROLE_FACULTY'|'ROLE_EXAMADMIN';
 
 export interface User {
   id: string;
@@ -20,7 +21,8 @@ export interface User {
 export class AuthService implements OnDestroy {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
-   private readonly base = 'http://localhost:8080/cmsexam/api';
+  // private readonly base = 'http://localhost:8080/cmsexam/api';
+   private base = environment.apiBaseUrl;
   // timer id returned by window.setTimeout
   private autoLogoutTimer: number | null = null;
   public refreshing = false;
@@ -75,6 +77,31 @@ export class AuthService implements OnDestroy {
 
   get accessToken() {
     return localStorage.getItem('access_token');
+  }
+
+  getRole(): string | null {
+  const token = this.accessToken;
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log('Decoded JWT payload:', payload); // debug log
+
+    // 🔹 Handle both formats
+    return payload.role || payload.roles || null;
+
+  } catch (e) {
+    console.error('Invalid token', e);
+    return null;
+  }
+}
+isAuthorizedForAcademic(): boolean {
+  const role = this.getRole();
+  return role === 'ROLE_ADMIN' || role === 'ROLE_EXAMADMIN';
+}
+
+  isAdmin(): boolean {
+    return this.getRole() === 'ROLE_ADMIN';
   }
 
   setAccessToken(token: string) {

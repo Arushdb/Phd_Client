@@ -17,6 +17,10 @@ import { SupervisorGuard } from './guards/supervisor.guard';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AssignmentComponent } from './admin/assignment/assignment.component';
 import { UserComponent } from './admin/user/user.component';
+import { ScholarComponent } from './scholar/scholar/scholar.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+
 
 
 export const routes: Routes = [
@@ -25,6 +29,8 @@ export const routes: Routes = [
     component: AuthLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
+       { path: 'reset-password', component: ResetPasswordComponent },
+       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: '', redirectTo: 'login', pathMatch: 'full' }
     ]
   },
@@ -39,6 +45,7 @@ export const routes: Routes = [
      { path: 'admin/assign/:type', component: AssignmentComponent },
       
       { path: 'admin-users', component: UserComponent },
+      { path: 'scholars', component: ScholarComponent },
      // { path: 'scholar-dashboard', component: DashboardComponent },
       { path: 'yearmonth', component: MonthAcademicComponent },
       { path: 'ScholarRegistration', component: ScholarRegistrationComponent },

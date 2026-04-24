@@ -110,6 +110,11 @@ export const MENU_ITEMS: MenuItem[] = [
     path: '/admin-users',
     roles: ['ROLE_ADMIN']
   },
+    {id:10,
+    label: 'Scholar Management',
+    path: '/scholars',
+    roles: ['ROLE_ADMIN', 'ROLE_SUPERVISOR','ROLE_EXAMADMIN']
+  },
 
   {
     id:50,

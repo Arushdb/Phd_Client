@@ -1,14 +1,7 @@
 
 <div class="login-page">
   
-  <aside class="sidebar">
-    <nav class="sidebar-menu">
-      <a href="/register" class="sidebar-logo">Newly admitted PHD student</a>
-        
-      
-      <!-- optionally nested children -->
-    </nav>
-  </aside>
+
 
 <div class="login-wrapper">
   <div *ngIf="reason === 'token-expired'" class="alert alert-warning">
@@ -18,6 +11,7 @@
 <div *ngIf="reason === 'idle-timeout'" class="alert alert-info">
   You were logged out due to inactivity.
 </div>
+
   <div class="login-box">
     
       <!-- Error Alert -->

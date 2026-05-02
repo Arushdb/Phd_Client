@@ -1,0 +1,67 @@
+<div class="container-fluid mt-3">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0">Achievements / Patents / Teaching</h5>
+    </div>
+
+    <div class="card-body">
+
+      <div class="row">
+
+        <!-- Awards -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Awards / Recognitions</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            [(ngModel)]="data.awards"
+            (ngModelChange)="emitChanges()"
+            placeholder="Enter awards or recognitions">
+          </textarea>
+        </div>
+
+        <!-- Patents -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Patents / IPR</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            [(ngModel)]="data.patents"
+            (ngModelChange)="emitChanges()"
+            placeholder="Enter patents or IPR details">
+          </textarea>
+        </div>
+
+        <!-- Teaching Hours -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Teaching Hours</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="data.teachingHours"
+            (ngModelChange)="emitChanges()"
+            placeholder="Enter hours">
+        </div>
+
+        <!-- Teaching Type -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Teaching Type</label>
+          <select
+            class="form-control"
+            [(ngModel)]="data.teachingType"
+            (ngModelChange)="emitChanges()">
+
+            <option value="">Select</option>
+            <option>Theory</option>
+            <option>Lab</option>
+            <option>Tutorial</option>
+          </select>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

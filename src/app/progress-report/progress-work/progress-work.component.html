@@ -1,0 +1,96 @@
+<div class="container-fluid mt-3">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Progress Work</h5>
+    </div>
+
+    <div class="card-body">
+
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-hover align-middle">
+
+          <thead class="table-light text-center">
+            <tr>
+              <th style="width: 30%">Stage of Research</th>
+              <th style="width: 25%">Objective No</th>
+              <th style="width: 20%">Completion (%)</th>
+              <th style="width: 25%">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let row of progressList; let i = index">
+
+              <!-- Stage -->
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="row.stage"
+                  (ngModelChange)="emitChanges()"
+                  placeholder="Enter stage of research">
+              </td>
+
+              <!-- Objective -->
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="row.objectiveNo"
+                  (ngModelChange)="emitChanges()"
+                  placeholder="Objective number">
+              </td>
+
+              <!-- Completion -->
+              <td>
+                <input
+                  type="number"
+                  class="form-control text-center"
+                  [(ngModel)]="row.completion"
+                  (ngModelChange)="emitChanges()"
+                  min="0"
+                  max="100"
+                  placeholder="0 - 100">
+              </td>
+
+              <!-- Actions -->
+              <td class="text-center">
+
+                <button
+                  class="btn btn-sm btn-danger me-2"
+                  (click)="removeRow(i)"
+                  [disabled]="progressList.length === 1">
+                  Remove
+                </button>
+
+                <button
+                  class="btn btn-sm btn-success"
+                  (click)="addRow()"
+                  *ngIf="i === progressList.length - 1">
+                  Add
+                </button>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="text-end mt-3">
+        <button class="btn btn-outline-primary" (click)="addRow()">
+          + Add Row
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

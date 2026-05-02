@@ -1,0 +1,149 @@
+<div class="container-fluid mt-3">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0">Conferences / Seminars / Courses</h5>
+    </div>
+
+    <div class="card-body">
+
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-hover align-middle">
+
+          <thead class="table-light text-center">
+            <tr>
+              <th>#</th>
+              <th>Authors</th>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Level</th>
+              <th>Organizer</th>
+              <th>Place</th>
+              <th>Dates</th>
+              <th>Presentation</th>
+              <th>Participation</th>
+              <th>Funding</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let c of conferences; let i = index">
+
+              <td class="text-center">{{ i + 1 }}</td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="c.authors"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="c.title"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <select class="form-control"
+                        [(ngModel)]="c.type"
+                        (ngModelChange)="emitChanges()">
+                  <option value="">Select</option>
+                  <option>Conference</option>
+                  <option>Seminar</option>
+                  <option>Course</option>
+                </select>
+              </td>
+
+              <td>
+                <select class="form-control"
+                        [(ngModel)]="c.level"
+                        (ngModelChange)="emitChanges()">
+                  <option value="">Select</option>
+                  <option>International</option>
+                  <option>National</option>
+                </select>
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="c.organizer"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="c.place"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input type="text"
+                       class="form-control"
+                       placeholder="DD-MM-YYYY"
+                       [(ngModel)]="c.dates"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <select class="form-control"
+                        [(ngModel)]="c.presentationType"
+                        (ngModelChange)="emitChanges()">
+                  <option value="">Select</option>
+                  <option>Oral</option>
+                  <option>Poster</option>
+                </select>
+              </td>
+
+              <td>
+                <select class="form-control"
+                        [(ngModel)]="c.participation"
+                        (ngModelChange)="emitChanges()">
+                  <option value="">Select</option>
+                  <option>Presented</option>
+                  <option>Attended</option>
+                </select>
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="c.funding"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td class="text-center">
+
+                <button class="btn btn-danger btn-sm me-2"
+                        (click)="removeRow(i)"
+                        [disabled]="conferences.length === 1">
+                  Remove
+                </button>
+
+                <button class="btn btn-success btn-sm"
+                        (click)="addRow()"
+                        *ngIf="i === conferences.length - 1">
+                  Add
+                </button>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div class="text-end mt-3">
+        <button class="btn btn-outline-info" (click)="addRow()">
+          + Add Entry
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

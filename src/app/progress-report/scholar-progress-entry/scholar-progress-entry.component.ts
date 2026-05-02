@@ -13,6 +13,7 @@ import { ScholarService } from '../../services/scholar.service';
 import { MessageService } from '../../services/message.service';
 import { RemarkService } from '../../services/remark.service';
 import { RemarkThreadComponent } from '../remark-thread/remark-thread.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-scholar-progress-entry',
@@ -27,19 +28,19 @@ export class ScholarProgressEntryComponent {
   progressStatus: string = '';
    // 🔹 Semester info (from API / route resolver)
   semesterInfo = {
-    semesterName: 'July–December 2025',
-    semesterRegistrationId: '202501',
-    periodStart: '2025-07-01',
-    periodEnd: '2025-12-31'
+    semesterName: '',
+    semesterRegistrationId: '',
+    periodStart: '',
+    periodEnd: ''
   };
   scholar:Scholar | null = null;
   reportId!: number 
   remarkThreads: any[] = [];
-  currentRole: string = 'SCHOLAR'; // This can be dynamically set based on the logged-in user's role
+  currentRole: string = ''; // This can be dynamically set based on the logged-in user's role
 
   constructor(private fb: FormBuilder,private route: ActivatedRoute,
     private scholarservice: ScholarService,private messageService: MessageService,
-    private remarkService: RemarkService
+    private remarkService: RemarkService,private authService: AuthService
   ) {
     this.progressForm = this.fb.group({
       researchWork: ['', [Validators.required, Validators.maxLength(350)]],
@@ -57,7 +58,12 @@ export class ScholarProgressEntryComponent {
   this.semesterInfo.semesterName = this.route.snapshot.paramMap.get('semester')?`${this.route.snapshot.paramMap.get('semester')}`:'';
   this.semesterInfo.semesterRegistrationId = this.route.snapshot.queryParamMap.get('semesterid')?`${this.route.snapshot.queryParamMap.get('semesterid')}`:'';
   
-  
+  this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        this.currentRole = user.roles[0]; // Assuming single role, adjust if multiple roles are possible
+        console.log('Current user role:', this.currentRole);
+      }
+  });
   this.scholarservice.getProgressReport(Number(this.semesterInfo.semesterRegistrationId)).subscribe({
     next: (res) => {
       console.log('Progress report response:', res);
@@ -66,7 +72,7 @@ export class ScholarProgressEntryComponent {
         this.reportId = res.data.id;
         console.log('Report ID set to:', this.reportId);
         this.progressStatus = res.data.progressStatus;
-        this.getScholarRemarks();
+       this.getScholarRemarks();
       } else {
         console.warn('No progress report data found for semesterRegistrationId:', this.semesterInfo.semesterRegistrationId);
       }

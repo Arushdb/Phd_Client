@@ -96,7 +96,7 @@
           <select class="form-control" [(ngModel)]="data.scholarId">
             <option [ngValue]="">-- Select Scholar --</option>
             <option *ngFor="let s of scholars" [ngValue]="s.scholarid">
-              {{ s.firstName }} ({{ "Enrolment No: "+s.enrolmentno }})
+              {{ s.fullName }} ({{ "Enrolment No: "+s.enrolmentno }})
             </option>
           </select>
         </div>

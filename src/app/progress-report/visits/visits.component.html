@@ -1,0 +1,111 @@
+<div class="container-fluid mt-3">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0">Academic / Research Visits</h5>
+    </div>
+
+    <div class="card-body">
+
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-hover align-middle">
+
+          <thead class="table-light text-center">
+            <tr>
+              <th>#</th>
+              <th>Institute</th>
+              <th>Contact Person</th>
+              <th>Designation</th>
+              <th>Place</th>
+              <th>Dates</th>
+              <th>Year</th>
+              <th>Purpose</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let v of visits; let i = index">
+
+              <td class="text-center">{{ i + 1 }}</td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="v.institute"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="v.contactPerson"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="v.designation"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="v.place"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       placeholder="DD-MM-YYYY"
+                       [(ngModel)]="v.dates"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input type="number"
+                       class="form-control"
+                       [(ngModel)]="v.year"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="v.purpose"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td class="text-center">
+
+                <button class="btn btn-danger btn-sm me-2"
+                        (click)="removeRow(i)"
+                        [disabled]="visits.length === 1">
+                  Remove
+                </button>
+
+                <button class="btn btn-success btn-sm"
+                        (click)="addRow()"
+                        *ngIf="i === visits.length - 1">
+                  Add
+                </button>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div class="text-end mt-3">
+        <button class="btn btn-outline-warning" (click)="addRow()">
+          + Add Visit
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

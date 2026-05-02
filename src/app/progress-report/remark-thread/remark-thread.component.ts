@@ -4,6 +4,8 @@ import { Remark } from '../../models/Remark';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { RemarkRefreshService } from '../../services/remark-refresh.service';
+import { ScholarService } from '../../services/scholar.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-remark-thread',
@@ -21,15 +23,35 @@ export class RemarkThreadComponent implements OnInit {
   newRemarkText: string = '';
 
   constructor(private remarkService: RemarkService,
-    private refreshService: RemarkRefreshService
+    private refreshService: RemarkRefreshService,
+    private scholarservice: ScholarService,
+    private messageService: MessageService
+   
   ) {}
 
   ngOnInit(): void {
-    this.loadThreads();
-     this.refreshService.refresh$.subscribe(() => {
-    this.loadThreads();   // 🔥 auto refresh
-  });
-  }
+    console.log('currentRole in RemarkThreadComponent:', this.currentRole);
+    if (this.currentRole === 'ROLE_SCHOLAR') {
+      console.log('Current role is SCHOLAR, skipping remark loading.');
+      this.getScholarRemarks();   // 🔥 auto refresh
+      return;
+    }else{
+       this.loadThreads();
+    }
+     if (this.currentRole === 'ROLE_SCHOLAR') {
+      console.log('Current role is SCHOLAR, skipping remark loading.');
+      this.refreshService.refresh$.subscribe(() => {
+        this.getScholarRemarks();   // 🔥 auto refresh
+      });
+      return;
+    }else{
+       this.refreshService.refresh$.subscribe(() => {
+        this.loadThreads();   // 🔥 auto refresh
+      });
+    }
+     
+      
+    }
 
   // ===============================
   // Load threads
@@ -45,6 +67,23 @@ export class RemarkThreadComponent implements OnInit {
       }
     });
   }
+
+  getScholarRemarks() {
+  if (!this.reportId) {
+    console.error('Report ID is null. Cannot fetch remarks.');
+    return;
+  }   
+  this.scholarservice.getScholarRemarks(this.reportId).subscribe({
+    next: (res:any) => {
+      console.log('Scholar remarks response:', res);  
+      this.threads = this.remarkService.buildRemarkTree(res);  
+  },error: (err:any) => {
+    this.messageService.showError('Error fetching scholar remarks');
+  }    
+  }); 
+
+
+}
 
  
 

@@ -1,0 +1,123 @@
+<div class="container-fluid mt-3">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Publications</h5>
+    </div>
+
+    <div class="card-body">
+
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-hover align-middle">
+
+          <thead class="table-light text-center">
+            <tr>
+              <th>#</th>
+              <th>Authors</th>
+              <th>Title</th>
+              <th>Journal</th>
+              <th>Vol</th>
+              <th>Pages</th>
+              <th>Year</th>
+              <th>Impact</th>
+              <th>Indexing</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let p of publications; let i = index">
+
+              <td class="text-center">{{ i + 1 }}</td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="p.authors"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="p.title"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="p.journal"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="p.volume"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="p.pageNo"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input type="number"
+                       class="form-control"
+                       [(ngModel)]="p.year"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <input class="form-control"
+                       [(ngModel)]="p.impact"
+                       (ngModelChange)="emitChanges()">
+              </td>
+
+              <td>
+                <select class="form-control"
+                        [(ngModel)]="p.indexing"
+                        (ngModelChange)="emitChanges()">
+                  <option value="">Select</option>
+                  <option>Scopus</option>
+                  <option>WoS</option>
+                  <option>UGC Care</option>
+                  <option>ICI</option>
+                </select>
+              </td>
+
+              <td class="text-center">
+
+                <button class="btn btn-danger btn-sm me-2"
+                        (click)="removeRow(i)"
+                        [disabled]="publications.length === 1">
+                  Remove
+                </button>
+
+                <button class="btn btn-success btn-sm"
+                        (click)="addRow()"
+                        *ngIf="i === publications.length - 1">
+                  Add
+                </button>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div class="text-end mt-3">
+        <button class="btn btn-outline-success" (click)="addRow()">
+          + Add Publication
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

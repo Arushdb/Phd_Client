@@ -30,18 +30,40 @@
     <div class="card-body">
       <form [formGroup]="progressForm">
         <!-- Research Work -->
+        <app-progress-work
+          [progressList]="progressworkList"
+          (progressChange)="onProgressChange($event)"
+           (rowDeleted)="onRowDeleted($event)"
+        ></app-progress-work>
+
+        <app-publications></app-publications>
+        <app-conferences></app-conferences>
+        <app-visits></app-visits>
+        <app-achievements></app-achievements>
+
+         <!-- Research Work Done -->
         <div class="mb-3">
-          <label class="form-label">Research Work Done *</label>
+          <label class="form-label">Research Plan for next semester *</label>
           <textarea
             rows="3"
             class="form-control"
             formControlName="researchWork"
-            placeholder="Describe work done during this semester"
+            placeholder="Describe your research plan for the next semester"
           >
           </textarea>
+           <input
+    type="checkbox"
+    class="form-check-input"
+    id="noDayJob"
+    formControlName="noDayJob"
+  />
+           <label class="form-check-label" for="noDayJob">
+    I have not taken any day job/employment/training during my Ph.D. studies outside this Institute.
+  </label>
         </div>
 
         <!-- Conference -->
+        <!--
         <div class="mb-3">
           <label class="form-label">Conference (if any)</label>
           <input
@@ -50,8 +72,9 @@
             formControlName="conference"
           />
         </div>
-
+      -->
         <!-- Research Paper -->
+        <!--
         <div class="mb-3">
           <label class="form-label">Research Paper</label>
           <input
@@ -60,19 +83,22 @@
             formControlName="researchPaper"
           />
         </div>
-
+-->
         <!-- Tours -->
+        <!--
         <div class="mb-3">
           <label class="form-label">Tours / Field Visits</label>
           <input type="text" class="form-control" formControlName="tours" />
         </div>
-
+      -->
         <!-- Summary -->
+        <!--
         <div class="mb-3">
           <label class="form-label">Overall Summary</label>
           <textarea rows="2" class="form-control" formControlName="summary">
           </textarea>
         </div>
+        -->
         <!-- Buttons -->
         <div class="d-flex gap-2 mt-3">
           <!-- Save Draft Button -->

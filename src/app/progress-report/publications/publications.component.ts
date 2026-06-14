@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-publications',
+  standalone: true,
+  imports: [CommonModule,FormsModule],
   templateUrl: './publications.component.html'
 })
 export class PublicationsComponent {

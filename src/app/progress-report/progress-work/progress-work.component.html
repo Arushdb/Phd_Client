@@ -29,9 +29,12 @@
                 <input
                   type="text"
                   class="form-control"
-                  [(ngModel)]="row.stage"
-                  (ngModelChange)="emitChanges()"
+                  [(ngModel)]="row.stageOfResearch"
+                 
                   placeholder="Enter stage of research">
+                  <div class="text-danger" *ngIf="!row.stageOfResearch?.trim()">
+  Stage is required
+</div>
               </td>
 
               <!-- Objective -->
@@ -40,8 +43,12 @@
                   type="text"
                   class="form-control"
                   [(ngModel)]="row.objectiveNo"
-                  (ngModelChange)="emitChanges()"
+                  
                   placeholder="Objective number">
+
+                  <div class="text-danger" *ngIf="!row.objectiveNo?.trim()">
+  Objective No is required
+</div>
               </td>
 
               <!-- Completion -->
@@ -49,11 +56,15 @@
                 <input
                   type="number"
                   class="form-control text-center"
-                  [(ngModel)]="row.completion"
-                  (ngModelChange)="emitChanges()"
+                  [(ngModel)]="row.completionPercentage"
+                 
                   min="0"
                   max="100"
                   placeholder="0 - 100">
+                  <div class="text-danger"
+     *ngIf="row.completionPercentage < 0 || row.completionPercentage > 100">
+  Completion must be between 0 and 100
+</div>
               </td>
 
               <!-- Actions -->
@@ -68,9 +79,9 @@
 
                 <button
                   class="btn btn-sm btn-success"
-                  (click)="addRow()"
+                  (click)="saveRow()"
                   *ngIf="i === progressList.length - 1">
-                  Add
+                  Save
                 </button>
 
               </td>

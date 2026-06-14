@@ -1,6 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule,FormsModule  ],
   selector: 'app-visits',
   templateUrl: './visits.component.html'
 })

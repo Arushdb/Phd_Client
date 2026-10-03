@@ -1,16 +1,24 @@
 <div class="container-fluid mt-3">
-
   <div class="card shadow-sm">
     <div class="card-header bg-warning text-dark">
       <h5 class="mb-0">Academic / Research Visits</h5>
     </div>
 
     <div class="card-body">
+       <div class="card-body">
+       <div *ngIf="loading" class="text-center">
+      Loading visits...
+    </div>
 
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
       <div class="table-responsive">
-
         <table class="table table-bordered table-hover align-middle">
-
           <thead class="table-light text-center">
             <tr>
               <th>#</th>
@@ -26,86 +34,71 @@
           </thead>
 
           <tbody>
-
             <tr *ngFor="let v of visits; let i = index">
-
               <td class="text-center">{{ i + 1 }}</td>
 
               <td>
-                <input class="form-control"
-                       [(ngModel)]="v.institute"
-                       (ngModelChange)="emitChanges()">
+                <input  [disabled]="!canEdit" class="form-control" [(ngModel)]="v.institute" />
               </td>
 
               <td>
-                <input class="form-control"
-                       [(ngModel)]="v.contactPerson"
-                       (ngModelChange)="emitChanges()">
+                <input  [disabled]="!canEdit" class="form-control" [(ngModel)]="v.contactPerson" />
               </td>
 
               <td>
-                <input class="form-control"
-                       [(ngModel)]="v.designation"
-                       (ngModelChange)="emitChanges()">
+                <input  [disabled]="!canEdit" class="form-control" [(ngModel)]="v.designation" />
               </td>
 
               <td>
-                <input class="form-control"
-                       [(ngModel)]="v.place"
-                       (ngModelChange)="emitChanges()">
+                <input  [disabled]="!canEdit" class="form-control" [(ngModel)]="v.place" />
               </td>
 
               <td>
-                <input class="form-control"
-                       placeholder="DD-MM-YYYY"
-                       [(ngModel)]="v.dates"
-                       (ngModelChange)="emitChanges()">
+                <input
+                  class="form-control"
+                   [disabled]="!canEdit"
+                  placeholder="DD-MM-YYYY"
+                  [(ngModel)]="v.dates"
+                />
               </td>
 
               <td>
-                <input type="number"
-                       class="form-control"
-                       [(ngModel)]="v.year"
-                       (ngModelChange)="emitChanges()">
+                <input  
+                  type="text"
+                   [disabled]="!canEdit"
+                  placeholder="YYYY"
+                    maxlength="4"            
+                  class="form-control"
+                  [(ngModel)]="v.year"
+                />
               </td>
 
               <td>
-                <input class="form-control"
-                       [(ngModel)]="v.purpose"
-                       (ngModelChange)="emitChanges()">
+                <input  [disabled]="!canEdit" class="form-control" [(ngModel)]="v.purpose" />
               </td>
 
               <td class="text-center">
-
-                <button class="btn btn-danger btn-sm me-2"
-                        (click)="removeRow(i)"
-                        [disabled]="visits.length === 1">
-                  Remove
+                <button  [disabled]="!canEdit"
+                  class="btn btn-success btn-sm me-2"
+                  (click)="saveRow(i)"
+                >
+                  {{ v.id ? 'Update' : 'Save' }}
                 </button>
 
-                <button class="btn btn-success btn-sm"
-                        (click)="addRow()"
-                        *ngIf="i === visits.length - 1">
-                  Add
+                <button  [disabled]="!canEdit" class="btn btn-danger btn-sm" (click)="deleteRow(i)">
+                  Delete
                 </button>
-
               </td>
-
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
 
       <div class="text-end mt-3">
-        <button class="btn btn-outline-warning" (click)="addRow()">
+        <button  [disabled]="!canEdit" class="btn btn-outline-warning" (click)="addRow()">
           + Add Visit
         </button>
       </div>
-
     </div>
   </div>
-
 </div>

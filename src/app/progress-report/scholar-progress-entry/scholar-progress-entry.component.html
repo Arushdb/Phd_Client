@@ -36,10 +36,22 @@
            (rowDeleted)="onRowDeleted($event)"
         ></app-progress-work>
 
-        <app-publications></app-publications>
-        <app-conferences></app-conferences>
-        <app-visits></app-visits>
-        <app-achievements></app-achievements>
+        <app-publications
+          *ngIf="reportId"
+          [reportId]="reportId"
+           [canEdit]="canEditReport"
+           
+        ></app-publications>
+
+
+        <app-conferences 
+        *ngIf="reportId" 
+        [reportId]="reportId"
+        [canEdit]="canEditReport"
+        ></app-conferences>
+        
+        <app-visits  *ngIf="reportId" [reportId]="reportId" [canEdit]="canEditReport"></app-visits>
+        <app-achievements  *ngIf="reportId" [reportId]="reportId" [canEdit]="canEditReport"></app-achievements>
 
          <!-- Research Work Done -->
         <div class="mb-3">

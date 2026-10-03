@@ -21,8 +21,10 @@ import { VisitsComponent } from '../visits/visits.component';
 import { AchievementsComponent } from '../achievements/achievements.component';
 import { ProgressWork } from '../../interfaces/progress-work';
 import { debounceTime, Subject } from 'rxjs';
-import { ProgressReportService } from '../../services/progress-report.service';
+
 import { ProgressWorkService } from '../../services/progress-work.service';
+import { Publication } from '../../interfaces/Publication';
+import { PublicationsService } from '../../services/publications.service';
 @Component({
   selector: 'app-scholar-progress-entry',
   standalone: true,
@@ -46,7 +48,13 @@ export class ScholarProgressEntryComponent {
   progressStatus: string = '';
   progressworkList: ProgressWork[] = [];
   originalProgressWorkList: ProgressWork[] = [];
+  publicationsList: Publication[] = [];
+  originalPublicationsList: Publication[] = [];
+  reportStatus: string = 'DRAFT';
+
+
   private savePWSubject = new Subject<ProgressWork[]>();
+  private savePubSubject = new Subject<Publication[]>();
 
   // 🔹 Semester info (from API / route resolver)
   semesterInfo = {
@@ -68,6 +76,7 @@ export class ScholarProgressEntryComponent {
     private remarkService: RemarkService,
     private authService: AuthService,
     private progressWorkService: ProgressWorkService,
+     
   ) {
     this.progressForm = this.fb.group({
       researchWork: ['', [Validators.required, Validators.maxLength(350)]],
@@ -108,6 +117,7 @@ export class ScholarProgressEntryComponent {
             this.progressStatus = res.data.progressStatus;
             this.getScholarRemarks();
             this.getprogressWork();
+          
           } else {
             console.warn(
               'No progress report data found for semesterRegistrationId:',
@@ -123,6 +133,11 @@ export class ScholarProgressEntryComponent {
     this.savePWSubject.pipe(debounceTime(2000)).subscribe((data) => {
       this.saveProgressWork(data);
     });
+    // this.savePubSubject.pipe(debounceTime(2000)).subscribe((data) => {
+    //   this.savePublications(data);
+    // });
+
+
   }
   getprogressWork() {
     if (!this.reportId) {
@@ -197,6 +212,118 @@ export class ScholarProgressEntryComponent {
         row.completionPercentage <= 100,
     );
   }
+
+  //*****************Publications **************************
+  //                                                       //
+  //*****************Publications **************************
+//   getPublications(): void {
+
+//   if (!this.reportId) {
+//     console.error('Report ID is null. Cannot fetch publications.');
+//     return;
+//   }
+
+//   this.publicationsService
+//     .getPublications(this.reportId)
+//     .subscribe({
+
+//       next: (res) => {
+
+//         console.log('Publications data:', res);
+
+//         this.publicationsList = [...res];
+
+//         // Add one empty row for entering a new publication
+//         this.publicationsList.push(
+//           this.createEmptyPublication()
+//         );
+//       },
+
+//       error: (err) => {
+
+//         this.messageService.showError(
+//           'Error fetching publications data'
+//         );
+
+//         console.error(
+//           'Error fetching publications data:',
+//           err
+//         );
+//       }
+//     });
+// }
+
+  
+
+  // savePublications(data: Publication[]): void {
+  //   console.log('Saving publications:', data, 'for report ID:', this.reportId);
+  //   if (!this.reportId) {
+  //     console.error('Report ID is null. Cannot save publications.');
+  //     return;
+  //   }
+
+  //   this.publicationsService.savePublications(data, this.reportId).subscribe({
+  //     next: (response) => {
+  //       this.getPublications();
+  //       console.log('Saved successfully', response);
+  //     },
+  //     error: (err) => {
+  //       console.error('Save failed', err);
+  //        alert('Unable to save publication.');
+  //     },
+  //   });
+  // }
+
+//   onSavePublication(publication: Publication) {
+
+//   if (!this.reportId) {
+
+//     alert('Progress report has not been created yet.');
+
+//     return;
+//   }
+
+//   this.publicationsService
+//     .savePublication(this.reportId, publication)
+//     .subscribe({
+
+//       next: (savedPublication) => {
+
+//         console.log(
+//           'Publication saved successfully',
+//           savedPublication
+//         );
+//         this.getPublications(); 
+//         // Replace the row with the database version
+//         // const index =
+//         //   this.publicationsList.indexOf(publication);
+
+//         // if (index !== -1) {
+
+//         //   this.publicationsList[index] =
+//         //     savedPublication;
+//         // }
+
+//         // Add a new empty row
+//         this.publicationsList.push(
+//           this.createEmptyPublication()
+//         );
+
+//       },
+
+//       error: (error) => {
+
+//         console.error(
+//           'Error saving publication',
+//           error
+//         );
+
+//         alert(
+//           'Unable to save publication.'
+//         );
+//       }
+//     });
+// }
   submit(): void {
     console.log(
       'Submitting progress report with form values:',
@@ -275,4 +402,44 @@ export class ScholarProgressEntryComponent {
         }
       });
 }
+
+
+
+
+get canEditReport(): boolean {
+  return this.progressStatus === 'DRAFT' ||
+         this.progressStatus === 'RETURNED_FOR_CORRECTION';
+}
+
+// createEmptyPublication(): Publication {
+
+//   return {
+//     authors: '',
+//     title: '',
+//     journal: '',
+//     volume: '',
+//     pageNo: '',
+//     year: 0,
+//     impact: '',
+//     indexing: ''
+//   };
+// }
+
+
+// onPublicationDeleted(index: number): void {
+
+//   console.log('Publication deleted at index:', index, 'for report ID:', this.reportId);
+//   console.log('Publication details:', this.publicationsList);
+//   this.publicationsService.deletePublication(this.publicationsList[index].id!, this.reportId).
+//   subscribe( {next: () => {
+//      //this.publicationsList.splice(index, 1);
+//      this.getPublications();
+//     console.log('Publication deleted successfully from backend');
+//   }, error: (error: any) => {
+//     console.error('Error deleting publication from backend', error);
+//   }});  
+
+//   // Refresh the publication list from database
+  
+// }
 }

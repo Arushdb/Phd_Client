@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 
@@ -16,16 +16,21 @@ export class AdminDashboardComponent implements OnInit {
   totalUsers = 0;
   totalScholars = 0;
   pendingReports = 0;
+  totalReviewers = 0;
    // current user observable from AuthService
     currentUser$: Observable<User | null> ;
 
   
-    constructor(private auth: AuthService) {
+    constructor(private auth: AuthService, private router: Router) {
       this.currentUser$ = this.auth.currentUser$;
     }
 
   ngOnInit(): void {
     this.loadDashboardStats();
+  }
+   logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 
   loadDashboardStats() {

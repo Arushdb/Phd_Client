@@ -1,7 +1,6 @@
-<p>admin-dashboard works!</p>
 <div class="d-flex">
 
-  <!-- Sidebar -->
+  <!-- ================= SIDEBAR ================= -->
   <div class="sidebar bg-dark text-white">
 
     <h4 class="text-center mt-3">Admin Panel</h4>
@@ -9,85 +8,185 @@
     <ul class="nav flex-column mt-4">
 
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/dashboard">Dashboard</a>
+        <a class="nav-link text-white"
+           routerLink="/admin/dashboard">
+          Dashboard
+        </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/users">User Management</a>
+        <a class="nav-link text-white"
+           routerLink="/admin/users">
+          User Management
+        </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/scholars">Scholars</a>
+        <a class="nav-link text-white"
+           routerLink="/admin/scholars">
+          Scholars
+        </a>
+      </li>
+
+      <!-- ================= SUPERVISION ================= -->
+
+      <li class="nav-item">
+        <a class="nav-link text-white"
+           routerLink="/admin/assign-supervisor">
+          Assign Supervisor
+        </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/assign-supervisor">Assign Supervisor</a>
+        <a class="nav-link text-white"
+           routerLink="/admin/assign-co-supervisor">
+          Assign Co-Supervisor
+        </a>
+      </li>
+
+      <!-- ================= REVIEWER ================= -->
+
+      <li class="nav-item">
+        <a class="nav-link text-white"
+           routerLink="/admin/assign-reviewer">
+          Assign Reviewer
+        </a>
+      </li>
+
+      <!-- ================= ACADEMIC AUTHORITY ================= -->
+
+      <li class="nav-item">
+        <a class="nav-link text-white"
+           routerLink="/admin/assign-hod">
+          Assign HOD
+        </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/assign-reviewer">Assign Reviewer</a>
+        <a class="nav-link text-white"
+           routerLink="/admin/assign-dean">
+          Assign Dean
+        </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/assign-hod">Assign HOD</a>
-      </li>
+      <!-- ================= PG DEAN ================= -->
 
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/assign-dean">Assign Dean</a>
+        <a class="nav-link text-white"
+           routerLink="/admin/assign-pg-dean">
+          Assign PG Dean
+        </a>
       </li>
 
+      <!-- ================= REPORTS ================= -->
+
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/reports">Reports</a>
+        <a class="nav-link text-white"
+           routerLink="/admin/reports">
+          Reports
+        </a>
       </li>
 
     </ul>
 
   </div>
 
-  <!-- Main Content -->
+
+  <!-- ================= MAIN CONTENT ================= -->
+
   <div class="content flex-grow-1 p-4">
 
     <!-- Top Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
+
       <h3>Admin Dashboard</h3>
-      <button class="btn btn-danger">Logout</button>
+
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="logout()">
+        Logout
+      </button>
+
     </div>
 
-    <!-- Dashboard Cards -->
+
+    <!-- ================= DASHBOARD CARDS ================= -->
+
     <div class="row">
 
-      <div class="col-md-4">
+      <!-- Total Users -->
+      <div class="col-md-3">
         <div class="card text-white bg-primary mb-3 shadow">
+
           <div class="card-body">
+
             <h5>Total Users</h5>
+
             <h2>{{ totalUsers }}</h2>
+
           </div>
+
         </div>
       </div>
 
-      <div class="col-md-4">
+
+      <!-- Total Scholars -->
+      <div class="col-md-3">
         <div class="card text-white bg-success mb-3 shadow">
+
           <div class="card-body">
+
             <h5>Total Scholars</h5>
+
             <h2>{{ totalScholars }}</h2>
+
           </div>
+
         </div>
       </div>
 
-      <div class="col-md-4">
+
+      <!-- Pending Reports -->
+      <div class="col-md-3">
         <div class="card text-white bg-warning mb-3 shadow">
+
           <div class="card-body">
+
             <h5>Pending Reports</h5>
+
             <h2>{{ pendingReports }}</h2>
+
           </div>
+
+        </div>
+      </div>
+
+
+      <!-- Active Reviewers -->
+      <div class="col-md-3">
+        <div class="card text-white bg-info mb-3 shadow">
+
+          <div class="card-body">
+
+            <h5>Active Reviewers</h5>
+
+            <h2>{{ totalReviewers }}</h2>
+
+          </div>
+
         </div>
       </div>
 
     </div>
 
-    <!-- Routed Pages -->
+
+    <!-- ================= ROUTED PAGES ================= -->
+
     <div class="card p-3 shadow-sm">
+
       <router-outlet></router-outlet>
+
     </div>
 
   </div>

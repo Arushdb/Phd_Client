@@ -75,8 +75,7 @@ export class ScholarProgressEntryComponent {
     private messageService: MessageService,
     private remarkService: RemarkService,
     private authService: AuthService,
-    private progressWorkService: ProgressWorkService,
-     
+         
   ) {
     this.progressForm = this.fb.group({
       researchWork: ['', [Validators.required, Validators.maxLength(350)]],
@@ -116,7 +115,7 @@ export class ScholarProgressEntryComponent {
             console.log('Report ID set to:', this.reportId);
             this.progressStatus = res.data.progressStatus;
             this.getScholarRemarks();
-            this.getprogressWork();
+           // this.getprogressWork();
           
           } else {
             console.warn(
@@ -130,200 +129,13 @@ export class ScholarProgressEntryComponent {
           console.error('Error fetching progress report:', err);
         },
       });
-    this.savePWSubject.pipe(debounceTime(2000)).subscribe((data) => {
-      this.saveProgressWork(data);
-    });
-    // this.savePubSubject.pipe(debounceTime(2000)).subscribe((data) => {
-    //   this.savePublications(data);
-    // });
-
-
-  }
-  getprogressWork() {
-    if (!this.reportId) {
-      console.error('Report ID is null. Cannot fetch progress work.');
-      return;
-    }
-    if (this.reportId) {
-      this.progressWorkService.getProgressWork(this.reportId).subscribe({
-        next: (res) => {
-          console.log('Progress work data:', res);
-          this.progressworkList = [...res];
-          // Deep copy
-          this.originalProgressWorkList = JSON.parse(
-            JSON.stringify(this.progressworkList),
-          );
-        
-        },
-        error: (err) => {
-          this.messageService.showError('Error fetching progress work data');
-          console.error('Error fetching progress work data:', err);
-        },
-      });
-    }
-  }
-
-  hasProgressWorkChanged(): boolean {
-
-  return JSON.stringify(this.progressworkList)
-       !== JSON.stringify(this.originalProgressWorkList);
-}
-
-  saveProgressWork(data: ProgressWork[]): void {
-    console.log('Saving progress work:', data, 'for report ID:', this.reportId);
-    if (!this.reportId) {
-      console.error('Report ID is null. Cannot save progress work.');
-      return;
-    }
-
-    this.progressWorkService.saveProgressWork(data, this.reportId).subscribe({
-      next: (response) => {
-        this.getprogressWork();
-        console.log('Saved successfully', response);
-      },
-      error: (err) => {
-        console.error('Save failed', err);
-      },
-    });
-  }
-
-  onProgressChange(updatedProgress: ProgressWork[]) {
-    this.progressworkList = [...updatedProgress];
-    console.log('Progress list updated:', this.progressworkList);
-
-    if (!this.isProgressListValid()) {
-    return;
-  }
-   if (!this.hasProgressWorkChanged()) {
-    console.log('No changes detected. Skipping save.');
-    return;
-  }
-  this.savePWSubject.next(this.progressworkList);
     
+
   }
-
-  isProgressListValid(): boolean {
-    debugger;
-    return this.progressworkList.every(
-      (row) =>
-        row.stageOfResearch?.trim() !== '' &&
-        row.objectiveNo?.trim() !== '' &&
-        row.completionPercentage >= 0 &&
-        row.completionPercentage <= 100,
-    );
-  }
-
-  //*****************Publications **************************
-  //                                                       //
-  //*****************Publications **************************
-//   getPublications(): void {
-
-//   if (!this.reportId) {
-//     console.error('Report ID is null. Cannot fetch publications.');
-//     return;
-//   }
-
-//   this.publicationsService
-//     .getPublications(this.reportId)
-//     .subscribe({
-
-//       next: (res) => {
-
-//         console.log('Publications data:', res);
-
-//         this.publicationsList = [...res];
-
-//         // Add one empty row for entering a new publication
-//         this.publicationsList.push(
-//           this.createEmptyPublication()
-//         );
-//       },
-
-//       error: (err) => {
-
-//         this.messageService.showError(
-//           'Error fetching publications data'
-//         );
-
-//         console.error(
-//           'Error fetching publications data:',
-//           err
-//         );
-//       }
-//     });
-// }
+  
 
   
 
-  // savePublications(data: Publication[]): void {
-  //   console.log('Saving publications:', data, 'for report ID:', this.reportId);
-  //   if (!this.reportId) {
-  //     console.error('Report ID is null. Cannot save publications.');
-  //     return;
-  //   }
-
-  //   this.publicationsService.savePublications(data, this.reportId).subscribe({
-  //     next: (response) => {
-  //       this.getPublications();
-  //       console.log('Saved successfully', response);
-  //     },
-  //     error: (err) => {
-  //       console.error('Save failed', err);
-  //        alert('Unable to save publication.');
-  //     },
-  //   });
-  // }
-
-//   onSavePublication(publication: Publication) {
-
-//   if (!this.reportId) {
-
-//     alert('Progress report has not been created yet.');
-
-//     return;
-//   }
-
-//   this.publicationsService
-//     .savePublication(this.reportId, publication)
-//     .subscribe({
-
-//       next: (savedPublication) => {
-
-//         console.log(
-//           'Publication saved successfully',
-//           savedPublication
-//         );
-//         this.getPublications(); 
-//         // Replace the row with the database version
-//         // const index =
-//         //   this.publicationsList.indexOf(publication);
-
-//         // if (index !== -1) {
-
-//         //   this.publicationsList[index] =
-//         //     savedPublication;
-//         // }
-
-//         // Add a new empty row
-//         this.publicationsList.push(
-//           this.createEmptyPublication()
-//         );
-
-//       },
-
-//       error: (error) => {
-
-//         console.error(
-//           'Error saving publication',
-//           error
-//         );
-
-//         alert(
-//           'Unable to save publication.'
-//         );
-//       }
-//     });
-// }
   submit(): void {
     console.log(
       'Submitting progress report with form values:',
@@ -389,57 +201,30 @@ export class ScholarProgressEntryComponent {
     });
   }
 
-  onRowDeleted(id: number) {
+//   onRowDeleted(id: number) {
 
-  this.progressWorkService
-      .deleteProgressWork(id)
-      .subscribe({
-        next: () => {
-          console.log('Row deleted successfully');
-        },
-        error: err => {
-          console.error('Delete failed', err);
-        }
-      });
-}
+//   this.progressWorkService
+//       .deleteProgressWork(id)
+//       .subscribe({
+//         next: () => {
+//           console.log('Row deleted successfully');
+//         },
+//         error: err => {
+//           console.error('Delete failed', err);
+//         }
+//       });
+// }
 
 
 
 
 get canEditReport(): boolean {
-  return this.progressStatus === 'DRAFT' ||
-         this.progressStatus === 'RETURNED_FOR_CORRECTION';
+  return this.progressStatus === 'DRAFT' || 
+         this.progressStatus === 'REVISION_REQUIRED' 
+       
 }
 
-// createEmptyPublication(): Publication {
-
-//   return {
-//     authors: '',
-//     title: '',
-//     journal: '',
-//     volume: '',
-//     pageNo: '',
-//     year: 0,
-//     impact: '',
-//     indexing: ''
-//   };
-// }
 
 
-// onPublicationDeleted(index: number): void {
 
-//   console.log('Publication deleted at index:', index, 'for report ID:', this.reportId);
-//   console.log('Publication details:', this.publicationsList);
-//   this.publicationsService.deletePublication(this.publicationsList[index].id!, this.reportId).
-//   subscribe( {next: () => {
-//      //this.publicationsList.splice(index, 1);
-//      this.getPublications();
-//     console.log('Publication deleted successfully from backend');
-//   }, error: (error: any) => {
-//     console.error('Error deleting publication from backend', error);
-//   }});  
-
-//   // Refresh the publication list from database
-  
-// }
 }

@@ -51,6 +51,32 @@ export class AssignmentService {
     return this.http.post<ApiResponse<any>>(`${this.baseUrl}/dean`, data);
   }
 
+  assignPgDean(data: any) {
+  return this.http.post(
+    `${this.baseUrl}/pg-dean`,
+    data
+  );
+}
+
+getAllPgDeanRoles() {
+  return this.http.get(
+    `${this.baseUrl}/pg-dean`
+  );
+}
+
+removePgDean(id: number) {
+  return this.http.delete(
+    `${this.baseUrl}/pg-dean/${id}`
+  );
+}
+searchPgDeanRoles(keyword: string) {
+  return this.http.get(
+    `${this.baseUrl}/pg-dean/search`,
+    {
+      params: { keyword }
+    }
+  );
+}
   // 🔍 OPTIONAL: Get assignments (for listing/edit)
 
   getSupervisorsByScholar(scholarId: number): Observable<any> {

@@ -43,7 +43,13 @@ export class UserComponent implements OnInit {
   // =========================
   loadUsers(): void {
     this.userService.getUsers().subscribe({
-      next: (res) => {this.users = res; console.log('Users loaded:', res);},
+      next: (res) => {
+        this.users = res;
+         
+        console.log('Users loaded:', res);
+        
+
+      },
       error: () => alert('Failed to load users')
     });
   }
@@ -100,24 +106,47 @@ export class UserComponent implements OnInit {
   // =========================
   // EDIT USER
   // =========================
+//   edit(u: any): void {
+
+//     console.log('Editing user:', u);
+
+//     this.user = {
+//       id: u.id,
+//       username: u.username,
+//       name: u.name,
+//       email: u.email,
+//       phone: u.phone || '',
+//       //roleIds: this.extractRoleIds(u.roles),
+//       roleIds: u.roles.map((role: any) => role.id), // Assuming roles is an array of role objects
+//       enrollmentNo: u.enrollmentNo || ''
+//     };
+// console.log('Editing roles:', u.roles, 'Extracted roleIds:', this.user.roleIds);
+//     console.log('Editing user:', this.user);
+//     this.showForm = true;
+//     this.isEdit = true;
+//   }
+
   edit(u: any): void {
 
-    console.log('Editing user:', u);
+  console.log('Editing user:', u);
+  console.log('User roles:', u.roles);
+  console.log('Role IDs:', u.roles?.map((role: any) => role.id));
 
-    this.user = {
-      id: u.id,
-      username: u.username,
-      name: u.name,
-      email: u.email,
-      phone: u.phone || '',
-      roleIds: this.extractRoleIds(u.roles),
-      enrollmentNo: u.enrollmentNo || ''
-    };
-console.log('Editing roles:', u.roles, 'Extracted roleIds:', this.user.roleIds);
-    console.log('Editing user:', this.user);
-    this.showForm = true;
-    this.isEdit = true;
-  }
+  this.user = {
+    id: u.id,
+    username: u.username,
+    name: u.name,
+    email: u.email,
+    phone: u.phone || '',
+    roleIds: u.roles?.map((role: any) => role.id) || [],
+    enrollmentNo: u.enrollmentNo || ''
+  };
+
+  console.log('Final user object:', this.user);
+
+  this.showForm = true;
+  this.isEdit = true;
+}
 
   // =========================
   // DELETE USER
@@ -199,48 +228,57 @@ console.log('Editing roles:', u.roles, 'Extracted roleIds:', this.user.roleIds);
   // }
 
 
-  extractRoleIds(roles: any[]): number[] {
-    console.log('Extracting role IDs from:', roles);
+//   extractRoleIds(roles: any[]): number[] {
+//     console.log('Extracting role IDs from:', roles);
 
-  if (!roles || roles.length === 0) return [];
+//   if (!roles || roles.length === 0) return [];
 
-    return roles.map(roleName => {
-      console.log('Mapping role name:', roleName);
-      const matched = this.roles.find(r => r.name === roleName.name);
-console.log('Available roles:', this.roles, 'Matched role:', matched);
-      if (matched) {
-        console.log('Matched role:', matched);
-        return matched.id;
-      } else {
-        console.warn('Role not found:', roleName);
-        return null;
-      }
-    }).filter(id => id !== null) as number[];
+//     return roles.map(roleName => {
+//       console.log('Mapping role name:', roleName);
+//       const matched = this.roles.find(r => r.name === roleName.name);
+// console.log('Available roles:', this.roles, 'Matched role:', matched);
+//       if (matched) {
+//         console.log('Matched role:', matched);
+//         return matched.id;
+//       } else {
+//         console.warn('Role not found:', roleName);
+//         return null;
+//       }
+//     }).filter(id => id !== null) as number[];
   
 
   
+// }
+
+extractRoleIds(roles: any[]): number[] {
+  if (!roles || roles.length === 0) {
+    return [];
+  }
+
+  return roles.map(role => role.id);
 }
 
   // =========================
   // ROLE NAME → ID MAPPING
   // =========================
-  mapRoleNameToId(roleName: string): number {
+  // mapRoleNameToId(roleName: string): number {
 
-    const roleMap: any = {
-      'SCHOLAR': 1,
-      'SUPERVISOR': 2,
-      'REVIEWER': 3,
-      'HOD': 4,
-      'DEAN': 5
-    };
+  //   const roleMap: any = {
+  //     'SCHOLAR': 1,
+  //     'SUPERVISOR': 2,
+  //     'REVIEWER': 3,
+  //     'HOD': 4,
+  //     'DEAN': 5
+  //   };
 
-    return roleMap[roleName] || 0;
-  }
+  //   return roleMap[roleName] || 0;
+  // }
 
   loadRoleIds(): void {
     this.userService.getRoles().subscribe(res => {
       console.log('Available roles:', res);
       this.roles = res;
+      console.log('Roles loaded:', this.roles);
     });
 
 }

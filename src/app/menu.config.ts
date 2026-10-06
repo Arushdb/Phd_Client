@@ -101,6 +101,13 @@ export const MENU_ITEMS: MenuItem[] = [
      {id:84,label: 'Assign Dean',
      path: '/admin/assign/dean',
      roles: ['ROLE_ADMIN']},
+     {id:85,label: 'Assign Co-Supervisor',
+     path: '/admin/assign/co-supervisor',
+     roles: ['ROLE_ADMIN']},
+
+     {id:86,label: 'Assign PG-Dean',
+     path: '/admin/assign/pg-dean',
+     roles: ['ROLE_ADMIN']},
     ]
   },
   

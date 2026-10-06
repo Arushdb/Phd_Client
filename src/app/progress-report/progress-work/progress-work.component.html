@@ -1,107 +1,118 @@
-<div class="container-fluid mt-3">
 
-  <div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-      <h5 class="mb-0">Progress Work</h5>
-    </div>
-
-    <div class="card-body">
-
-      <div class="table-responsive">
-
-        <table class="table table-bordered table-hover align-middle">
-
-          <thead class="table-light text-center">
-            <tr>
-              <th style="width: 30%">Stage of Research</th>
-              <th style="width: 25%">Objective No</th>
-              <th style="width: 20%">Completion (%)</th>
-              <th style="width: 25%">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr *ngFor="let row of progressList; let i = index">
-
-              <!-- Stage -->
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="row.stageOfResearch"
-                 
-                  placeholder="Enter stage of research">
-                  <div class="text-danger" *ngIf="!row.stageOfResearch?.trim()">
-  Stage is required
-</div>
-              </td>
-
-              <!-- Objective -->
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="row.objectiveNo"
-                  
-                  placeholder="Objective number">
-
-                  <div class="text-danger" *ngIf="!row.objectiveNo?.trim()">
-  Objective No is required
-</div>
-              </td>
-
-              <!-- Completion -->
-              <td>
-                <input
-                  type="number"
-                  class="form-control text-center"
-                  [(ngModel)]="row.completionPercentage"
-                 
-                  min="0"
-                  max="100"
-                  placeholder="0 - 100">
-                  <div class="text-danger"
-     *ngIf="row.completionPercentage < 0 || row.completionPercentage > 100">
-  Completion must be between 0 and 100
-</div>
-              </td>
-
-              <!-- Actions -->
-              <td class="text-center">
-
-                <button
-                  class="btn btn-sm btn-danger me-2"
-                  (click)="removeRow(i)"
-                  [disabled]="progressList.length === 1">
-                  Remove
-                </button>
-
-                <button
-                  class="btn btn-sm btn-success"
-                  (click)="saveRow()"
-                  *ngIf="i === progressList.length - 1">
-                  Save
-                </button>
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-      <!-- Footer -->
-      <div class="text-end mt-3">
-        <button class="btn btn-outline-primary" (click)="addRow()">
-          + Add Row
-        </button>
-      </div>
-
-    </div>
+<div class="card mb-3">
+  <div class="card-header bg-info text-white">
+    Progress Work / Objectives
   </div>
 
+  <div class="card-body">
+
+    <div *ngIf="successMessage" class="alert alert-success">
+  {{ successMessage }}
+  <button type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="successMessage = ''">
+  </button>
+</div>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+  <button type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="errorMessage = ''">
+  </button>
+</div>
+
+    <div *ngIf="!canEdit"
+         class="alert alert-info">
+      This progress report is locked.
+      You cannot modify objectives.
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Stage</th>
+            <th>Objective No.</th>
+            <th>Completion (%)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let work of progressWorks; let i = index">
+
+            <td>{{ i + 1 }}</td>
+
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="work.stage"
+                [disabled]="!canEdit"
+                placeholder="Enter stage">
+            </td>
+
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="work.objectiveNo"
+                [disabled]="!canEdit"
+                placeholder="Objective number">
+            </td>
+
+            <td>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="work.completionPercentage"
+                [disabled]="!canEdit"
+                min="0"
+                max="100"
+                placeholder="%">
+            </td>
+
+            <td>
+              <div class="d-flex gap-1">
+
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  [disabled]="!canEdit ||
+                             !isRowComplete(work) ||
+                             saving === i"
+                  (click)="saveRow(i)">
+                  {{ saving === i ? 'Saving...' :
+                     work.id ? 'Update' : 'Save' }}
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  [disabled]="!canEdit || saving === i"
+                  (click)="deleteRow(i)">
+                  Delete
+                </button>
+
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-success"
+      [disabled]="!canEdit"
+      (click)="addEmptyRow()">
+      Add Objective
+    </button>
+
+  </div>
 </div>

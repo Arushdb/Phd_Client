@@ -1,6 +1,16 @@
+// export interface ProgressWork {
+//   progressWorkId?: number;
+//   stageOfResearch: string;
+//   objectiveNo: string;
+//   completionPercentage: number;
+// }
 export interface ProgressWork {
-  progressWorkId?: number;
-  stageOfResearch: string;
+  id?: number;
+  reportId?: number;
+  stage: string;
   objectiveNo: string;
-  completionPercentage: number;
+  completionPercentage: number | null;
+  createdAt?: string;
+  createdBy?: string;
+  updatedAt?: string;
 }

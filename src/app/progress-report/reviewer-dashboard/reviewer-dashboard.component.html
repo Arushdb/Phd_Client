@@ -1,12 +1,10 @@
 <div class="container mt-4">
-
   <div class="card shadow-sm">
     <div class="card-header bg-primary text-white">
       <h5 class="mb-0">Reviewer Dashboard</h5>
     </div>
 
     <div class="card-body">
-
       <table class="table table-bordered table-hover align-middle">
         <thead class="table-light">
           <tr>
@@ -30,35 +28,46 @@
             <td>{{ r.session }}</td>
             <td>
               <span
-                class="badge  px-2 py-1"
-                [ngClass]="{
-                  'bg-warning text-dark': r.status.toUpperCase() === 'UNDER_REVIEW',
-                  'bg-danger text-white': r.status.toUpperCase() === 'REVISION_REQUIRED',
-                  'bg-success text-white': r.status.toUpperCase() === 'APPROVED',
-                  'bg-info text-white': r.status.toUpperCase() === 'SUBMITTED'
-                }">
+                 class="badge"
+            [ngClass]="{
+              'bg-info': r.status === 'DRAFT' || r.status === 'UNDERVIEW',
+              'bg-warning': r.status === 'SUBMITTED',
+              'bg-danger': r.status === 'REVISION_REQUIRED' || r.status === 'REJECTED',
+              
+              'bg-success': r.status === 'APPROVED',
+            }"
+               
+              >
                 {{ r.status }}
               </span>
-            
             </td>
-            <td>{{ r.submittedOn | date: 'medium' }}</td>
+            <td>{{ r.submittedOn | date: "medium" }}</td>
             <td class="text-center">
               <button
                 class="btn btn-sm btn-outline-primary"
-                (click)="review(r.reportId)">
+                (click)="review(r.reportId)"
+              >
                 Review
               </button>
-               <!-- ✅ NEW: Mark Attendance (Only for Supervisor) -->
-  <button
-    *ngIf="isSupervisor && r.status.toUpperCase() !== 'APPROVED'"
-    class="btn btn-sm btn-outline-success"
-    (click)="markAttendance(r)">
-    Attendance
-  </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                (click)="downloadReport(r.reportId)"
+              >
+                <i class="bi bi-file-earmark-pdf"></i>
+                Download Progress Report PDF
+              </button>
+              <!-- ✅ NEW: Mark Attendance (Only for Supervisor) -->
+              <button
+                *ngIf="isSupervisor && r.status.toUpperCase() !== 'APPROVED'"
+                class="btn btn-sm btn-outline-success"
+                (click)="markAttendance(r)"
+              >
+                Attendance
+              </button>
             </td>
           </tr>
         </tbody>
-
       </table>
 
       <ng-template #noData>
@@ -66,9 +75,6 @@
           No progress reports assigned to you.
         </div>
       </ng-template>
-
     </div>
   </div>
-
 </div>
-

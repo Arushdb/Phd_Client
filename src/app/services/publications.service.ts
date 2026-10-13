@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Publication } from '../interfaces/Publication';
+import { environment } from '../../environments/environment.prod';
 
 
 @Injectable({
@@ -10,8 +11,8 @@ import { Publication } from '../interfaces/Publication';
 })
 export class PublicationsService {
 
-  private apiUrl =
-    'http://localhost:8080/cmsexam/api/publications';
+  
+    private apiUrl = environment.apiBaseUrl + '/publications';
 
   constructor(private http: HttpClient) {}
 

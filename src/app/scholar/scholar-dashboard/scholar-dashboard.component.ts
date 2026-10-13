@@ -6,6 +6,7 @@ import { ScholarService } from '../../services/scholar.service';
 import { Scholar } from '../../models/scholar';
 import { MessageService } from '../../services/message.service';
 import { ProgressModel } from '../../models/ProgressModel';
+import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-scholar-dashboard',
@@ -49,7 +50,8 @@ export class ScholarDashboardComponent implements OnInit {
   constructor(private router: Router,
    
     private scholarservice: ScholarService,
-    private messageservice:MessageService
+    private messageservice:MessageService,
+    private reportService: ReportService
    
   ) {}
 
@@ -108,5 +110,32 @@ export class ScholarDashboardComponent implements OnInit {
   isEnterEnabled(status: string): boolean {
   return ['NOT_CREATED', 'DRAFT', 'REVISION_REQUIRED']
          .includes(status);
+}
+
+downloadReport(reportId: number): void {
+
+  this.reportService
+    .downloadProgressReport(reportId)
+    .subscribe({
+      next: (blob: Blob) => {
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = `progress_report_${reportId}.pdf`;
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        window.URL.revokeObjectURL(url);
+      },
+
+      error: (err) => {
+        console.error('PDF download failed:', err);
+        alert('Unable to download the progress report PDF.');
+      }
+    });
 }
 }

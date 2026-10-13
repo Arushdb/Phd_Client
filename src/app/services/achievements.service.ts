@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Achievement } from '../interfaces/achievement';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Achievement } from '../interfaces/achievement';
 
 export class AchievementsService {
 
-  private apiUrl = 'http://localhost:8080/cmsexam/api/achievements';
+  private apiUrl = environment.apiBaseUrl + '/achievements';
 
   constructor(private http: HttpClient) {}
 

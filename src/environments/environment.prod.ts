@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
- apiBaseUrl: 'http://yourdomain/cmsexam/api'
+ apiBaseUrl: 'https://admission.dei.ac.in/cmsexam/api'
 };

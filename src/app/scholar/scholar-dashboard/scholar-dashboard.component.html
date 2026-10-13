@@ -1,11 +1,7 @@
 <div class="container mt-4">
-
   <!-- Scholar Info -->
   <div class="card mb-3 shadow-sm">
-   
-    <div class="card-header bg-dark text-white">
-      Scholar Information
-    </div>
+    <div class="card-header bg-dark text-white">Scholar Information</div>
     <div class="card-body">
       <div><strong>Name:</strong> {{ scholar?.fullName }}</div>
       <div><strong>Enrollment No:</strong> {{ scholar?.enrolmentno }}</div>
@@ -20,47 +16,50 @@
     </div>
 
     <div class="card-body">
-
       <div class="row mb-3">
         <div class="col-md-4">
-          <strong>Semester:</strong><br>
+          <strong>Semester:</strong><br />
           {{ currentProgress.semester }}
         </div>
-        <div class="col-md-4">
-  <strong>Submission Deadline:</strong><br>
-  {{ currentProgress.submissionDeadline | date:'dd MMM yyyy' }}
-</div>
-<div *ngIf="currentProgress.extensionDeadline"
-     class="alert alert-warning">
-
-  Late submission allowed until
-  {{ currentProgress.extensionDeadline | date:'dd MMM yyyy' }}
-
-</div>
 
         <div class="col-md-4">
-          <strong>Status:</strong><br>
+          <strong>Submission Deadline:</strong><br />
+          {{ currentProgress.submissionDeadline | date: "dd MMM yyyy" }}
+        </div>
+        <div
+          *ngIf="currentProgress.extensionDeadline"
+          class="alert alert-warning"
+        >
+          Late submission allowed until
+          {{ currentProgress.extensionDeadline | date: "dd MMM yyyy" }}
+        </div>
+
+        <div class="col-md-4">
+          <strong>Status:</strong><br />
           <span
             class="badge"
             [ngClass]="{
               'bg-info': currentProgress.status === 'DRAFT',
               'bg-warning': currentProgress.status === 'SUBMITTED',
               'bg-danger': currentProgress.status === 'REVISION_REQUIRED',
-              'bg-success': currentProgress.status === 'APPROVED'
-            }">
+              'bg-success': currentProgress.status === 'APPROVED',
+            }"
+          >
             {{ currentProgress.status }}
           </span>
         </div>
 
         <div class="col-md-4">
-          <strong>Submitted On:</strong><br>
+          <strong>Submitted On:</strong><br />
           {{ currentProgress.submittedOn }}
         </div>
       </div>
 
       <!-- Next Actions (if revision) -->
-      <div *ngIf="currentProgress.status === 'REVISION_REQUIRED'"
-           class="alert alert-warning">
+      <div
+        *ngIf="currentProgress.status === 'REVISION_REQUIRED'"
+        class="alert alert-warning"
+      >
         <strong>Next Action:</strong> {{ currentProgress.nextActions }}
       </div>
 
@@ -68,22 +67,34 @@
       <button
         class="btn btn-success"
         [disabled]="!currentProgress.submissionAllowed"
-        *ngIf="currentProgress.status !== 'APPROVED' && currentProgress.status !== 'UNDER_REVIEW'"
-            
-        (click)="enterOrEditProgress()">
-        {{ currentProgress.status === 'REVISION_REQUIRED'
-            ? 'Edit & Resubmit Progress'
-            : 'Enter Progress Report' }}
+        *ngIf="
+          currentProgress.status !== 'APPROVED' &&
+          currentProgress.status !== 'UNDER_REVIEW'
+        "
+        (click)="enterOrEditProgress()"
+      >
+        {{
+          currentProgress.status === "REVISION_REQUIRED"
+            ? "Edit & Resubmit Progress"
+            : "Enter Progress Report"
+        }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="downloadReport(currentProgress.reportId)"
+      >
+        <i class="bi bi-file-earmark-pdf"></i>
+        Download Progress Report PDF
       </button>
 
       <!-- Locked Info -->
-      <div *ngIf="currentProgress.status === 'APPROVED'"
-           class="alert alert-success mt-3">
+      <div
+        *ngIf="currentProgress.status === 'APPROVED'"
+        class="alert alert-success mt-3"
+      >
         Progress report has been approved. No further action required.
       </div>
-
     </div>
   </div>
-
 </div>
-

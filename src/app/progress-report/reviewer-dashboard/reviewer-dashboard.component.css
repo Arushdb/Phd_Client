@@ -1,0 +1,29 @@
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: bold;
+  border: 1px solid transparent;
+}
+
+.status-review {
+  background-color: #ffc107 !important;
+  color: blue !important;
+  border-color: #d39e00 !important;
+}
+
+.status-revision {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}
+
+.status-approved {
+  background-color: #198754 !important;
+  color: #fff !important;
+}
+
+.status-submitted {
+  background-color: #0d6efd !important;
+  color: #fff !important;
+}

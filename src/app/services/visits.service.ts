@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Visit } from '../interfaces/visit';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VisitsService {
 
-  private apiUrl =
-    'http://localhost:8080/cmsexam/api/visits';
+  
+    private apiUrl = environment.apiBaseUrl + '/visits';
 
   constructor(
     private http: HttpClient

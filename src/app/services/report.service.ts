@@ -11,7 +11,8 @@ import { ReviewerDashboardModel } from '../models/reviewer-dashboard.model';
 export class ReportService {
   
 
-   private baseUrl = environment.apiBaseUrl+'/reports';
+   
+   private baseUrl = environment.apiBaseUrl + '/reports';
   
 
   constructor(private http: HttpClient) {}
@@ -42,5 +43,12 @@ export class ReportService {
       
     );  
   }
+
+  downloadProgressReport(reportId: number) {
+  return this.http.get(
+    `${this.baseUrl}/${reportId}/pdf/download`,
+    { responseType: 'blob' }
+  );
+}
   }
 

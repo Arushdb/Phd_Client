@@ -72,4 +72,31 @@ export class ReviewerDashboardComponent {
       }
     });
   }
+
+ downloadReport(reportId: number): void {
+
+  this.reportService
+    .downloadProgressReport(reportId)
+    .subscribe({
+      next: (blob: Blob) => {
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = `progress_report_${reportId}.pdf`;
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        window.URL.revokeObjectURL(url);
+      },
+
+      error: (err) => {
+        console.error('PDF download failed:', err);
+        alert('Unable to download the progress report PDF.');
+      }
+    });
+} 
 }

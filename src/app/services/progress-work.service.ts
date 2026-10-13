@@ -10,8 +10,9 @@ import { Observable } from 'rxjs';
 })
 export class ProgressWorkService {
 
-  private apiUrl =
-    'http://localhost:8080/cmsexam/api/progress-work';
+  
+ private apiUrl = environment.apiBaseUrl + '/progress-work';
+    
 
   constructor(private http: HttpClient) {}
 

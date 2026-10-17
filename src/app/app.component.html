@@ -1,3 +1,6 @@
+<!-- Global spinner: add only once -->
+<app-loading-spinner></app-loading-spinner>
+
 <!-- inside app.component.html -->
 <ng-container *ngIf="currentUser$ | async as user; else guestView">
   <div class="d-flex flex-column vh-100">
@@ -107,6 +110,7 @@
    
   </header>
   <main class="app-content  p-4">
+    
     <router-outlet></router-outlet>
    
   </main>

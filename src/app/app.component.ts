@@ -8,12 +8,13 @@ import { MenuItem } from './models/menu.model';
 import { MenuService } from './services/menu.service';
 import { CommonModule } from '@angular/common';
 import { AuthService, User } from './services/auth.service';
+import { LoadingSpinnerComponent } from './sharing/loading-spinner/loading-spinner.component';
 
 // app.component.ts
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule,  CommonModule],  // include RoleMenuComponent 
+  imports: [RouterModule,  CommonModule, LoadingSpinnerComponent],  // include RoleMenuComponent 
   templateUrl: './app.component.html'
 })
 export class AppComponent {

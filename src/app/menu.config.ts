@@ -73,8 +73,14 @@ export const MENU_ITEMS: MenuItem[] = [
   // },
    {
     id:6,
-    label: 'Import Scholar',
-    path: '/yearmonth',
+    label: 'Import Scholar from Admission',
+    path: '/scholars-import-adm',
+    roles: ['ROLE_ADMIN']
+  },
+  {
+    id:6,
+    label: 'Import Scholar from CMS',
+    path: '/scholars-import-cms',
     roles: ['ROLE_ADMIN']
   },
   {
@@ -85,29 +91,29 @@ export const MENU_ITEMS: MenuItem[] = [
   },
    {
     id:8,
-    label: 'Admin Dashboard',
-    path: '/admin-dashboard',
-    roles: ['ROLE_ADMIN'],
+    label: 'Exam Admin Dashboard',
+    path: '/exam-admin-dashboard',
+    roles: ['ROLE_EXAMADMIN', 'ROLE_ADMIN'],
     children: [
      {id:81,label: 'Assign Supervisor',
      path: '/admin/assign/supervisor',
-     roles: ['ROLE_ADMIN']},
+     roles: ['ROLE_EXAMADMIN', 'ROLE_ADMIN']},
      {id:82,label: 'Assign Reviewer',
      path: '/admin/assign/reviewer',
-     roles: ['ROLE_ADMIN']},
+     roles: ['ROLE_EXAMADMIN', 'ROLE_ADMIN']},
      {id:83,label: 'Assign HOD',
      path: '/admin/assign/hod',
-     roles: ['ROLE_ADMIN']},
+     roles: ['ROLE_EXAMADMIN', 'ROLE_ADMIN']},
      {id:84,label: 'Assign Dean',
      path: '/admin/assign/dean',
-     roles: ['ROLE_ADMIN']},
+     roles: ['ROLE_EXAMADMIN', 'ROLE_ADMIN']},
      {id:85,label: 'Assign Co-Supervisor',
      path: '/admin/assign/co-supervisor',
-     roles: ['ROLE_ADMIN']},
+     roles: ['ROLE_EXAMADMIN', 'ROLE_ADMIN']},
 
      {id:86,label: 'Assign PG-Dean',
      path: '/admin/assign/pg-dean',
-     roles: ['ROLE_ADMIN']},
+     roles: ['ROLE_EXAMADMIN', 'ROLE_ADMIN']},
     ]
   },
   
@@ -115,12 +121,12 @@ export const MENU_ITEMS: MenuItem[] = [
     id:9,
     label: 'User Management',
     path: '/admin-users',
-    roles: ['ROLE_ADMIN']
+    roles: ['ROLE_ADMIN','ROLE_EXAMADMIN']
   },
     {id:10,
     label: 'Scholar Management',
     path: '/scholars',
-    roles: ['ROLE_ADMIN', 'ROLE_SUPERVISOR','ROLE_EXAMADMIN']
+    roles: ['ROLE_ADMIN', 'ROLE_EXAMADMIN']
   },
 
   {
@@ -128,7 +134,7 @@ export const MENU_ITEMS: MenuItem[] = [
     label: 'Reports',
     children: [
       { id:501,label: 'Monthly', path: '/reports/monthly', roles: ['ROLE_ADMIN','ROLE_FACULTY'] },
-      { id:502,label: 'Supervisor', path: '/reports/supervisor', roles: ['ROLE_FACULTY','ROLE_ADMIN'] }
+      { id:502,label: 'Supervisor', path: '/reports/supervisor', roles: ['ROLE_SUPERVISOR','ROLE_ADMIN'] }
     ]
   },
   {id:51,

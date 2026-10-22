@@ -1,0 +1,51 @@
+<div class="container mt-4">
+  <h3>Import Scholars from CMS</h3>
+
+  <p>
+    Click the button below to import scholars from the CMS database.
+  </p>
+
+  <button
+    type="button"
+    class="btn btn-primary"
+    [disabled]="loading"
+    (click)="createScholarsFromCMS()">
+
+    {{ loading ? 'Importing Scholars...' : 'Import Scholars from CMS' }}
+
+  </button>
+
+  <div *ngIf="message"
+       class="alert alert-success mt-3">
+    {{ message }}
+  </div>
+
+  <div *ngIf="errorMessage"
+       class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+  <!-- New XLSX upload button -->
+  <button
+    type="button"
+    class="btn btn-success"
+    (click)="xlsxFileInput.click()"
+    [disabled]="loading || xlsxUploading">
+    {{ xlsxUploading ? 'Uploading XLSX...' : 'Upload Scholars from XLSX' }}
+  </button>
+
+  <input
+    #xlsxFileInput
+    type="file"
+    accept=".xlsx"
+    hidden
+    (change)="onXlsxFileSelected($event)" />
+
+</div>
+<!-- XLSX upload messages -->
+<div *ngIf="xlsxMessage" class="alert alert-success">
+  {{ xlsxMessage }}
+</div>
+
+<div *ngIf="xlsxError" class="alert alert-danger">
+  {{ xlsxError }}
+</div>

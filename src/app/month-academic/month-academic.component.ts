@@ -38,8 +38,8 @@ constructor(private apiservice:ApiService,private scholarService:ScholarService,
     { label: '2023-24', value: 2023 },
     { label: '2024-25', value: 2024 },
     { label: '2025-26', value: '2025-26' },
-    { label: '2026-27', value: 2026 },
-    { label: '2027-28', value: 2027 }
+    { label: '2026-27', value: '2026-27' },
+    { label: '2027-28', value: '2027-28' }
   ];
   selectedYear: number | null = null;
   selectedMonth: number | null = null;

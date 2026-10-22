@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
+  HttpEvent,
   HttpHeaders,
   HttpParams,
 } from '@angular/common/http';
@@ -271,4 +272,27 @@ export class ScholarService {
   bulkUpload(data: Scholar[]): Observable<any> {
     return this.http.post(`${this.baseUrl}/bulk`, data);
   }
+
+  createScholarsFromCMS(): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/scholars/create-from-cms`,
+      {},
+      { responseType: 'text' }
+    );
+  }
+
+  // Add inside your existing ScholarService class
+uploadFile(file: File): Observable<HttpEvent<any>> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return this.http.post<any>(
+    `${this.baseUrl}/scholars/upload`,
+    formData,
+    {
+      reportProgress: true,
+      observe: 'events'
+    }
+  );
+}
 }

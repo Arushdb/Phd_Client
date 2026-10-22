@@ -20,6 +20,7 @@ import { UserComponent } from './admin/user/user.component';
 import { ScholarComponent } from './scholar/scholar/scholar.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { CreateScholarsComponent } from './scholar/create-scholars/create-scholars.component';
 
 
 
@@ -47,7 +48,8 @@ export const routes: Routes = [
       { path: 'admin-users', component: UserComponent },
       { path: 'scholars', component: ScholarComponent },
      // { path: 'scholar-dashboard', component: DashboardComponent },
-      { path: 'yearmonth', component: MonthAcademicComponent },
+      { path: 'scholars-import-adm', component: MonthAcademicComponent },
+      { path: 'scholars-import-cms', component: CreateScholarsComponent },
       { path: 'ScholarRegistration', component: ScholarRegistrationComponent },
      
      

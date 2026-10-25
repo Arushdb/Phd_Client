@@ -79,15 +79,35 @@ export class AuthService implements OnDestroy {
     return localStorage.getItem('access_token');
   }
 
-  getRole(): string | null {
+//   getRole(): string | null {
+//   const token = this.accessToken;
+//   if (!token) return null;
+
+//   try {
+//     const payload = JSON.parse(atob(token.split('.')[1]));
+//     console.log('Decoded JWT payload:', payload); // debug log
+
+//     // 🔹 Handle both formats
+//     return payload.role || payload.roles || null;
+
+//   } catch (e) {
+//     console.error('Invalid token', e);
+//     return null;
+//   }
+// }
+
+getRole(): string | string[] | null {
   const token = this.accessToken;
-  if (!token) return null;
+
+  if (!token) {
+    return null;
+  }
 
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-    console.log('Decoded JWT payload:', payload); // debug log
 
-    // 🔹 Handle both formats
+    console.log('Decoded JWT payload:', payload);
+
     return payload.role || payload.roles || null;
 
   } catch (e) {
@@ -100,9 +120,23 @@ isAuthorizedForAcademic(): boolean {
   return role === 'ROLE_ADMIN' || role === 'ROLE_EXAMADMIN';
 }
 
+  // isAdmin(): boolean {
+  //   return this.getRole() === 'ROLE_ADMIN';
+  // }
+
   isAdmin(): boolean {
-    return this.getRole() === 'ROLE_ADMIN';
+  const role = this.getRole();
+
+  if (!role) {
+    return false;
   }
+
+  if (Array.isArray(role)) {
+    return role.includes('ROLE_ADMIN');
+  }
+
+  return role === 'ROLE_ADMIN';
+}
 
   setAccessToken(token: string) {
   localStorage.setItem('access_token', token);

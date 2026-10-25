@@ -3,6 +3,9 @@ import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CreatedAccount } from '../../interfaces/useraccount';
+import { ScholarService } from '../../services/scholar.service';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -18,6 +21,7 @@ export class UserComponent implements OnInit {
   // =========================
   users: any[] = [];
   roles: any[] = [];
+  isAdmin = false;
 
   showForm: boolean = false;
   isEdit: boolean = false;
@@ -28,13 +32,19 @@ export class UserComponent implements OnInit {
   // =========================
   // CONSTRUCTOR
   // =========================
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, 
+    private scholarService: ScholarService,
+    private authService: AuthService
+    ) {}
 
   // =========================
   // INIT
   // =========================
   ngOnInit(): void {
-    this.loadUsers();
+    
+    
+      this.loadUsers();
+    this.isAdmin = this.authService.isAdmin();  
     this.loadRoleIds();
   }
 
@@ -58,6 +68,8 @@ export class UserComponent implements OnInit {
   // OPEN CREATE FORM
   // =========================
   openForm(): void {
+     this.isEdit = false;
+  this.showForm = true;
     this.resetForm();
     this.showForm = true;
     this.isEdit = false;
@@ -274,13 +286,30 @@ extractRoleIds(roles: any[]): number[] {
   //   return roleMap[roleName] || 0;
   // }
 
-  loadRoleIds(): void {
-    this.userService.getRoles().subscribe(res => {
-      console.log('Available roles:', res);
-      this.roles = res;
-      console.log('Roles loaded:', this.roles);
-    });
+//   loadRoleIds(): void {
+//     this.userService.getRoles().subscribe(res => {
+//       console.log('Available roles:', res);
+//       this.roles = res;
+//       console.log('Roles loaded:', this.roles);
+//     });
 
+// }
+
+loadRoleIds(): void {
+  this.userService.getRoles().subscribe({
+    next: (res: any[]) => {
+      console.log('Available roles:', res);
+      console.log('Is Admin:', this.isAdmin);
+      this.roles = this.isAdmin
+        ? res
+        : res.filter(role => role.name !== 'ROLE_ADMIN');
+
+      console.log('Roles available for selection:', this.roles);
+    },
+    error: (err) => {
+      console.error('Error loading roles:', err);
+    }
+  });
 }
 
 search(): void {
@@ -296,4 +325,95 @@ search(): void {
       error: () => alert('Search failed')
     });
 }
+// createScholarAccount(scholarId: number): void {
+//   if (!confirm(
+//     'Create this scholar account and send a password setup link?'
+//   )) {
+//     return;
+//   }
+
+//   this.scholarService.createScholarAccount(scholarId)
+//     .subscribe({
+//       next: (result) => {
+//         alert(result.status);
+//         this.loadScholarsWithoutAccounts();
+//       },
+//       error: (err) => {
+//         console.error('Account creation failed:', err);
+
+//         alert(
+//           err.error?.message ||
+//           'Unable to create scholar account.'
+//         );
+//       }
+//     });
+// }
+
+// Existing normal-user password reset
+// sendPasswordReset(userId: number): void {
+//   this.userService.sendResetLink(userId).subscribe({
+//     next: () => alert('Password reset link sent.'),
+//     error: () => alert('Unable to send reset link.')
+//   });
+// }
+
+// // Create a login account for an existing scholar
+// createScholarAccount(scholarId: number): void {
+//   this.scholarService.createScholarAccount(scholarId).subscribe({
+//     next: result => {
+//       alert(result.status);
+//       // Refresh the scholar list here
+//     },
+//     error: err => {
+//       alert(err.error?.message || 'Account creation failed.');
+//     }
+//   });
+// }
+createScholarAccounts(): void {
+  if (!confirm(
+    'Create accounts for all eligible scholars without user accounts?'
+  )) {
+    return;
+  }
+
+  this.scholarService.createScholarAccounts()
+    .subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+
+        a.href = url;
+        a.download = 'Scholar_Credentials.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+        alert('Scholar account processing completed.');
+        this.loadUsers();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Unable to create scholar accounts.');
+      }
+    });
+}
+
+sendPasswordReset(userId: number): void {
+  if (!confirm('Send a password reset link to this user?')) {
+    return;
+  }
+
+  this.userService.sendResetLink(userId).subscribe({
+    next: () => {
+      alert('Password reset link requested successfully.');
+    },
+    error: (err) => {
+      console.error(err);
+      alert(
+        err.error?.message ||
+        'Unable to send password reset link.'
+      );
+    }
+  });
+}
+
 }

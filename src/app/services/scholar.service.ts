@@ -14,6 +14,7 @@ import { ProgressReportRequest } from '../models/progress-report-request';
 import { ProgressReport } from '../models/progressreport';
 import { DocumentModel } from '../models/document-model';
 import { Scholar } from '../models/scholar';
+import { CreatedAccount } from '../interfaces/useraccount';
 
 
 // export interface Scholar {
@@ -295,4 +296,29 @@ uploadFile(file: File): Observable<HttpEvent<any>> {
     }
   );
 }
+
+createScholarAccounts() {
+  return this.http.get(
+    `${this.baseUrl}/scholars/create-scholar-accounts`,
+    {
+      responseType: 'blob',
+      withCredentials: true
+    }
+  );
+}
+
+// createScholarAccount(scholarId: number) {
+//   return this.http.post<CreatedAccount>(
+//     `${this.baseUrl}/admin/scholars/${scholarId}/create-account`,
+//     {}
+//   );
+// }
+
+// createScholarAccountsExcel() {
+//   return this.http.post(
+//     `${this.baseUrl}/create-scholar-accounts-excel`,
+//     {},
+//     { responseType: 'blob' }
+//   );
+// }
 }

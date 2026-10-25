@@ -75,13 +75,13 @@ export const MENU_ITEMS: MenuItem[] = [
     id:6,
     label: 'Import Scholar from Admission',
     path: '/scholars-import-adm',
-    roles: ['ROLE_ADMIN']
+    roles: ['ROLE_ADMIN', 'ROLE_EXAMADMIN']
   },
   {
     id:6,
     label: 'Import Scholar from CMS',
     path: '/scholars-import-cms',
-    roles: ['ROLE_ADMIN']
+    roles: ['ROLE_ADMIN', 'ROLE_EXAMADMIN']
   },
   {
     id:7,

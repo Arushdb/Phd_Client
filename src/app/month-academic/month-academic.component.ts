@@ -32,17 +32,21 @@ constructor(private apiservice:ApiService,private scholarService:ScholarService,
     { name: 'November', value: 11 },
     { name: 'December', value: 12 }
   ];
-
+academicYears: { label: string; value: string }[] = [];
   // Academic years (UI label + backend year)
-  academicYears = [
-    { label: '2023-24', value: 2023 },
-    { label: '2024-25', value: 2024 },
-    { label: '2025-26', value: '2025-26' },
-    { label: '2026-27', value: '2026-27' },
-    { label: '2027-28', value: '2027-28' }
-  ];
+  // academicYears:any = [
+  //   // { label: '2023-24', value: 2023 },
+  //   // { label: '2024-25', value: 2024 },
+  //   // { label: '2025-26', value: '2025-26' },
+  //   // { label: '2026-27', value: '2026-27' },
+  //   // { label: '2027-28', value: '2027-28' }
+  // ];
   selectedYear: number | null = null;
   selectedMonth: number | null = null;
+
+  ngOnInit(): void {
+  this.generateAcademicYears();
+}
 
   submit() {
     const dto = {
@@ -64,4 +68,39 @@ this.scholarService.createScholar(dto).subscribe({
       }
 });
   }
-} 
+
+//   generateAcademicYears(): void {
+//   const currentYear = new Date().getFullYear();
+
+//   this.academicYears = [];
+
+//   for (let year = currentYear - 1; year <= currentYear + 3; year++) {
+//     const nextYear = (year + 1) % 100;
+
+//     this.academicYears.push({
+//       label: `${year}-${String(nextYear).padStart(2, '0')}`,
+//       value: year
+//     });
+//   }
+// } 
+
+
+
+
+generateAcademicYears(): void {
+  const currentYear = new Date().getFullYear();
+
+  this.academicYears = [];
+
+  for (let year = currentYear - 1; year <= currentYear + 1; year++) {
+    const nextYear = (year + 1) % 100;
+    const academicYear = `${year}-${String(nextYear).padStart(2, '0')}`;
+
+    this.academicYears.push({
+      label: academicYear,
+      value: academicYear
+    });
+  }
+}
+
+}

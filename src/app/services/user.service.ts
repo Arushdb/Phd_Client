@@ -98,4 +98,10 @@ export class UserService {
       status: status
     });
   }
+  sendResetLink(userId: number) {
+  return this.http.post(
+    `${this.baseUrl}/password/admin/reset-link/${userId}`,
+    {}
+  );
+}
 }

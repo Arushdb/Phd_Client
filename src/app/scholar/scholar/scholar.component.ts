@@ -192,7 +192,7 @@ export class ScholarComponent implements OnInit {
       gender_id: 0,
       appno: '',
       departmentName: '', 
-      userId: 0,
+      userid: 0,
       supervisorName: '',
       programname: '',
       supervisorId: 0,
@@ -290,5 +290,33 @@ this.selectedTabIndex = 1;
     dateextension: this.formatDate(s.dateextension)
   };
 
+}
+
+createAccount(scholar: any): void {
+  if (scholar.userid != null) {
+    alert('This scholar already has an account.');
+    return;
+  }
+
+  if (!confirm(
+    'Create a login account for ' + scholar.name + '?'
+  )) {
+    return;
+  }
+
+  this.service
+    .createScholarAccount(scholar.id)
+    .subscribe({
+      next: (response) => {
+        alert(response.message);
+        this.load();
+      },
+      error: (err) => {
+        alert(
+          err.error?.message ||
+          'Unable to create scholar account.'
+        );
+      }
+    });
 }
 }

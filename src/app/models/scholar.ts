@@ -1,6 +1,6 @@
 export interface Scholar {
   id: number;
-  userId: number;
+  userid: number;
   fullName: string;
   enrolmentno: string;
   programName: string;

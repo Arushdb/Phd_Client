@@ -307,6 +307,12 @@ createScholarAccounts() {
   );
 }
 
+createScholarAccount(scholarId: number) {
+  return this.http.post<any>(
+    `${this.baseUrl}/scholars/${scholarId}/create-account`,
+    {}
+  );
+}
 // createScholarAccount(scholarId: number) {
 //   return this.http.post<CreatedAccount>(
 //     `${this.baseUrl}/admin/scholars/${scholarId}/create-account`,

@@ -75,12 +75,14 @@ export class LoginComponent implements OnInit {
           id: res.id,
           name: res.username,
           roles: res.roles,
+          fullName: res.name, // Assuming the backend returns this field
         };
 
         const token = res.accessToken;
 
         // persist
         localStorage.setItem('currentUser', JSON.stringify(user));
+        
         localStorage.setItem('access_token', token);
 
         // update state

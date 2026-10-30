@@ -20,5 +20,10 @@ import { RouterModule } from '@angular/router';
 })
 export class HomeComponent {
   currentuser=localStorage.getItem('currentUser');
-  loggedInUserName: string | null = this.currentuser ? JSON.parse(this.currentuser)["name"] : null;
+  
+  loggedInUserName: string | null = this.currentuser ? JSON.parse(this.currentuser)["fullName"] : null;
+nginit() {
+  console.log("currentuser",this.currentuser);
+  this.loggedInUserName = this.currentuser ? JSON.parse(this.currentuser)["fullName"] : null;   
+}
 }

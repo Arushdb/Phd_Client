@@ -12,6 +12,7 @@ export interface User {
   id: string;
   name: string;
   roles: Role[];
+  fullName: string;
   // add other fields you need
 }
 

@@ -1,7 +1,7 @@
 <section class="dashboard-shell">
   <header class="dash-header">
     <div class="greeting">
-      <h2>Welcome, <span class="user-name">{{ (currentUser$ | async)?.name || 'Scholar' }}</span></h2>
+      <h2>Welcome, <span class="user-name">{{ (currentUser$ | async)?.fullName || 'Scholar' }}</span></h2>
       <p class="muted">Dayalbagh Educational Institute — PhD Registration Portal</p>
     </div>
 

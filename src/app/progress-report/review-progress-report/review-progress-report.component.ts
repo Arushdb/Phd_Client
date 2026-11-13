@@ -16,6 +16,11 @@ import { ReviewerService } from '../../services/reviewer.service';
 import { RemarkService } from '../../services/remark.service';
 import { ReportService } from '../../services/report.service';
 import { MessageService } from '../../services/message.service';
+import { ProgressWorkComponent } from '../progress-work/progress-work.component';
+import { PublicationsComponent } from '../publications/publications.component';
+import { ConferencesComponent } from '../conferences/conferences.component';
+import { VisitsComponent } from '../visits/visits.component';
+import { AchievementsComponent } from '../achievements/achievements.component';
 @Component({
   selector: 'app-review-progress-report',
   standalone: true,
@@ -25,6 +30,11 @@ import { MessageService } from '../../services/message.service';
     RemarkThreadComponent,
     ReviewerRemarksComponent,
     ReviewerDocumentsComponent,
+    ProgressWorkComponent,
+        PublicationsComponent,
+        ConferencesComponent,
+        VisitsComponent,
+        AchievementsComponent,
   ],
   templateUrl: './review-progress-report.component.html',
 })

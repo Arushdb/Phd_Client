@@ -9,7 +9,8 @@ import { environment } from '../../environments/environment';
 export class UserService {
 
   //private baseUrl = 'http://localhost:8080/api/users';
-  private baseUrl = environment.apiBaseUrl + '/users';
+  //private baseUrl = environment.apiBaseUrl + '/users';
+  private baseUrl = environment.loginBaseUrl + '/users';
 
   constructor(private http: HttpClient) {}
 

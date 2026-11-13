@@ -867,6 +867,7 @@ export class AssignmentComponent implements OnInit {
     else if (this.type === 'reviewer') {
 
       this.data.role = 'ROLE_REVIEWER';
+     
 
       api$ =
         this.assignmentService
@@ -887,10 +888,16 @@ export class AssignmentComponent implements OnInit {
         'HOD data before API call:',
         this.data
       );
+      let hoddata = {
+        userId: this.data.userId,
+        departmentId: this.data.departmentId,
+        
+      };
+      console.log('HOD data to be sent:', hoddata);
 
       api$ =
         this.assignmentService
-          .assignHod(this.data);
+          .assignHod(hoddata);
 
     }
 
@@ -907,10 +914,13 @@ export class AssignmentComponent implements OnInit {
         'Dean data before API call:',
         this.data
       );
+      let deandata = {
+        userId: this.data.userId,
+        facultyId: this.data.facultyId}
 
       api$ =
         this.assignmentService
-          .assignDean(this.data);
+          .assignDean(deandata);
 
     }
 
@@ -921,7 +931,7 @@ export class AssignmentComponent implements OnInit {
 
     else if (this.type === 'pg-dean') {
 
-      this.data.role = 'ROLE_PG_DEAN';
+     // this.data.role = 'ROLE_PG_DEAN';
 
       /*
        * Using your existing program-role service
@@ -929,11 +939,16 @@ export class AssignmentComponent implements OnInit {
        *
        * If PG Dean has a dedicated backend endpoint,
        * replace this with that service method.
+       * 
        */
+      console.log(
+        'PG Dean data before API call:',
+        this.data
+      );
 
       api$ =
         this.assignmentService
-          .assignProgramRole(this.data);
+          .assignPgDean(this.data);
 
     }
 

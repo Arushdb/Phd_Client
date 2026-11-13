@@ -23,7 +23,7 @@ export class AuthService implements OnDestroy {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
   // private readonly base = 'http://localhost:8080/cmsexam/api';
-   private base = environment.apiBaseUrl;
+   private base = environment.loginBaseUrl;
   // timer id returned by window.setTimeout
   private autoLogoutTimer: number | null = null;
   public refreshing = false;
@@ -61,6 +61,7 @@ export class AuthService implements OnDestroy {
     
    
         const url = `${this.base}/auth/signin`;
+        console.log('API Base URL:', this.base);
     return this.http.post<any>(
     url,
     { username, password },
@@ -172,7 +173,9 @@ isAuthorizedForAcademic(): boolean {
 
 
   refreshAccessToken(): Observable<any> {
+    debugger;
   return this.http.post<any>(
+
     `${this.base}/auth/refresh`,
     {},
     { withCredentials: true }

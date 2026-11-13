@@ -1,4 +1,6 @@
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080/cmsexam/api'
+  loginBaseUrl: 'http://localhost:8080/cmsexam/api',
+  apiBaseUrl: 'http://localhost:8080/cmsexam/phd/api'
+
 };

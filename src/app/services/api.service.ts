@@ -19,6 +19,9 @@ import { int } from '@zxing/library/esm/customTypings';
 export class ApiService {
   // Adjust this base URL to match your backend
   private base = environment.apiBaseUrl;
+  //private base = ;
+
+  
   //private readonly base = 'http://localhost:8080/cmsexam/api';
 
   constructor(private http: HttpClient) {}
@@ -26,20 +29,21 @@ export class ApiService {
   // ------------------
   // Authentication
   // ------------------
-  login(username: string, password: string): Observable<any> {
-    const url = `${this.base}/auth/signin`;
-    return this.http.post<any>(
-      url,
-      { username, password },
-      {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-        withCredentials: true,
-      }
-    ).pipe(
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error);
-        }));
-  }
+  // login(username: string, password: string): Observable<any> {
+  //   console.log('API Base URL:', this.base);
+  //   const url = `${this.base}/auth/signin`;
+  //   return this.http.post<any>(
+  //     url,
+  //     { username, password },
+  //     {
+  //       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  //       withCredentials: true,
+  //     }
+  //   ).pipe(
+  //       catchError((error: HttpErrorResponse) => {
+  //         return throwError(() => error);
+  //       }));
+  // }
 
   // ------------------
   // Scholars

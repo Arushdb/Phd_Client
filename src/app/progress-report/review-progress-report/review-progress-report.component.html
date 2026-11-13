@@ -96,6 +96,36 @@
       </div>
     </div>
   </div>
+  <!-- Research Work -->
+        <app-progress-work
+          *ngIf="reportId"
+          [reportId]="reportId"
+        
+        ></app-progress-work>
+
+        <app-publications
+          *ngIf="reportId"
+          [reportId]="reportId"
+          
+        ></app-publications>
+
+        <app-conferences
+          *ngIf="reportId"
+          [reportId]="reportId"
+          
+        ></app-conferences>
+
+        <app-visits
+          *ngIf="reportId"
+          [reportId]="reportId"
+        
+        ></app-visits>
+        <app-achievements
+          *ngIf="reportId"
+          [reportId]="reportId"
+      
+        ></app-achievements>
+
   <!-- ================= Documents Section ================= -->
   <app-reviewer-documents
     [reportId]="reportId"

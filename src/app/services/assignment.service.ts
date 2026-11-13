@@ -43,6 +43,7 @@ export class AssignmentService {
 
   // ✅ Assign HOD
   assignHod(data: any): Observable<ApiResponse<any>> {
+    console.log('Assigning HOD with data:', data); // Debugging line
     return this.http.post<ApiResponse<any>>(`${this.baseUrl}/hod`, data);
   }
 
